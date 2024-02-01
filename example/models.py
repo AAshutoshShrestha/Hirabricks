@@ -43,6 +43,7 @@ class Car(models.Model):
     zone = models.ForeignKey(Zone, on_delete=models.CASCADE, related_name='cars',null=True, help_text="Zone where the car is located")
     car_number = models.CharField(max_length=20, unique=True)
     entry_time = models.DateTimeField(default=timezone.now, help_text="Time when the car enters the zone")
+    exit_time = models.DateTimeField(help_text="Time when the car exits the tunnel",null=True )
     status = models.CharField(max_length=20,choices=STATUS_CHOICES, default='INLINE', help_text="Status of the car (INLINE or COMPLETED)") 
 
     def __str__(self):

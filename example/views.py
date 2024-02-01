@@ -28,6 +28,7 @@ def index(request):
                     existing_car.save()
                 else:
                     existing_car.zone_id = None  # Set zone_id to None for the last zone
+                    existing_car.exit_time = timezone.now()
                     existing_car.status = 'COMPLETED'
                     existing_car.save()
 
@@ -40,6 +41,7 @@ def index(request):
                 zone_id=zone_id,
                 car_number=car_number,
                 entry_time=timezone.now(),
+                exit_time=None,
                 status=status
             )
 
