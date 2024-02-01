@@ -63,7 +63,7 @@ def forms(request):
     if request.method == 'POST':
         form = TemperatureInputForm(request.POST)
         if form.is_valid():
-            current_datetime = timezone.now().strftime("%Y-%m-%d %H:%M:%S")
+            current_datetime = timezone.now().strftime("%H:%M:%S %Y-%m-%d ")
 
             for thermocouple in Thermocouple.objects.all():
                 field_name = f"temperature_{thermocouple.id}"

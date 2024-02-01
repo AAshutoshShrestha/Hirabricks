@@ -11,7 +11,7 @@
         <form action="{% url 'index' %}" method="post" class="mb-4">
             {% csrf_token %}
             {{ tempform.as_p }}   
-            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
+            <button type="submit" class="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-center text-base font-semibold text-white outline-none">Submit</button>
         </form>
 
         <!-- Other Sidebar Content Goes Here -->

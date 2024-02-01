@@ -1,80 +1,88 @@
+
 {% extends 'base.html' %} 
 
 {% block title %} Home | TunnelKiln {% endblock %} 
 
 {% block content %}
-    <div class="container bg-gray-200  p-12">
-        <h2 class="text-2xl font-bold mb-4">Sidebar Section</h2>
+    <div class="container bg-gray-200 p-12">
+        <h2 class="mb-4 text-2xl font-bold">New Car Number</h2>
 
         <!-- Your Form Goes Here -->
         <form action="{% url 'index' %}" method="post" class="mb-4">
             {% csrf_token %}
             {{ carForm.as_p }}
-            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
+            <button type="submit" class="hover:shadow-form rounded-md bg-blue-600 py-3 px-8 text-center text-base font-semibold text-white outline-none">Submit</button>
         </form>
-
     </div>
-
 
     <!-- Cars Grid Section -->
     <div class="w-full p-12">
-        <h2 class="text-2xl font-bold mb-4">All Cars Inside Tunnel</h2>
-        
+        <h2 class="mb-4 text-2xl font-bold">All Cars Inside Tunnel</h2>
+
         <!-- Cars Grid -->
-        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2">
+        <div class="grid grid-cols-2 gap-1 md:grid-cols-4 lg:grid-cols-5">
             {% for Cars in Cars %}
-            <div class="bg-white p-4 border rounded">
-                <h2 class="text-lg font-semibold mb-2">{{ Cars.zone }}</h2>
-                <div class="flex flex-item-center py-1 gap-2 pb-2">
-                    <i class="ri-luggage-cart-line"></i>
-                    <span class=" text-sm text-red-500 " >Car Number</span>
-                    <h4 class="text-lg font-semibold pl-8">{{ Cars.car_number }}</h4>
+            <div class="mx-auto max-w-6xl">
+                <div class="w-full max-w-sm px-3 py-6 sm:w-full lg:w-full">
+                  <div class="overflow-hidden rounded-lg bg-white shadow-xl">
+                    <div class="p-4">
+                      <p class="text-sm font-bold uppercase tracking-wide text-gray-700">position</p>
+                      <p class="text-3xl text-gray-900">{{ Cars.zone.id }}</p>
+                    </div>
+                    <div class="flex border-t border-gray-300 p-4 text-gray-700">
+                      <div class="inline-flex items-center">
+                        <i class="ri-luggage-cart-line mr-3 h-6 w-6 text-xl"></i>
+              
+                        <p>Number<span class="pl-2 font-bold text-gray-900">{{ Cars.car_number }}</span></p>
+                      </div>
+                    </div>
+              
+                    <div class="border-t border-gray-300 bg-gray-100 px-4 pb-4 pt-3">
+                      <div class="text-xs font-bold uppercase tracking-wide text-gray-600">Entry Time</div>
+                      <div class="flex items-center pt-2">
+                        <div class="mr-3 h-10 w-10 rounded-full bg-cover bg-center" style="background-image: url(https://via.placeholder.com/50x50)"></div>
+                        <div>
+                          <p class="font-bold text-gray-900">{{ Cars.entry_time }}</p>
+                          <p class="text-sm font-extralight text-gray-400">{{ Cars.status }}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div class="flex flex-item-center py-1 gap-2 pb-2">
-                    <i class="ri-align-bottom"></i>
-                    <span class=" text-sm text-red-500 " >State</span>
-                    
-                    <p class="text-md mb-2 pl-8">{{ Cars.status }}</p>
-                </div>
-                
-            </div>
+              </div>
             {% endfor %}
         </div>
-    </div>  
+    </div>
 
-      
-    <script>
-        //Query All input fields
-        var form_fields = document.getElementsByTagName('input')
-        var form_label = document.getElementsByTagName('label')
-        var form_span = document.getElementsByTagName('span')
-        var form_select = document.getElementsByTagName('select')
-    
-    
-    
-        for (var field in form_fields){
-        form_fields[field].className += 'mt-2 block w-full rounded-md border border-gray-200 bg-white px-4 py-2 text-gray-700 placeholder-gray-400 focus:border-orange-400 focus:outline-none focus:ring focus:ring-orange-400 focus:ring-opacity-40 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:placeholder-gray-600 dark:focus:border-orange-400'
-        }
-    
-        for (var field in form_label){
-            form_label[field].className += 'mt-2 block w-full px-1 py-2 text-gray-700 font-bold hover:text-orange-400 '
-        }
-    
-        for (var field in form_span){
-            form_span[field].className += 'mt-2 block w-full px-4 py-2 text-gray-500 font-italic hover:text-Orange-400 '
-        }
-        for (var field in form_select){
-          form_select[field].className += 'mt-2 block w-full rounded-md border border-gray-200 bg-white px-4 py-2 text-gray-700 placeholder-gray-400 focus:border-orange-400 focus:outline-none focus:ring focus:ring-orange-400 focus:ring-opacity-40 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:placeholder-gray-600 dark:focus:border-orange-400'
-        }
-      
-    
-        // const button = document.getElementById('id_user');
-        // button.setAttribute('disabled', ''); 
-        
-    
-        
-    
-      </script>
+<script>
+  //Query All input fields
+  var form_fields = document.getElementsByTagName("input");
+  var form_label = document.getElementsByTagName("label");
+  var form_span = document.getElementsByTagName("span");
+  var form_select = document.getElementsByTagName("select");
+
+  for (var field in form_fields) {
+    form_fields[field].className +=
+      "w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md";
+  }
+
+  for (var field in form_label) {
+    form_label[field].className +=
+      "mb-3 block text-base font-medium text-[#07074D]";
+  }
+
+  for (var field in form_span) {
+    form_span[field].className +=
+      "mt-2 block w-full px-4 py-2 text-gray-500 font-italic hover:text-Orange-400 ";
+  }
+  for (var field in form_select) {
+    form_select[field].className +=
+      "mt-2 block w-full rounded-md border border-gray-200 bg-white px-4 py-2 text-gray-700 placeholder-gray-400 focus:border-orange-400 focus:outline-none focus:ring focus:ring-orange-400 focus:ring-opacity-40 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:placeholder-gray-600 dark:focus:border-orange-400";
+  }
+
+  // const button = document.getElementById('id_user');
+  // button.setAttribute('disabled', '');
+</script>
 
 {% endblock %}
 
