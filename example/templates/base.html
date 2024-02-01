@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} {% endblock %}</title>
+
+    <link rel="stylesheet" href="styles.css">
+    <!-- tailwincss CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- RemixIcon CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet"/>
+</head>
+<body class="bg-gray-100 w-full h-full">
+    <!-- Sidebar Section -->
+    <div class="flex flex-col md:flex-row h-full">
+        <div class="w-1/8 flex w-18 flex-col justify-between border-e bg-white">
+            <div>
+                <div class="inline-flex h-16 w-16 items-center justify-center">
+                    <span class="grid h-10 w-10 place-content-center rounded-lg bg-gray-100 text-xs text-gray-600"> Tunnel </span>
+                </div>
+            
+                <div class="border-t border-gray-100">
+                    <div class="px-2">
+                    <div class="py-4">
+                        <a href="{% url 'index' %}" class="t group relative flex justify-center rounded bg-blue-50 px-2 py-1.5 text-blue-700 hover:text-gray-700">
+                        <i class="ri-dashboard-fill"></i>
+                        <span class="invisible absolute start-full top-1/2 z-10 ms-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible"> Dashboard </span>
+                        </a>
+                    </div>
+            
+                    <ul class="space-y-1 border-t border-gray-100 pt-4">
+                        <!-- 
+                            
+                            
+                            
+                        <li>
+                            <a href="{% url 'dashboard' %}" class="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-gray-50 hover:text-gray-700">
+                                <i class="ri-database-fill"></i>
+                                <span class="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded bg-gray-800 px-2 py-1.5 text-xs font-medium text-white group-hover:visible"> All Datas </span>
+                            </a>    
+                        </li>
+                        <li>
+                            <a href="{% url 'index' %}" class="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-gray-50 hover:text-gray-700">
+                                <i class="ri-survey-fill"></i>
+                
+                                <span class="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded bg-gray-800 px-2 py-1.5 text-xs font-medium text-white group-hover:visible"> Entry </span>
+                            </a>
+                        </li>
+            
+                        <li>
+                            <a href="" class="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-gray-50 hover:text-gray-700">
+                                <i class="ri-bar-chart-2-fill"></i>
+                                <span class="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible"> Analytics </span>
+                            </a>
+                        </li>
+                    
+                    
+                    -->
+            
+                        <li>
+                            <a href="{% url 'dashboard' %}" class="group relative flex justify-center rounded px-2 py-1.5 text-gray-500 hover:bg-gray-50 hover:text-gray-700">
+                                <i class="ri-luggage-cart-fill"></i>
+                                <span class="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible"> Cars </span>
+                            </a>
+                        </li>
+                    </ul>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="sticky inset-x-0 bottom-0 border-t border-gray-100 bg-white p-2">
+                <form action="/logout">
+                    <button type="submit" class="group relative flex w-full justify-center rounded-lg px-2 py-1.5 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700">
+                    <i class="ri-logout-box-r-fill"></i>
+            
+                    <span class="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible"> Logout </span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="w-full bg-gray-200 p-4">
+            {% block content %}
+            
+            {% endblock %}
+        </div>
+    </div>
+      
+
+    <script src="./script.js"></script>
+</body>
+</html>

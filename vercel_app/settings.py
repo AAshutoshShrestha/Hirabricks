@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app']
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -119,3 +120,49 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+JAZZMIN_SETTINGS ={
+    "site_title": "Hirabricks",
+    "site_header": "TunnelKiln",
+    "site_brand": "Kiln records",
+    "site_logo_classes": "img-circle",
+    "site_icon":"media/logo.jpg",
+
+     "copyright": "Aashutosh Shrestha © Hirabricks 2024",
+
+    "navbar": "navbar-light",
+
+    "sidebar": "sidebar-light-orange",
+    "show_sidebar" : True,
+
+    "brand_colour": "navbar-orange",
+
+    "usermenu_links": [
+        {"model": "auth.user"}
+    ],
+    "custom_links": {
+    "books": [{
+        "name": "Make Messages"
+    }]
+    },
+
+
+    "topmenu_links": [
+
+        # Url that gets reversed (Permissions can be added)
+        {"name": "Open Site",  "url": "/", "permissions": ["auth.view_user"]},
+
+        # Url that gets reversed (Permissions can be added)
+        {"name": "Register",  "url": "/register", "permissions": ["auth.view_user"]},
+
+        # App with dropdown menu to all its models pages (Permissions checked against models)
+        {"app": "PushRecords"},
+
+        # model admin to link to (Permissions checked against model)
+        {"model": "auth.User"},
+    ],
+
+    "dark_mode_theme": None,
+}
