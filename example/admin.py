@@ -1,7 +1,7 @@
 from django.contrib import admin
 from import_export.admin import ImportExportMixin
 
-from .models import Thermocouple, Zone, Car,TemperatureRecord
+from .models import Thermocouple, Zone, Car,TemperatureRecord,Firing
 
 @admin.register(Thermocouple)
 class ThermocoupleAdmin(ImportExportMixin,admin.ModelAdmin):
@@ -13,7 +13,11 @@ class TemperatureRecordAdmin(ImportExportMixin,admin.ModelAdmin):
 
 @admin.register(Zone)
 class ZoneAdmin(ImportExportMixin,admin.ModelAdmin):
-    list_display = ['id','name', 'thermocouple']
+    list_display = ['id','name', 'thermocouple','area']
+
+@admin.register(Firing)
+class FiringAdmin(ImportExportMixin,admin.ModelAdmin):
+    list_display = ['id','zone']
 
 @admin.register(Car)
 class CarAdmin(ImportExportMixin,admin.ModelAdmin):

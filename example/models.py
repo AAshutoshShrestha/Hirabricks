@@ -7,6 +7,12 @@ STATUS_CHOICES = (
     ('COMPLETED', 'Completed'),
 )
 
+Section_choise =(
+    ('PRE HEATING','Pre Heating'),
+    ('HEATING','Heating'),
+    ('COOLING','Cooling'),
+)
+
 class Thermocouple(models.Model):
     name = models.CharField(max_length=50, unique=True, help_text="Name of the thermocouple")
     temperature = models.FloatField(null=True, blank=True, help_text="Temperature of the thermocouple in degrees Celsius")
@@ -32,6 +38,7 @@ class TemperatureRecord(models.Model):
 class Zone(models.Model):
     name = models.CharField(max_length=50, help_text="Name of the zone")
     thermocouple = models.ForeignKey(Thermocouple, on_delete=models.CASCADE, related_name='zones', help_text="Thermocouple assigned to the zone")
+    area = models.CharField(max_length=20,choices=Section_choise, default='Pre Heating', help_text="SECTION ZONES CATEGORY")
     
     def __str__(self):
         return f"{self.name}"
@@ -48,6 +55,16 @@ class Car(models.Model):
 
     def __str__(self):
         return f"{self.car_number} - {self.status}"
+
+     
+    class Meta:
+        ordering = ['id']
+
+class Firing(models.Model):
+    zone = models.ForeignKey(Zone, on_delete=models.CASCADE, related_name='Firing',null=True, help_text="Zone where the Firing is located")
+    
+    def __str__(self):
+        return f"{self.zone}"
 
      
     class Meta:

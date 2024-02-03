@@ -5,6 +5,7 @@ from .forms import CarEntryForm,TemperatureInputForm
 from .models import *
 
 def index(request):
+    firing = Firing.objects.all()
     cars = Car.objects.exclude(zone_id=None).order_by('zone')
     completed_cars = Car.objects.filter(status='COMPLETED').order_by('zone')
 
@@ -52,6 +53,7 @@ def index(request):
     context = {
         'carForm': carform,
         'Cars': cars,
+        'firing': firing,
         'Completed': completed_cars,
     }
     return render(request, 'index.html', context)
