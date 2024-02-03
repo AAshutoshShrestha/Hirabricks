@@ -168,11 +168,13 @@ MEDIAFILE_DIRS =[
 JAZZMIN_SETTINGS ={
     "site_title": "Hirabricks",
     "site_header": "TunnelKiln",
-    "site_brand": "Kiln records",
-    "site_logo_classes": "img-circle",
-    "site_icon":"media/logo.jpg",
+    "site_brand": "TunnelKiln records",
+    "site_logo_classes": "admin-logo",
+    "site_logo":"image/factoryicon-white.png",
 
-     "copyright": "Aashutosh Shrestha © Hirabricks 2024",
+    "site_icon":"image/factoryicon-black.png",
+
+    "copyright": "Aashutosh Shrestha © Hirabricks 2024",
 
     "navbar": "navbar-light",
 
@@ -190,6 +192,7 @@ JAZZMIN_SETTINGS ={
     }]
     },
 
+    "changeform_format": "horizontal_tabs",
 
     "topmenu_links": [
 
