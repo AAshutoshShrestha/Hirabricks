@@ -3,33 +3,54 @@
 {% block title %} Dashboard | TunnelKiln {% endblock %} 
 
 {% block content %}
-  <!-- Cars Grid Section -->
-  <div class="w-full p-12 h-full">
-    <h2 class="text-2xl font-bold mb-4 mt-12">All Completed Cars </h2>
-    <!-- Completed Cars Grid -->
-    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2">
-        {% for Cars in Completed %}
-            <div class="bg-white p-4 border rounded">
-                <div class="flex flex-item-center py-1 gap-2 pb-2">
-                    <i class="ri-luggage-cart-line"></i>
-                    <span class=" text-sm text-red-500 " >Car Number</span>
-                    <h4 class="text-lg font-semibold pl-8">{{ Cars.car_number }}</h4>
-                </div>
-                <div class="flex flex-item-center py-1 gap-2 pb-2">
-                    <i class="ri-align-bottom"></i>
-                    <span class=" text-sm text-red-500 " >State</span>
-
-                    <p class="text-md mb-2 pl-8">{{ Cars.status }}</p>
-                </div>
-                <!-- <div class="flex flex-item-center py-1 gap-2 pb-2">
-                    <i class="ri-hourglass-fill"></i>
-                    <span class=" text-sm text-red-500 " >Time</span>
-
-                    <p class="text-md mb-2 pl-8">{{ Cars.entry_time }}</p>
-                </div> -->
-              
-            </div>
-        {% endfor %}
+<!-- Cars Grid -->
+<div class="-mx-3 flex flex-wrap">
+  <div class="w-full max-w-full flex-none px-3">
+    <div class="dark:bg-gray-850 dark:shadow-dark-xl relative mb-6 flex min-w-0 flex-col break-words rounded-2xl border-0 border-solid border-transparent bg-white bg-clip-border shadow-xl">
+      <div class="border-b-solid mb-0 rounded-t-2xl border-b-0 border-b-transparent p-6 pb-0">
+        <h1 class="dark:text-white text-xl">Cars Inside Tunnel</h1>
+      </div>
+      <div class="flex-auto px-0 pb-2 pt-0">
+        <div class="overflow-x-auto p-0">
+          <table class="mb-0 w-full border-collapse items-center align-top text-gray-500 dark:border-white/40">
+            <thead class="align-bottom">
+              <tr>
+                <th class="text-xxs border-b-solid tracking-none border-collapse whitespace-nowrap border-b bg-transparent px-6 py-3 text-left align-middle font-bold uppercase text-gray-600 opacity-70 shadow-none dark:border-white/40 dark:text-white">Car Number</th>
+                <th class="text-xxs border-b-solid tracking-none border-collapse whitespace-nowrap border-b bg-transparent px-6 py-3 pl-2 text-left align-middle font-bold uppercase text-gray-600 opacity-70 shadow-none dark:border-white/40 dark:text-white">Entry Time</th>
+                <th class="text-xxs border-b-solid tracking-none border-collapse whitespace-nowrap border-b bg-transparent px-6 py-3 pl-2 text-left align-middle font-bold uppercase text-gray-600 opacity-70 shadow-none dark:border-white/40 dark:text-white">Exit Time</th>
+                <th class="text-xxs border-b-solid tracking-none border-collapse whitespace-nowrap border-b bg-transparent px-6 py-3 text-center align-middle font-bold uppercase text-gray-600 opacity-70 shadow-none dark:border-white/40 dark:text-white">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for Cars in Completed %}
+              <tr>
+                <td class="whitespace-nowrap border-b bg-transparent p-2 align-middle shadow-transparent dark:border-white/40">
+                  <div class="flex px-2 py-1">
+                    <div>
+                      <i class="ri-luggage-cart-line mr-3 h-6 w-6 text-xl"></i>
+                    </div>
+                    <div class="flex flex-col justify-center">
+                      <h6 class="mb-0 text-sm leading-normal dark:text-white">Car number</h6>
+                      <p class="mb-0 text-xs leading-tight text-gray-600 dark:text-white dark:opacity-80">{{ Cars.car_number }}</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="whitespace-nowrap border-b bg-transparent p-2 align-middle shadow-transparent dark:border-white/40">
+                  <p class="mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-80">{{ Cars.entry_time }}</p>
+                </td>
+                <td class="whitespace-nowrap border-b bg-transparent p-2 align-middle shadow-transparent dark:border-white/40">
+                  <p class="mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-80">{{ Cars.exit_time }}</p>
+                </td>
+                <td class="whitespace-nowrap border-b bg-transparent p-2 text-center align-middle text-sm leading-normal shadow-transparent dark:border-white/40">
+                  <span class="rounded-lg py-2 inline-block whitespace-nowrap bg-gradient-to-tl from-red-600 to-orange-500 px-2.5 text-center align-baseline text-xs font-bold uppercase leading-none text-white">{{ Cars.status }}</span>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
+</div>
 {% endblock %}

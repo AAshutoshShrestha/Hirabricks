@@ -1,6 +1,4 @@
-
-from django.shortcuts import render, redirect,HttpResponse
-from django.db.models import Max
+from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.core import serializers
 from .forms import CarEntryForm,TemperatureInputForm
@@ -59,7 +57,6 @@ def index(request):
     return render(request, 'index.html', context)
 
 
-    
 def forms(request):
     form = TemperatureInputForm()
     if request.method == 'POST':

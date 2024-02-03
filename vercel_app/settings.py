@@ -29,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["127.0.0.1", ".vercel.app", ".now.sh"]
 
@@ -89,15 +89,27 @@ WSGI_APPLICATION = 'vercel_app.wsgi.app'
 #     }
 # }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'URL': os.environ.get('POSTGRES_URL'),
+#         'USER': os.environ.get('POSTGRES_USER'),
+#         'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+#         'HOST': os.environ.get('POSTGRES_HOST'),
+#         'NAME': os.environ.get('POSTGRES_DATABASE'),
+#         'PORT': os.environ.get('POSTGRES_PORT'),
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'URL': os.environ.get('POSTGRES_URL'),
-        'USER': os.environ.get('POSTGRES_USER'),
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-        'HOST': os.environ.get('POSTGRES_HOST'),
-        'NAME': os.environ.get('POSTGRES_DATABASE'),
-        'PORT': '5432',
+        'URL': os.environ.get('SUPABASE_URL'),
+        'USER': os.environ.get('SUPABASE_USER'),
+        'PASSWORD': os.environ.get('SUPABASE_PASSWORD'),
+        'HOST': os.environ.get('SUPABASE_HOST'),
+        'NAME': os.environ.get('SUPABASE_DATABASE'),
+        'PORT': os.environ.get('SUPABASE_PORT'),
     }
 }
 
