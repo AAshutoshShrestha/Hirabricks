@@ -1,9 +1,35 @@
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.core import serializers
+
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+
+from .decorators import unauthenticated_user
 from .forms import CarEntryForm,TemperatureInputForm
 from .models import *
 
+@unauthenticated_user
+def loginPage(request):
+	if request.method == 'POST':
+		username = request.POST.get('username')
+		password =request.POST.get('password')
+		user = authenticate(request, username=username, password=password)
+		if user is not None:
+			login(request, user)
+			return redirect('index')
+		else:
+			messages.info(request, 'Username OR password is incorrect')
+
+	context = {}
+	return render(request, 'login.html', context)
+
+def logoutUser(request):
+	logout(request)
+	return redirect('login')
+
+@login_required(login_url='login')
 def index(request):
     firing = Firing.objects.all()
     cars = Car.objects.exclude(zone_id=None).order_by('zone')
@@ -58,7 +84,7 @@ def index(request):
     }
     return render(request, 'index.html', context)
 
-
+@login_required(login_url='login')
 def forms(request):
     form = TemperatureInputForm()
     if request.method == 'POST':
@@ -93,6 +119,7 @@ def forms(request):
     }
     return render(request, 'forms.html', context)
 
+@login_required(login_url='login')
 def dashboard(request):
     completed_cars = Car.objects.filter(status='COMPLETED').order_by('zone')
     context={
