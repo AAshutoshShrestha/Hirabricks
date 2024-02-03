@@ -171,7 +171,7 @@ JAZZMIN_SETTINGS ={
     "site_brand": "TunnelKiln records",
     "site_logo_classes": "admin-logo",
     "site_logo":"image/factoryicon-white.png",
-
+    
     "site_icon":"image/factoryicon-black.png",
 
     "copyright": "Aashutosh Shrestha © Hirabricks 2024",
@@ -203,7 +203,7 @@ JAZZMIN_SETTINGS ={
         {"name": "Register",  "url": "/register", "permissions": ["auth.view_user"]},
 
         # App with dropdown menu to all its models pages (Permissions checked against models)
-        {"app": "PushRecords"},
+        {"app": "example"},
 
         # model admin to link to (Permissions checked against model)
         {"model": "auth.User"},
