@@ -37,7 +37,7 @@ def page_not_found_view(request, exception):
 def index(request):
     firing = Firing.objects.all()
     cars = Car.objects.exclude(zone_id=None).order_by('zone')
-    completed_cars = Car.objects.filter(status='COMPLETED').order_by('zone')
+    completed_cars = Car.objects.filter(status='COMPLETED').order_by('entry_time')
 
     # Check if the form is submitted (POST request)
     if request.method == 'POST':
@@ -75,6 +75,7 @@ def index(request):
                 exit_time=None,
                 status=status
             )
+            car.save()
 
             # Redirect to the same form page after successful submission
             return redirect('index') 
@@ -127,7 +128,7 @@ def forms(request):
 
 @login_required(login_url='login')
 def dashboard(request):
-    completed_cars = Car.objects.filter(status='COMPLETED').order_by('zone')
+    completed_cars = Car.objects.filter(status='COMPLETED').order_by('entry_time')
     context={
         'Completed': completed_cars, 
     }
