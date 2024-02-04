@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-
+from django.contrib.auth.models import User 
 
 STATUS_CHOICES = (
     ('INLINE', 'Inline'),
@@ -47,18 +47,18 @@ class Zone(models.Model):
         ordering = ['id']
 
 class Car(models.Model):
-    zone = models.ForeignKey(Zone, on_delete=models.CASCADE, related_name='cars',null=True, help_text="Zone where the car is located")
+    user = models.ForeignKey(User, null=True, default='1', on_delete=models.SET_NULL)
+    zone = models.ForeignKey(Zone, on_delete=models.CASCADE, related_name='cars', null=True, help_text="Zone where the car is located")
     car_number = models.CharField(max_length=20)
     entry_time = models.DateTimeField(default=timezone.now, help_text="Time when the car enters the zone")
-    exit_time = models.DateTimeField(help_text="Time when the car exits the tunnel",null=True, blank=True)
-    status = models.CharField(max_length=20,choices=STATUS_CHOICES, default='INLINE', help_text="Status of the car (INLINE or COMPLETED)") 
+    exit_time = models.DateTimeField(help_text="Time when the car exits the tunnel", null=True, blank=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='INLINE', help_text="Status of the car (INLINE or COMPLETED)") 
 
     def __str__(self):
         return f"{self.car_number} - {self.status}"
 
-     
     class Meta:
-        ordering = ['id']
+        ordering = ['zone']
 
 class Firing(models.Model):
     zone = models.ForeignKey(Zone, on_delete=models.CASCADE, related_name='Firing',null=True, help_text="Zone where the Firing is located")

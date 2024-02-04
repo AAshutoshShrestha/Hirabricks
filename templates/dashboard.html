@@ -19,6 +19,7 @@
                 <th class="text-xxs border-b-solid tracking-none border-collapse whitespace-nowrap border-b bg-transparent px-6 py-3 text-left align-middle font-bold uppercase text-gray-600 opacity-70 shadow-none dark:border-white/40 dark:text-white">Car Number</th>
                 <th class="text-xxs border-b-solid tracking-none border-collapse whitespace-nowrap border-b bg-transparent px-6 py-3 pl-2 text-left align-middle font-bold uppercase text-gray-600 opacity-70 shadow-none dark:border-white/40 dark:text-white">Entry Time</th>
                 <th class="text-xxs border-b-solid tracking-none border-collapse whitespace-nowrap border-b bg-transparent px-6 py-3 pl-2 text-left align-middle font-bold uppercase text-gray-600 opacity-70 shadow-none dark:border-white/40 dark:text-white">Exit Time</th>
+                <th class="text-xxs border-b-solid tracking-none border-collapse whitespace-nowrap border-b bg-transparent px-6 py-3 pl-2 text-left align-middle font-bold uppercase text-gray-600 opacity-70 shadow-none dark:border-white/40 dark:text-white">Pushed by</th>
                 <th class="text-xxs border-b-solid tracking-none border-collapse whitespace-nowrap border-b bg-transparent px-6 py-3 text-center align-middle font-bold uppercase text-gray-600 opacity-70 shadow-none dark:border-white/40 dark:text-white">Status</th>
               </tr>
             </thead>
@@ -41,6 +42,9 @@
                 </td>
                 <td class="whitespace-nowrap border-b bg-transparent p-2 align-middle shadow-transparent dark:border-white/40">
                   <p class="mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-80">{{ Cars.exit_time }}</p>
+                </td>
+                <td class="whitespace-nowrap border-b bg-transparent p-2 align-middle shadow-transparent dark:border-white/40">
+                  <p class="mb-0 text-xs font-semibold leading-tight dark:text-white dark:opacity-80">{{ Cars.user.first_name }}</p>
                 </td>
                 <td class="whitespace-nowrap border-b bg-transparent p-2 text-center align-middle text-sm leading-normal shadow-transparent dark:border-white/40">
                   <span class="rounded-lg py-2 inline-block whitespace-nowrap bg-gradient-to-tl from-green-600 to-green-300 px-2.5 text-center align-baseline text-xs font-bold uppercase leading-none text-white">{{ Cars.status }}</span>

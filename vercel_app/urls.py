@@ -16,3 +16,4 @@ urlpatterns = [
         }),
 ]
 
+handler404 = "example.views.page_not_found_view"

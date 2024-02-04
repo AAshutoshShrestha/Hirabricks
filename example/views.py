@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.core import serializers
 
 from django.contrib import messages
+from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
@@ -28,6 +29,9 @@ def loginPage(request):
 def logoutUser(request):
 	logout(request)
 	return redirect('login')
+
+def page_not_found_view(request, exception):
+    return render(request, '404.html', status=404)
 
 @login_required(login_url='login')
 def index(request):
@@ -60,9 +64,11 @@ def index(request):
             # Assign the new car to the first zone
             zone_id = 1
             status = 'INLINE'
+            by =request.user
             
             # Create the new car
             car = Car.objects.create(
+                user =by,
                 zone_id=zone_id,
                 car_number=car_number,
                 entry_time=timezone.now(),
