@@ -47,7 +47,7 @@
                 </div>
                 {% for firing in firing %} 
                   {% if Cars.zone.name == firing.zone.name %}
-                  <i class="ri-fire-fill h-6 w-6 text-red-600 group-hover:opacity-70"></i>
+                  <i class="ri-fire-fill h-6 w-6 text-red-600 group-hover:opacity-70 bg-white mr-6 rounded-full items-center px-1 "></i>
                   {% endif %} 
                 {% endfor %}
               </div>
@@ -69,8 +69,13 @@
                       <div>
                         <p class="font-bold text-gray-900">{{ Cars.entry_time }}</p>
                         <p class="text-sm font-extralight text-gray-400">{{ Cars.status }}</p>
-                        <p class="text-md font-bold text-gray-800">{{ Cars.user.first_name }}</p>
                       </div>
+                    </div>
+                  </div>
+                  <div class="flex border-t border-gray-800 p-4 text-gray-700">
+                    <div class="inline-flex items-center">                      
+                      <p class="mb-0 text-md font-medium text-gray-600">Pushed by</p>
+                        <span class="pl-12 font-bold text-gray-900 text-xl">{{ Cars.user.first_name }}</span>
                     </div>
                   </div>
                   
