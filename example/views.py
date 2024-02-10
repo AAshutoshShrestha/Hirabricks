@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
 from django.utils import timezone
+from datetime import datetime, date
 from django.core import serializers
 
 from django.contrib import messages
-from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 
 from .decorators import unauthenticated_user
 from .forms import CarEntryForm,TemperatureInputForm
@@ -30,14 +32,11 @@ def logoutUser(request):
 	logout(request)
 	return redirect('login')
 
-def page_not_found_view(request, exception):
-    return render(request, '404.html', status=404)
-
 @login_required(login_url='login')
 def index(request):
     firing = Firing.objects.all()
     cars = Car.objects.exclude(zone_id=None).order_by('zone')
-    completed_cars = Car.objects.filter(status='COMPLETED').order_by('entry_time')
+    completed_cars = Car.objects.filter(status='COMPLETED').order_by('zone')
 
     # Check if the form is submitted (POST request)
     if request.method == 'POST':
@@ -45,8 +44,14 @@ def index(request):
         carform = CarEntryForm(request.POST)
         if carform.is_valid():
             # Get the new car number from the form
-            car_number = carform.cleaned_data['car_number']
+            car_number = request.POST.get('car_number')
+            remarks = request.POST.get('remarks')
 
+            # Check if a car with the same car number and status 'INLINE' exists
+            existing_car_inline = Car.objects.filter(car_number=car_number, status='INLINE').exists()
+            if existing_car_inline:
+                carform.add_error(None, "A car with the same car number is already in line.")
+                
             # Find the total number of zones created by the admin
             total_zones = Zone.objects.count()
 
@@ -73,9 +78,11 @@ def index(request):
                 car_number=car_number,
                 entry_time=timezone.now(),
                 exit_time=None,
-                status=status
+                status=status,
+                remarks=remarks
             )
             car.save()
+
 
             # Redirect to the same form page after successful submission
             return redirect('index') 
@@ -84,6 +91,7 @@ def index(request):
         carform = CarEntryForm()
 
     context = {
+
         'carForm': carform,
         'Cars': cars,
         'firing': firing,
@@ -97,7 +105,7 @@ def forms(request):
     if request.method == 'POST':
         form = TemperatureInputForm(request.POST)
         if form.is_valid():
-            current_datetime = timezone.now().strftime("%H:%M:%S %Y-%m-%d ")
+            current_datetime = timezone.now()
 
             for thermocouple in Thermocouple.objects.all():
                 field_name = f"temperature_{thermocouple.id}"
@@ -124,12 +132,77 @@ def forms(request):
     context={
         'tempform': form, 
     }
-    return render(request, 'forms.html', context)
+    return render(request, 'index.html', context)
 
 @login_required(login_url='login')
-def dashboard(request):
-    completed_cars = Car.objects.filter(status='COMPLETED').order_by('entry_time')
+def history(request):
+    completed_cars = Car.objects.filter(status='COMPLETED').order_by('id')
     context={
         'Completed': completed_cars, 
     }
-    return render(request, 'dashboard.html', context)
+    return render(request, 'history.html', context)
+    
+@login_required(login_url='login')
+def analytics(request):
+    firezone = Firing.objects.all().count()
+   # get stats of todays total car entry 
+    current_date = date.today()
+    Todays_total_push = Car.objects.filter(entry_time__date=current_date).count()
+    Total_push = Car.objects.all().count()
+
+    all = Car.objects.all().order_by('id')
+    context={
+        'Todays_total_push': Todays_total_push,
+        'Total_push': Total_push,
+        'firezone': firezone,
+        'alldatas': all,
+    }
+    return render(request, 'analytics.html', context)
+
+@login_required(login_url='login')
+def profile(request):
+    Car_count = Car.objects.filter(user=request.user).count()
+
+    context={
+        'Car_count': Car_count, 
+    }
+    return render(request, 'profile.html', context)
+    
+@login_required(login_url='login')
+def alldatas(request):
+    alldatas = Car.objects.all().order_by('zone')
+    context={
+        'alldatas': alldatas, 
+    }
+    return render(request, 'alldatas.html', context)
+
+@login_required(login_url='login')
+def test(request):
+    firing = Firing.objects.all()
+    cars = Car.objects.exclude(zone_id=None).order_by('zone')
+    completed_cars = Car.objects.filter(status='COMPLETED').order_by('zone')
+    carform = CarEntryForm(request.POST)
+
+    context = {
+        'carForm': carform,
+        'Cars': cars,
+        'firing': firing,
+        'Completed': completed_cars,
+    }
+    return render(request, 'test.html', context)
+
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('change_password')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'updatepassword.html', {
+        'form': form
+    })

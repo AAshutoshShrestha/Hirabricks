@@ -1,138 +1,106 @@
-
-{% extends 'base.html' %} 
-{% load static %}
-
-{% block title %} Home | TunnelKiln {% endblock %} 
-
+{% extends "base.html" %} 
+{% block title %} Home | Hirabricks Tunnel Kiln {% endblock %} 
 {% block content %}
 
-<div class="flex shrink-0 items-center justify-between px-8">
-  <img alt="Logo" src="{% static 'image/logo.png' %}" class="inline h-24" />
-</div>
+<form class="mx-auto px-12 py-12" action="{% url 'index' %}" method="post">
+  {% csrf_token %}
+  <div class="mb-5">
+    {{ carForm.as_p }}
+  </div>
 
-    <div class="container p-12">
-        <h2 class="mb-4 text-2xl font-bold">New Car Number</h2>
+  <button type="submit" class="w-full rounded-lg bg-red-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 sm:w-auto dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Submit</button>
+  {% for message in messages %}
+  <p id="bg-green-500 px-4 py-6">{{message}}</p>
+  {% endfor %}
+</form>
 
-        <!-- Your Form Goes Here -->
-        <form action="{% url 'index' %}" method="post" class="mb-4">
-            {% csrf_token %}
-            {{ carForm.as_p }}
-            <button type="submit" class="hover:shadow-form rounded-md bg-blue-600 py-3 px-8 text-center text-base font-semibold text-white outline-none mt-8">Submit</button>
-        </form>
-    </div>
+<!-- Cars Grid Section -->
+<div class="w-full p-6">
+  <h2 class="mb-4 text-2xl font-bold">All Cars Inside Tunnel</h2>
 
-    <!-- Cars Grid Section -->
-    <div class="w-full p-12">
-        <h2 class="mb-4 text-2xl font-bold">All Cars Inside Tunnel</h2>
-
-        <!-- Cars Grid -->
-        <div class="grid grid-cols-2 gap-1 md:grid-cols-3 lg:grid-cols-5">
-          {% for Cars in Cars %}
-          <div class="mx-auto max-w-6xl">
-            <div class="w-full max-w-sm px-3 py-6 sm:w-full lg:w-full">
-              {% if Cars.zone.area == "PRE HEATING" %}
-                <div class="overflow-hidden rounded-lg bg-red-50 shadow-xl">
-              {% elif Cars.zone.area == "HEATING" %}
-                <div class="overflow-hidden rounded-lg bg-red-200 shadow-xl">
-              {% else %}
-                <div class="overflow-hidden rounded-lg bg-green-200 shadow-xl">      
+  <!-- Cars Grid -->
+  <div class="grid grid-cols-2 gap-1 md:grid-cols-3 lg:grid-cols-5">
+    {% for Cars in Cars %}
+    <div class="mx-auto max-w-6xl">
+      <div class="w-full max-w-sm px-3 py-6 sm:w-full lg:w-full">
+        {% if Cars.zone.area == "PRE HEATING" %}
+        <div class="overflow-hidden rounded-lg bg-red-50 shadow-xl">
+          {% elif Cars.zone.area == "HEATING" %}
+          <div class="overflow-hidden rounded-lg bg-red-200 shadow-xl">
+            {% else %}
+            <div class="overflow-hidden rounded-lg bg-green-200 shadow-xl">
               {% endif %}
-
-
 
               <div class="mb-2 mt-4 flex justify-between pl-2">
                 <div>
                   <p class="mb-0 text-lg font-bold uppercase text-gray-900">Position</p>
-                  <p class="text-xl mt-0 text-gray-800 font-medium ">{{ Cars.zone.id }}</p>
+                  <p class="mt-0 text-xl font-medium text-gray-800">{{ Cars.zone.id }}</p>
                 </div>
-                {% for firing in firing %} 
-                  {% if Cars.zone.name == firing.zone.name %}
-                  <i class="ri-fire-fill h-6 w-6 text-red-600 group-hover:opacity-70 bg-white mr-6 rounded-full items-center px-1 "></i>
-                  {% endif %} 
-                {% endfor %}
+                {% for firing in firing %} {% if Cars.zone.name == firing.zone.name %}
+                <i class="ri-fire-fill h-6 w-6 text-red-600 group-hover:opacity-70"></i>
+                {% endif %} {% endfor %}
               </div>
 
+              <div class="flex border-t border-gray-500 p-4 text-gray-700">
+                <div class="inline-flex items-center">
+                  <i class="ri-luggage-cart-line mr-3 h-6 w-6 text-xl"></i>
 
-                  <div class="flex border-t border-gray-500 p-4 text-gray-700">
-                    <div class="inline-flex items-center">
-                      <i class="ri-luggage-cart-line mr-3 h-6 w-6 text-xl"></i>
-                      
-                      <p class="mb-0 text-lg font-medium text-gray-600">Number</p>
-                        <span class="pl-12 font-bold text-gray-900 text-xl">{{ Cars.car_number }}</span>
-                    </div>
-                  </div>
-                    
-                  <div class="border-t border-gray-300 bg-gray-100 px-4 pb-4 pt-3">
-                    <div class="text-xs font-bold uppercase tracking-wide text-gray-600">Entry Time</div>
-                    <div class="flex items-center pt-2">
-                      <div class="mr-3 h-10 w-10 rounded-full bg-cover bg-center" style="background-image: url(https://via.placeholder.com/50x50)"></div>
-                      <div>
-                        <p class="font-bold text-gray-900">{{ Cars.entry_time }}</p>
-                        <p class="text-sm font-extralight text-gray-400">{{ Cars.status }}</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="flex border-t border-gray-800 p-4 text-gray-700">
-                    <div class="inline-flex items-center">                      
-                      <p class="mb-0 text-md font-medium text-gray-600">Pushed by</p>
-                        <span class="pl-12 font-bold text-gray-900 text-xl">{{ Cars.user.first_name }}</span>
-                    </div>
-                  </div>
-                  
+                  <p class="mb-0 text-lg font-medium text-gray-600">Number</p>
+                  <span class="pl-12 text-xl font-bold text-gray-900">{{ Cars.car_number }}</span>
                 </div>
+              </div>
+
+              <div class="border-t border-gray-300 bg-gray-100 px-4 pb-4 pt-3">
+                <div class="text-xs font-bold uppercase tracking-wide text-gray-600">Entry Time</div>
+                <div class="flex items-center pt-2">
+                  <div class="mr-3 h-10 w-10 rounded-full bg-cover bg-center" style="background-image: url(https://via.placeholder.com/50x50)"></div>
+                  <div>
+                    <p class="font-bold text-gray-900">{{ Cars.entry_time }}</p>
+                    <p class="text-sm font-extralight text-gray-400">{{ Cars.status }}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="flex border-t border-gray-800 p-4 text-gray-700">
+                <div class="inline-flex items-center">
+                  <p class="mb-0 text-sm font-medium text-gray-600">Pushed by</p>
+                  <span class="pl-12 text-lg font-bold text-gray-900">{{ Cars.user.first_name }}</span>
+                </div>
+              </div>
+
+              <div class="flex p-4 text-gray-700">
+                <div class="inline-flex items-center">
+                  <p class="text-sm font-bold text-black">Note</p>
+                  <span class="pl-6 text-sm font-medium text-gray-700">{{ Cars.remarks }}</span>
+                </div>
+              </div>
             </div>
           </div>
-          {% endfor %}
-      
-    
-      
-      
-      <script>
-  //Query All input fields
-  var form_fields = document.getElementsByTagName("input");
-  var form_label = document.getElementsByTagName("label");
-  var form_span = document.getElementsByTagName("span");
-  var form_select = document.getElementsByTagName("select");
+        </div>
+        {% endfor %}
+        <script>
+          //Query All input fields
+          var form_fields = document.getElementsByTagName("input");
+          var form_label = document.getElementsByTagName("label");
+          var form_textarea = document.getElementsByTagName("textarea");
+          var form_span = document.getElementsByTagName("span");
+          var form_select = document.getElementsByTagName("select");
 
-  for (var field in form_fields) {
-    form_fields[field].className +=
-      "w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md";
-  }
+          for (var field in form_fields) {
+            form_fields[field].className +=
+              "block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-red-500 focus:ring-red-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-red-500 dark:focus:ring-red-500";
+          }
+          for (var field in form_textarea) {
+            form_textarea[field].className +=
+              "block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-red-500 focus:ring-red-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-red-500 dark:focus:ring-red-500";
+          }
 
-  for (var field in form_label) {
-    form_label[field].className +=
-      "mb-3 block text-base font-medium text-[#07074D]";
-  }
-
-  for (var field in form_span) {
-    form_span[field].className +=
-      "mt-2 block w-full px-4 py-2 text-gray-500 font-italic hover:text-Orange-400 ";
-  }
-  for (var field in form_select) {
-    form_select[field].className +=
-      "mt-2 block w-full rounded-md border border-gray-200 bg-white px-4 py-2 text-gray-700 placeholder-gray-400 focus:border-orange-400 focus:outline-none focus:ring focus:ring-orange-400 focus:ring-opacity-40 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:placeholder-gray-600 dark:focus:border-orange-400";
-  }
-
-  // const button = document.getElementById('id_user');
-  // button.setAttribute('disabled', '');
-</script>
-
-{% endblock %}
-
-<!-- 
-
-3+3+4+2+2+2+2+2+3+3+3+4 
-
-1   1-3     d
-2   4-6     d
-3   7-10    d
-4   11-12   
-5   13-14   
-6   15-16   
-7   17-18   d 
-8   19-20   d
-9   21-23   d
-10  24-26   d
-11  27-29  d
-12  30-33  
--->
+          for (var field in form_label) {
+            form_label[field].className +=
+              "block mb-4 pt-4 text-sm font-medium text-gray-900 dark:text-white";
+          }
+        </script>
+        {% endblock %}
+      </div>
+    </div>
+  </div>
+</div>

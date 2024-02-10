@@ -53,6 +53,7 @@ class Car(models.Model):
     entry_time = models.DateTimeField(default=timezone.now, help_text="Time when the car enters the zone")
     exit_time = models.DateTimeField(help_text="Time when the car exits the tunnel", null=True, blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='INLINE', help_text="Status of the car (INLINE or COMPLETED)") 
+    remarks = models.TextField( default='No remarks',null=True, blank=True)
 
     def __str__(self):
         return f"{self.car_number} - {self.status}"

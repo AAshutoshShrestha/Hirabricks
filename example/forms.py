@@ -12,10 +12,16 @@ class CreateUserForm(UserCreationForm):
 		fields = ['username', 'email', 'password1', 'password2']
 
 class CarEntryForm(forms.ModelForm):
+    car_number = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter latest Car Number'}))
+    remarks = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Add notes if any'}),required=False)
+    
     class Meta:
         model = Car
-        fields = ['car_number']
-    
+        fields = ['car_number','remarks']
+        exclude = ['user']
+
+
+
 class TemperatureInputForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(TemperatureInputForm, self).__init__(*args, **kwargs)

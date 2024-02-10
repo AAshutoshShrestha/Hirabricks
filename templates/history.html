@@ -1,0 +1,68 @@
+{% extends "base.html" %} 
+{% block title %} Car push History | hirabricks {% endblock %}
+{% block content %}
+<div class="max-w-full overflow-x-auto">
+  <div class="p-6 pb-8">
+    <h1 class="text-4xl font-bold text-black">Car Push History</h1>
+  </div>
+  <div class="min-w-[1170px]">
+    <!-- table header start -->
+    <div class="grid grid-cols-12 rounded-t-2xl bg-red-700 px-5 py-4 lg:px-7 2xl:px-11">
+      <div class="col-span-1">
+        <h5 class="font-medium text-white">ID</h5>
+      </div>
+      <div class="col-span-2">
+        <h5 class="font-medium text-white">Car Number</h5>
+      </div>
+
+      <div class="col-span-3">
+        <h5 class="font-medium text-white">entry_time</h5>
+      </div>
+
+      <div class="col-span-3">
+        <h5 class="font-medium text-white">exit_time</h5>
+      </div>
+
+      <div class="col-span-2">
+        <h5 class="font-medium text-white">Status</h5>
+      </div>
+
+      <div class="col-span-1">
+        <h5 class="text-right font-medium text-white">Pushed by</h5>
+      </div>
+    </div>
+    <!-- table header end -->
+
+    <!-- table body start -->
+    <div class="dark:bg-boxdark bg-white">
+      {% for Cars in Completed %}
+      <!-- table row item -->
+      <div class="dark:border-strokedark grid grid-cols-12 border-t border-[#EEEEEE] px-5 py-4 lg:px-7 2xl:px-11">
+        <div class="col-span-1">
+          <p class="dark:text-bodydark text-[#637381]">{{ Cars.id }}</p>
+        </div>
+        <div class="col-span-2">
+          <p class="dark:text-bodydark text-[#637381]">{{ Cars.car_number }}</p>
+        </div>
+
+        <div class="col-span-3">
+          <p class="dark:text-bodydark text-[#637381]">{{ Cars.entry_time }}</p>
+        </div>
+
+        <div class="col-span-3">
+          <p class="dark:text-bodydark text-[#637381]">{{ Cars.exit_time }}</p>
+        </div>
+
+        <div class="col-span-2">
+          <p class="inline-block whitespace-nowrap rounded-lg bg-gradient-to-tl from-green-600 to-green-300 px-2 py-2 text-center align-baseline text-xs font-bold uppercase leading-none text-gray-50">{{ Cars.status }}</p>
+        </div>
+        <div class="col-span-1">
+          <h5 class="dark:text-bodydark text-[#637381]">{{ Cars.user.first_name }}</h5>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <!-- table body end -->
+  </div>
+</div>
+{% endblock content %}

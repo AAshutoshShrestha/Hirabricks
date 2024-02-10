@@ -1,0 +1,77 @@
+{% extends 'base.html' %} 
+{% load static %} 
+
+{% block title %} Frontend test page | TunnelKiln {% endblock %} 
+
+{% block content %}
+<div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
+  <!-- Breadcrumb Start -->
+  <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <h2 class="text-3xl font-bold text-black">Form</h2>
+  </div>
+
+  <!-- ====== Form Layout Section Start -->
+  <div class="grid grid-cols-1 gap-9 sm:grid-cols-2">
+    <div class="flex flex-col gap-9">
+      <!-- Contact Form Two -->
+      <div class="rounded-md border border-gray-300 bg-white shadow-lg">
+        <div class="border-b border-gray-100 px-6 py-4">
+          <h3 class="font-medium text-black">Enter New Car</h3>
+        </div>
+        <form action="{% url 'index' %}" method="post">
+          <div class="p-6">
+            <div class="mb-6 w-full xl:w-1/2">{% csrf_token %} {{ carForm.as_p }}</div>
+
+            <button class="flex w-full justify-center rounded bg-blue-700 p-3 font-medium text-gray-200 hover:bg-opacity-80">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-9">
+      <div class="flex flex-col gap-6">
+        <!-- Accordion Item -->
+        <div x-data="{ accordionOpen: false }" @click.outside="accordionOpen = false" class="rounded-md border-2 p-2 shadow-lg">
+          <button @click="accordionOpen = !accordionOpen" class="flex w-full items-center gap-1 sm:gap-3 xl:gap-6">
+            <div class="flex h-10 w-12 items-center justify-center rounded-md bg-gray-50">
+              <i class="ri-arrow-down-s-line text-blue-700 duration-200 ease-in-out" :class="accordionOpen &amp;&amp; 'rotate-180'"></i>
+            </div>
+
+            <div>
+              <h4 class="text-left text-[16px] font-medium text-black">How long we deliver your first blog post?</h4>
+            </div>
+          </button>
+
+          <div x-show="accordionOpen" class="ml-16 mt-5 duration-200 ease-in-out" style="display: none;">
+            <p class="font-medium">It takes 2-3 weeks to get your first blog post ready. That includes the in-depth research &amp; creation of your monthly content marketing strategy that we do before writing your first blog post, Ipsum available .</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  //Query All input fields
+  var form_fields = document.getElementsByTagName("input");
+  var form_label = document.getElementsByTagName("label");
+  var form_span = document.getElementsByTagName("span");
+
+  for (var field in form_label) {
+    form_label[field].className +=
+  	"mb-3 block text-sm font-medium text-black";
+  }
+
+  for (var field in form_fields) {
+    form_fields[field].className +=
+  	"w-full rounded-md border-2 border-gray-200 bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-blue-700 active:border-blue-700";
+  }
+
+
+  for (var field in form_span) {
+    form_span[field].className +=
+  	"mt-2 block w-full px-4 py-2 text-gray-500 font-italic hover:text-Orange-400 ";
+  }
+</script>
+
+{% endblock %}
