@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.utils import timezone
-from datetime import datetime, date
+from datetime import timedelta, date
 from django.core import serializers
 
 from django.contrib import messages
@@ -145,14 +145,21 @@ def history(request):
 @login_required(login_url='login')
 def analytics(request):
     firezone = Firing.objects.all().count()
-   # get stats of todays total car entry 
+
+    # get stats of todays total car entry 
     current_date = date.today()
     Todays_total_push = Car.objects.filter(entry_time__date=current_date).count()
     Total_push = Car.objects.all().count()
 
+    # Get yesterday's date
+    yesterday = date.today() - timedelta(days=1)
+    yesterday_total_push = Car.objects.filter(entry_time__date=yesterday).count()
+
+
     all = Car.objects.all().order_by('id')
     context={
         'Todays_total_push': Todays_total_push,
+        'yesterday_total_push': yesterday_total_push,
         'Total_push': Total_push,
         'firezone': firezone,
         'alldatas': all,
