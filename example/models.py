@@ -2,6 +2,8 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User 
 
+from conditions.models import condition
+
 STATUS_CHOICES = (
     ('INLINE', 'Inline'),
     ('COMPLETED', 'Completed'),
@@ -52,6 +54,7 @@ class Car(models.Model):
     car_number = models.CharField(max_length=20)
     entry_time = models.DateTimeField(default=timezone.now, help_text="Time when the car enters the zone")
     exit_time = models.DateTimeField(help_text="Time when the car exits the tunnel", null=True, blank=True)
+    Type = models.ForeignKey(condition, null=True, default='1', on_delete=models.SET_NULL, help_text="Type of product stacked in the car")
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='INLINE', help_text="Status of the car (INLINE or COMPLETED)") 
     remarks = models.TextField( default='No remarks',null=True, blank=True)
 

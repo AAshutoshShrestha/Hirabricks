@@ -13,6 +13,8 @@ from .decorators import unauthenticated_user
 from .forms import CarEntryForm,TemperatureInputForm
 from .models import *
 
+
+
 @unauthenticated_user
 def loginPage(request):
 	if request.method == 'POST':

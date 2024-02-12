@@ -14,6 +14,8 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 
+from django.utils.translation import gettext_lazy as _
+
 # Load environment variables from .env file
 load_dotenv()
 
@@ -45,7 +47,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'import_export',
-    'example'
+    'example',
+    'conditions'
 ]
 
 MIDDLEWARE = [
@@ -127,7 +130,14 @@ USE_I18N = True
 
 USE_TZ = True
 
+USE_L10N = True
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LANGUAGES = (
+    ('ne', _('Nepali')),
+    ('en', _('English')),
+)
 
 
 # Static files (CSS, JavaScript, Images)
