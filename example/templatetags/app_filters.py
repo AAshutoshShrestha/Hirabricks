@@ -2,7 +2,7 @@ from django import template
 
 register = template.Library()
 
-@register.filter
+@register.filter(name='convert_to_hours_and_minutes')
 def convert_to_hours_and_minutes(value):
     hours = value // 60
     minutes = value % 60

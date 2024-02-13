@@ -201,7 +201,7 @@ def alldatas(request):
 @login_required(login_url='login')
 def test(request):
     firing = Firing.objects.all()
-
+    
     fire_instance = Firing.objects.first()
     fire_zone_id = fire_instance.id
 
