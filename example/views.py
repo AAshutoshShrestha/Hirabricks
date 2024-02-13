@@ -2,18 +2,24 @@ from django.shortcuts import render, redirect
 from django.utils import timezone
 from datetime import timedelta, date
 from django.core import serializers
-
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 
+
 from .decorators import unauthenticated_user
 from .forms import CarEntryForm,TemperatureInputForm
 from .models import *
+from conditions.models import *
+from conditions.views import required_conditions
 
 
+def convert_to_hours_and_minutes(value):
+    hours = value // 60
+    minutes = value % 60
+    return f"{hours} hours, {minutes} minutes"
 
 @unauthenticated_user
 def loginPage(request):
@@ -40,6 +46,8 @@ def index(request):
     cars = Car.objects.exclude(zone_id=None).order_by('zone')
     completed_cars = Car.objects.filter(status='COMPLETED').order_by('zone')
 
+    req_conditions_context = required_conditions(request)
+
     # Check if the form is submitted (POST request)
     if request.method == 'POST':
         # Create form instance and validate data
@@ -48,6 +56,9 @@ def index(request):
             # Get the new car number from the form
             car_number = request.POST.get('car_number')
             remarks = request.POST.get('remarks')
+
+            Type = request.POST.get('Type')
+            condition_instance = condition.objects.get(id=Type)
 
             # Check if a car with the same car number and status 'INLINE' exists
             existing_car_inline = Car.objects.filter(car_number=car_number, status='INLINE').exists()
@@ -77,11 +88,12 @@ def index(request):
             car = Car.objects.create(
                 user =by,
                 zone_id=zone_id,
+                Type=condition_instance,
                 car_number=car_number,
                 entry_time=timezone.now(),
                 exit_time=None,
                 status=status,
-                remarks=remarks
+                remarks=remarks,
             )
             car.save()
 
@@ -93,13 +105,14 @@ def index(request):
         carform = CarEntryForm()
 
     context = {
-
+        **req_conditions_context,
         'carForm': carform,
         'Cars': cars,
         'firing': firing,
         'Completed': completed_cars,
     }
     return render(request, 'index.html', context)
+
 
 @login_required(login_url='login')
 def forms(request):
@@ -188,17 +201,28 @@ def alldatas(request):
 @login_required(login_url='login')
 def test(request):
     firing = Firing.objects.all()
+
+    fire_instance = Firing.objects.first()
+    fire_zone_id = fire_instance.id
+
     cars = Car.objects.exclude(zone_id=None).order_by('zone')
     completed_cars = Car.objects.filter(status='COMPLETED').order_by('zone')
     carform = CarEntryForm(request.POST)
+    req_conditions_context = required_conditions(request)
 
+    duration = req_conditions_context.Durations()
+    converted =convert_to_hours_and_minutes(duration)
     context = {
+        **req_conditions_context,
         'carForm': carform,
+        'converted': converted,
         'Cars': cars,
         'firing': firing,
+        'fire_zone_id': fire_instance,
         'Completed': completed_cars,
     }
     return render(request, 'test.html', context)
+
 
 def change_password(request):
     if request.method == 'POST':

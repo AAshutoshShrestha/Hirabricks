@@ -1,24 +1,27 @@
-//Query All input fields
 var form_fields = document.getElementsByTagName("input");
 var form_label = document.getElementsByTagName("label");
-var form_span = document.getElementsByTagName("span");
+var form_textarea = document.getElementsByTagName("textarea");
+var form_option = document.getElementsByTagName("option");
 var form_select = document.getElementsByTagName("select");
 
 for (var field in form_fields) {
   form_fields[field].className +=
-    "w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md";
+    "block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-red-500 focus:ring-red-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-red-500 dark:focus:ring-red-500";
+}
+for (var field in form_textarea) {
+  form_textarea[field].className +=
+    "block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-red-500 focus:ring-red-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-red-500 dark:focus:ring-red-500";
 }
 
 for (var field in form_label) {
   form_label[field].className +=
-    "mb-3 block text-base font-medium text-[#07074D]";
-}
-
-for (var field in form_span) {
-  form_span[field].className +=
-    "mt-2 block w-full px-4 py-2 text-gray-500 font-italic hover:text-Orange-400 ";
+    "block mb-4 pt-4 text-sm font-medium text-gray-900 dark:text-white";
 }
 for (var field in form_select) {
   form_select[field].className +=
-    "mt-2 block w-full rounded-md border border-gray-200 bg-white px-4 py-2 text-gray-700 placeholder-gray-400 focus:border-orange-400 focus:outline-none focus:ring focus:ring-orange-400 focus:ring-opacity-40 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:placeholder-gray-600 dark:focus:border-orange-400";
+    "block inline-flex w-full items-center rounded-lg border border-gray-300 bg-gray-50 p-2.5 px-4 py-2.5 text-center text-sm font-medium text-red-600 focus:outline-none focus:ring-4 focus:ring-red-300 dark:focus:ring-red-800";
+}
+for (var field in form_option) {
+  form_option[field].className +=
+    "ml-2 text-sm font-medium text-gray-900 dark:text-gray-100 text-left";
 }

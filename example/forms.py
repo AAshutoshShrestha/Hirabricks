@@ -17,7 +17,7 @@ class CarEntryForm(forms.ModelForm):
     
     class Meta:
         model = Car
-        fields = ['car_number','remarks']
+        fields = ['car_number','Type','remarks']
         exclude = ['user']
 
 
