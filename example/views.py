@@ -99,6 +99,7 @@ def index(request):
 
 
             # Redirect to the same form page after successful submission
+            request.session['success_message'] = "New Car added succesfully"
             return redirect('index') 
     else:
         # For GET request, create a new form instance
