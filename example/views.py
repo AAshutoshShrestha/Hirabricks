@@ -15,6 +15,7 @@ from .models import *
 from conditions.models import *
 from conditions.views import required_conditions
 
+from django.utils.translation import gettext_lazy as _
 
 def convert_to_hours_and_minutes(value):
     hours = value // 60
@@ -95,9 +96,6 @@ def index(request):
                 status=status,
                 remarks=remarks,
             )
-            car.save()
-
-
             # Redirect to the same form page after successful submission
             request.session['success_message'] = "New Car added succesfully"
             return redirect('index') 

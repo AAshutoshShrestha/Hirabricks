@@ -10,11 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+from django.utils.translation import gettext_lazy as _
 from pathlib import Path
 import os
 from dotenv import load_dotenv
 
-from django.utils.translation import gettext_lazy as _
 
 # Load environment variables from .env file
 load_dotenv()
@@ -23,6 +23,8 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Path to project basedir / workdir - root folder of project
+TRANSLATIONS_PROJECT_BASE_DIR = BASE_DIR
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -55,6 +57,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -132,13 +135,18 @@ USE_TZ = True
 
 USE_L10N = True
 
+# LANGUAGES = (
+#     ('en', _('English')),
+#     ('ne', _('Nepali')),
+# )
+
+# LOCALE_PATHS = (
+#     os.path.join(BASE_DIR, 'locale/'),
+# )
+
+
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-LANGUAGES = (
-    ('ne', _('Nepali')),
-    ('en', _('English')),
-)
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/

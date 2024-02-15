@@ -37,3 +37,5 @@ class CarAdmin(ImportExportMixin,admin.ModelAdmin):
     list_filter = ('id',)
     search_fields = ('zone',)
     list_per_page = 15
+
+TRANSLATIONS_ADMIN_EXCLUDE_FIELDS = ['get_hint', 'locale_parent_dir', 'domain']
