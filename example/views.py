@@ -85,15 +85,9 @@ def index(request):
             total_zones = Zone.objects.count()
 
             # Update zone IDs for existing cars till the last zone
-            for existing_car in Car.objects.all():
-                if existing_car.zone_id is not None and existing_car.zone_id < total_zones:
-                    existing_car.zone_id += 1
-                    existing_car.save()
-                else:
-                    existing_car.zone_id = None  # Set zone_id to None for the last zone
-                    existing_car.exit_time = timezone.now()
-                    existing_car.status = 'COMPLETED'
-                    existing_car.save()
+            for existing_car in Car.objects.filter(zone_id__lt=total_zones):
+                existing_car.zone_id += 1
+                existing_car.save()
 
             # Assign the new car to the first zone
             zone_id = 1
@@ -112,7 +106,14 @@ def index(request):
                 remarks=remarks,
             )
             car.save()
-
+            
+            # Update the exit_time of the last car in the last zone
+            last_car_in_last_zone = Car.objects.filter(zone_id=total_zones).last()
+            if last_car_in_last_zone:
+                last_car_in_last_zone.zone_id = None
+                last_car_in_last_zone.exit_time = timezone.now()
+                last_car_in_last_zone.status = 'COMPLETED'
+                last_car_in_last_zone.save()
 
             # Redirect to the same form page after successful submission
             request.session['success_message'] = "New Car added succesfully"
