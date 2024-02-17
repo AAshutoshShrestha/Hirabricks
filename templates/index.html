@@ -6,18 +6,18 @@
 {% block title %} Home | Hirabricks Tunnel Kiln {% endblock %} 
 {% block content %}
 
-<div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
+<div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10 ">
   <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-    <h2 class="text-3xl font-bold text-black">Form</h2>
+    <h1 class="text-4xl font-bold text-black dark:text-gray-200 ">Form</h2>
   </div>
 
   <!-- ====== 2 col Section  -->
   <div class="grid grid-cols-1 gap-9 sm:grid-cols-2">
       <!-- ====== Form Section  -->
     <div class="flex flex-col gap-9">
-      <div class="rounded-md border border-gray-300 bg-white shadow-lg">
+      <div class="rounded-md border border-gray-300 bg-white dark:bg-gray-100 shadow-lg">
         <div class="border-b border-gray-100 px-6 py-4">
-          <h3 class="font-medium text-black">Enter New Car</h3>
+          <h3 class="font-medium text-black dark:text-gray-600 ">Enter New Car</h3>
         </div>
         <form class="mx-auto px-12 py-12" action="{% url 'index' %}" method="post">
           {% csrf_token %}
@@ -30,34 +30,34 @@
           <p id="bg-green-500 px-4 py-6">{{message}}</p>
           {% endfor %}
         </form>
+        {% if request.session.success_message %}
+        <div class="fixed right-0 top-6 z-50 w-auto bg-green-500 text-white" x-data="{ isOpen: true }">
+          <div class="container mx-auto flex items-center justify-between px-6 py-4" x-show="isOpen">
+            <div class="flex">
+              <i class="ri-check-line items-center rounded-full bg-white fill-current px-1 text-xl text-green-600"></i>
+        
+              <p class="mx-3 text-white">{{ request.session.success_message }}</p>
+            </div>
+        
+            <button class="transform rounded-md p-1 transition-colors duration-300 hover:bg-gray-600 hover:bg-opacity-25 focus:outline-none" @click="isOpen = false">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 18L18 6M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
+          </div>
+        </div>
+        
+      
+        {% endif %}
 
         
       </div>
-      {% if request.session.success_message %}
-      <div class="fixed right-0 top-6 z-50 w-auto bg-green-500 text-white" x-data="{ isOpen: true }">
-        <div class="container mx-auto flex items-center justify-between px-6 py-4" x-show="isOpen">
-          <div class="flex">
-            <i class="ri-check-line items-center rounded-full bg-white fill-current px-1 text-xl text-green-600"></i>
-      
-            <p class="mx-3 text-white">{{ request.session.success_message }}</p>
-          </div>
-      
-          <button class="transform rounded-md p-1 transition-colors duration-300 hover:bg-gray-600 hover:bg-opacity-25 focus:outline-none" @click="isOpen = false">
-            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M6 18L18 6M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-          </button>
-        </div>
-      </div>
-      
-    
-      {% endif %}
     </div>
   <!-- ====== Conditions Section  -->
-    <div class="flex flex-col gap-9">
-      <div class="rounded-md border border-gray-300 bg-white shadow-lg">
+    <div class="flex flex-col gap-9 ">
+      <div class="rounded-md border border-gray-300 bg-white dark:bg-gray-600 shadow-lg">
         <div class="border-b border-gray-100 px-6 py-4">
-          <h3 class="font-medium text-black">Required Conditions</h3>
+          <h3 class="font-medium text-black dark:text-gray-400 ">Required Conditions</h3>
         </div>
         <div class="px-6 py-4">
         <div class="flex gap-x-5 ">
@@ -169,14 +169,14 @@
 
               <div class="flex p-4 text-gray-700">
                 <div class="inline-flex items-center">
-                  <p class="text-sm font-bold text-black">Product Type</p>
+                  <p class="text-sm font-bold text-black dark:text-gray-200 ">Product Type</p>
                   <span class="pl-6 text-sm font-medium text-gray-700">{{ Cars.Type }}</span>
                 </div>
               </div>
 
               <div class="flex p-4 text-gray-700">
                 <div class="inline-flex items-center">
-                  <p class="text-sm font-bold text-black">Note</p>
+                  <p class="text-sm font-bold text-black dark:text-gray-200 ">Note</p>
                   <span class="pl-6 text-sm font-medium text-gray-700">{{ Cars.remarks }}</span>
                 </div>
               </div>
@@ -204,11 +204,11 @@
 
   for (var field in form_label) {
     form_label[field].className +=
-      "block mb-4 pt-4 text-sm font-medium text-gray-900 dark:text-white";
+      "block mb-4 pt-4 text-sm font-medium text-gray-900 dark:text-gray-600";
   }
   for (var field in form_select) {
     form_select[field].className +=
-      "block inline-flex w-full items-center rounded-lg border border-gray-300 bg-gray-50 p-2.5 px-4 py-2.5 text-center text-sm font-medium text-red-600 focus:outline-none focus:ring-4 focus:ring-red-300 dark:focus:ring-red-800";
+      "block inline-flex w-full items-center rounded-lg border border-gray-300 bg-gray-50 p-2.5 px-4 py-2.5 text-center text-sm font-medium text-red-600 focus:outline-none focus:ring-4 focus:ring-red-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-red-500 dark:focus:ring-red-500";
   }
   for (var field in form_option) {
     form_option[field].className +=

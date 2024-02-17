@@ -1,4 +1,4 @@
-{% load static app_filters %}
+{% load static i18n app_filters %}
 
 <!DOCTYPE html>
 <html lang="en" class="dark">
@@ -50,7 +50,7 @@
     </script>
 </head>
 
-<body x-data="{ darkMode: false }" :class="{ 'dark': darkMode }" class="max-w-screen-4xl bg-gray-100">
+<body class="max-w-screen-4xl bg-gray-100 dark dark:bg-gray-600">  
     <div class="bg-gray-50 antialiased dark:bg-gray-900">
       <nav class="fixed left-0 right-0 top-0 z-50 border-b border-gray-200 bg-white px-4 py-2.5 dark:border-gray-700 dark:bg-gray-800">
         <div class="flex flex-wrap items-center justify-between">
@@ -94,7 +94,7 @@
                 <a href="{% url 'profile' %}" class="group block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600">
                   <i class="ri-profile-line mx-auto mb-1 h-7 w-7 text-xl text-gray-400 group-hover:text-gray-500 dark:text-gray-400 dark:group-hover:text-gray-400" aria-hidden="true"></i>
 
-                  <div class="text-sm text-gray-700 dark:text-white">Profile</div>
+                  <div class="text-sm text-gray-700 dark:text-white">{% trans 'Profile' %}</div>
                 </a>
                 <a href="{% url 'change_password' %}" class="group block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600">
                   <i class="ri-loop-right-line mx-auto mb-1 h-7 w-7 text-xl text-gray-400 group-hover:text-gray-500 dark:text-gray-400 dark:group-hover:text-gray-400" aria-hidden="true"></i>
@@ -152,7 +152,7 @@
               <button type="button" class="group flex w-full items-center rounded-lg p-2 font-medium text-gray-700 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="dropdown-pages" data-collapse-toggle="dropdown-pages">
                 <i class="ri-pages-fill h-6 w-6 pl-1 text-lg text-gray-500 transition duration-75 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-white"></i>
 
-                <span class="ml-3 flex-1 whitespace-nowrap text-left">Pages</span>
+                <span class="ml-3 flex-1 whitespace-nowrap text-left">{% trans "Pages" %}</span>
                 <svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                 </svg>
@@ -171,7 +171,7 @@
             <li>
               <a href="{% url 'analytics' %}" class="group flex items-center rounded-lg p-2 text-base font-medium text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
                 <i class="ri-line-chart-fill h-6 w-6 pl-1 text-lg text-gray-500 transition duration-75 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-white"></i>
-                <span class="ml-3 flex-1 whitespace-nowrap">Analytics</span>
+                <span class="ml-3 flex-1 whitespace-nowrap">{% trans "Analytics" %}</span>
                 <!-- <span class="text-red-800 bg-red-100 dark:bg-red-200 dark:text-red-800 inline-flex h-5 w-5 items-center justify-center rounded-full text-xs font-semibold"> 4 </span> -->
               </a>
             </li>
@@ -179,7 +179,7 @@
               <button type="button" class="group flex w-full items-center rounded-lg p-2 text-base font-medium text-gray-700 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="dropdown-authentication" data-collapse-toggle="dropdown-authentication">
                 <i class="ri-git-repository-private-fill h-6 w-6 pl-1 text-lg text-gray-500 transition duration-75 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-white"></i>
 
-                <span class="ml-3 flex-1 whitespace-nowrap text-left">Authentication</span>
+                <span class="ml-3 flex-1 whitespace-nowrap text-left">{% trans "Authentication" %}</span>
                 <!-- <i class="ri-arrow-down-s-line h-6 w-6 text-2xl font-bold"></i> -->
                 <svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
@@ -197,11 +197,11 @@
           </ul>
           <ul class="mt-5 space-y-2 border-t border-gray-200 pt-5 dark:border-gray-700">
             <li>
-              <span class="ml-3">Created byCreated by</span>
+              <span class="ml-3">{% trans "Created by" %}</span>
 
               <a href="https://shresthaaashutosh.com.np/" class="group flex items-center rounded-lg p-2 text-base font-medium text-gray-700 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" target="_blank_">
                 <i class="ri-creative-commons-by-fill h-6 w-6 pl-1 text-lg text-gray-500 transition duration-75 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-white"></i>
-                <span class="ml-3">Aashutosh Shrestha</span>
+                <span class="ml-3">{% trans "Aashutosh Shrestha" %}</span>
               </a>
             </li>
           </ul>
@@ -213,7 +213,7 @@
         </div>
       </aside>
 
-      <main class="h-auto p-4 pt-20 md:ml-64">
+      <main class="h-auto p-4 pt-20 md:ml-64 dark:bg-gray-600">
         {% block content %} 
         {% endblock %}
       </main>

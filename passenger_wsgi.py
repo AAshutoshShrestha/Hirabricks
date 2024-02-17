@@ -1,7 +1,7 @@
 import os
-import sys
-from vercel_app.wsgi import application
 
-sys.path.insert(0, os.path.dirname(__file__))
+from django.core.wsgi import get_wsgi_application
 
-environ = os.environ.setdefault("DJANGO_SETTINGS_MODULE", "vercel_app.settings")
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'vercel_app.settings')
+
+application  = get_wsgi_application()
