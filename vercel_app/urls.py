@@ -3,16 +3,11 @@ from django.urls import path,include,re_path
 from django.conf.urls import static
 from django.conf import settings
 from django.views.static import serve
-
 from django.conf.urls.i18n import i18n_patterns
-from django.utils.translation import gettext_lazy as _
 
 
 urlpatterns = [
-    path(_('admin/'), admin.site.urls),
-]
-
-urlpatterns += i18n_patterns (
+    path('admin/', admin.site.urls),
     path('', include('example.urls')),
 
     re_path(r'^static/(?P<path>.*)$', serve, {
@@ -21,5 +16,6 @@ urlpatterns += i18n_patterns (
     re_path(r'^media/(?P<path>.*)$', serve, {
             'document_root': settings.MEDIA_ROOT,
         }),
-)
+]
+
 # handler404 = "example.views.page_not_found_view"
