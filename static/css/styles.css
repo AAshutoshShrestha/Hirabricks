@@ -617,8 +617,8 @@ video {
   top: 0px
 }
 
-.top-6 {
-  top: 1.5rem;
+.top-6{
+  top: 1.5rem
 }
 
 .z-10{
@@ -814,6 +814,10 @@ video {
   height: 2.5rem
 }
 
+.h-16{
+  height: 4rem
+}
+
 .h-20{
   height: 5rem
 }
@@ -840,10 +844,6 @@ video {
 
 .h-\[46px\]{
   height: 46px
-}
-
-.h-auto{
-  height: auto
 }
 
 .h-full{
@@ -894,6 +894,10 @@ video {
   width: 46px
 }
 
+.w-auto{
+  width: auto
+}
+
 .w-full{
   width: 100%
 }
@@ -904,10 +908,6 @@ video {
 
 .min-w-\[1170px\]{
   min-width: 1170px
-}
-
-.min-w-\[1200px\]{
-  min-width: 1200px
 }
 
 .max-w-6xl{
@@ -1329,8 +1329,16 @@ video {
   background-position: center
 }
 
+.fill-current{
+  fill: currentColor
+}
+
 .p-0{
   padding: 0px
+}
+
+.p-1{
+  padding: 0.25rem
 }
 
 .p-12{
@@ -1630,11 +1638,6 @@ video {
   letter-spacing: 0.025em
 }
 
-.text-\[\#637381\]{
-  --tw-text-opacity: 1;
-  color: rgb(99 115 129 / var(--tw-text-opacity))
-}
-
 .text-black{
   --tw-text-opacity: 1;
   color: rgb(0 0 0 / var(--tw-text-opacity))
@@ -1809,6 +1812,11 @@ video {
   background-color: rgb(243 244 246 / var(--tw-bg-opacity))
 }
 
+.hover\:bg-gray-600:hover{
+  --tw-bg-opacity: 1;
+  background-color: rgb(75 85 99 / var(--tw-bg-opacity))
+}
+
 .hover\:bg-red-500:hover{
   --tw-bg-opacity: 1;
   background-color: rgb(239 68 68 / var(--tw-bg-opacity))
@@ -1822,6 +1830,10 @@ video {
 .hover\:bg-red-800:hover{
   --tw-bg-opacity: 1;
   background-color: rgb(153 27 27 / var(--tw-bg-opacity))
+}
+
+.hover\:bg-opacity-25:hover{
+  --tw-bg-opacity: 0.25
 }
 
 .hover\:text-gray-700:hover{
@@ -2009,6 +2021,10 @@ video {
     gap: 1.5rem
   }
 
+  .sm\:p-7{
+    padding: 1.75rem
+  }
+
   .sm\:px-6{
     padding-left: 1.5rem;
     padding-right: 1.5rem
@@ -2126,6 +2142,14 @@ video {
 }
 
 @media (prefers-color-scheme: dark){
+  .dark\:block{
+    display: block
+  }
+
+  .dark\:hidden{
+    display: none
+  }
+
   .dark\:divide-gray-600 > :not([hidden]) ~ :not([hidden]){
     --tw-divide-opacity: 1;
     border-color: rgb(75 85 99 / var(--tw-divide-opacity))
@@ -2175,6 +2199,11 @@ video {
     background-color: rgb(254 202 202 / var(--tw-bg-opacity))
   }
 
+  .dark\:bg-red-500{
+    --tw-bg-opacity: 1;
+    background-color: rgb(239 68 68 / var(--tw-bg-opacity))
+  }
+
   .dark\:bg-red-600{
     --tw-bg-opacity: 1;
     background-color: rgb(220 38 38 / var(--tw-bg-opacity))
@@ -2203,6 +2232,11 @@ video {
   .dark\:text-gray-400{
     --tw-text-opacity: 1;
     color: rgb(156 163 175 / var(--tw-text-opacity))
+  }
+
+  .dark\:text-red-300{
+    --tw-text-opacity: 1;
+    color: rgb(252 165 165 / var(--tw-text-opacity))
   }
 
   .dark\:text-red-500{
