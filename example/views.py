@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth import update_session_auth_hash    
 
 
 from .decorators import unauthenticated_user
@@ -84,6 +84,14 @@ def index(request):
             # Find the total number of zones created by the admin
             total_zones = Zone.objects.count()
 
+            # Update the exit_time of the last car in the last zone
+            last_car_in_last_zone = Car.objects.filter(zone_id=total_zones).last()
+            if last_car_in_last_zone:
+                last_car_in_last_zone.zone_id = None
+                last_car_in_last_zone.exit_time = timezone.now()
+                last_car_in_last_zone.status = 'COMPLETED'
+                last_car_in_last_zone.save()
+                
             # Update zone IDs for existing cars till the last zone
             for existing_car in Car.objects.filter(zone_id__lt=total_zones):
                 existing_car.zone_id += 1
@@ -107,13 +115,7 @@ def index(request):
             )
             car.save()
             
-            # Update the exit_time of the last car in the last zone
-            last_car_in_last_zone = Car.objects.filter(zone_id=total_zones).last()
-            if last_car_in_last_zone:
-                last_car_in_last_zone.zone_id = None
-                last_car_in_last_zone.exit_time = timezone.now()
-                last_car_in_last_zone.status = 'COMPLETED'
-                last_car_in_last_zone.save()
+            
 
             # Redirect to the same form page after successful submission
             request.session['success_message'] = "New Car added succesfully"

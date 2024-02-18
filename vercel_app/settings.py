@@ -15,10 +15,19 @@ import os
 from dotenv import load_dotenv
 
 from django.utils.translation import gettext_lazy as _
+from supabase import create_client, Client, ClientOptions
 
 # Load environment variables from .env file
 load_dotenv()
 
+
+url: str = os.environ.get("SUPABASE_URL")
+key: str = os.environ.get("SUPABASE_ANON_KEY")
+supabase: Client = create_client(url, key,
+  options=ClientOptions(
+    postgrest_client_timeout=10,
+    storage_client_timeout=10
+  ))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -89,11 +98,10 @@ WSGI_APPLICATION = 'vercel_app.wsgi.app'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'URL': os.environ.get('SUPABASE_URL'),
+        'NAME': os.environ.get('SUPABASE_DATABASE'),
         'USER': os.environ.get('SUPABASE_USER'),
         'PASSWORD': os.environ.get('SUPABASE_PASSWORD'),
         'HOST': os.environ.get('SUPABASE_HOST'),
-        'NAME': os.environ.get('SUPABASE_DATABASE'),
         'PORT': os.environ.get('SUPABASE_PORT'),
     }
 }
