@@ -22,7 +22,7 @@ load_dotenv()
 
 
 url: str = os.environ.get("SUPABASE_URL")
-key: str = os.environ.get("SUPABASE_ANON_KEY")
+key: str = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
 supabase: Client = create_client(url, key,
   options=ClientOptions(
     postgrest_client_timeout=10,
@@ -101,12 +101,21 @@ DATABASES = {
         'NAME': os.environ.get('SUPABASE_DATABASE'),
         'USER': os.environ.get('SUPABASE_USER'),
         'PASSWORD': os.environ.get('SUPABASE_PASSWORD'),
-        'HOST': os.environ.get('SUPABASE_HOST'),
-        'PORT': os.environ.get('SUPABASE_PORT'),
+        'HOST': os.environ.get('SUPABASE_HOST'), # Usually something like '<your_project_id>.supabase.co'
+        'PORT': os.environ.get('SUPABASE_PORT'),  # Default PostgreSQL port
+        'CONN_MAX_AGE': 600,  # Connection timeout in seconds, adjust as needed
+        'OPTIONS': {
+            'sslmode': 'require',  # Enable SSL mode for security
+        },
+        'POOL_SIZE': 10,  # Number of connections in the pool, adjust as needed
+        'POOL_TIMEOUT': 10,  # Maximum number of seconds to wait for a connection from the pool, adjust as needed
     }
 }
 
-
+# Adjust concurrency settings for import-export
+IMPORT_EXPORT_USE_TRANSACTIONS = True
+IMPORT_EXPORT_ASYNC_IMPORT = True
+IMPORT_EXPORT_ASYNC_EXPORT = True
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

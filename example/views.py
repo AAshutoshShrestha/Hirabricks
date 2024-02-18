@@ -20,20 +20,17 @@ def convert_to_hours_and_minutes(value):
     hours = value // 60
     minutes = value % 60
     return f"{hours} hours, {minutes} minutes"
-
+    
 def format_timedelta(td):
-    days = td.days
-    hours, remainder = divmod(td.seconds, 3600)
-    minutes, _ = divmod(remainder, 60)
+    total_minutes = td.days * 24 * 60 + td.seconds // 60
+    hours, minutes = divmod(total_minutes, 60)
 
     parts = []
-    if days:
-        parts.append(f"{days} days")
     if hours:
         parts.append(f"{hours} hours")
     if minutes:
         parts.append(f"{minutes} minutes")
-    
+
     return ', '.join(parts)
 
 
@@ -59,8 +56,8 @@ def logoutUser(request):
 @login_required(login_url='login')
 def index(request):
     firing = Firing.objects.all()
-    cars = Car.objects.exclude(zone_id=None).order_by('zone')
-    completed_cars = Car.objects.filter(status='COMPLETED').order_by('zone')
+    cars = Car.objects.select_related('zone', 'Type').exclude(zone_id=None).order_by('zone')
+    completed_cars = Car.objects.filter(status='COMPLETED').select_related('zone', 'Type').order_by('zone')
 
     req_conditions_context = required_conditions(request)
 
@@ -91,7 +88,7 @@ def index(request):
                 last_car_in_last_zone.exit_time = timezone.now()
                 last_car_in_last_zone.status = 'COMPLETED'
                 last_car_in_last_zone.save()
-                
+
             # Update zone IDs for existing cars till the last zone
             for existing_car in Car.objects.filter(zone_id__lt=total_zones):
                 existing_car.zone_id += 1

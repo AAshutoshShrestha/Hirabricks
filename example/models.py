@@ -32,6 +32,10 @@ class Thermocouple(models.Model):
     class Meta:
         ordering = ['id']
 
+    @classmethod
+    def bulk_create_from_import(cls, data):
+        cls.objects.bulk_create([cls(**item) for item in data])
+
 class TemperatureRecord(models.Model):
     thermocouple = models.ForeignKey(Thermocouple, on_delete=models.CASCADE, related_name='temperature_records', help_text="Thermocouple associated with the temperature record")
     date = models.DateField(help_text="Date of the temperature record")
@@ -44,6 +48,10 @@ class TemperatureRecord(models.Model):
     class Meta:
         ordering = ['id']
 
+    @classmethod
+    def bulk_create_from_import(cls, data):
+        cls.objects.bulk_create([cls(**item) for item in data])
+
 class Zone(models.Model):
     name = models.CharField(max_length=50, help_text="Name of the zone")
     thermocouple = models.ForeignKey(Thermocouple, on_delete=models.CASCADE, related_name='zones', help_text="Thermocouple assigned to the zone")
@@ -54,6 +62,10 @@ class Zone(models.Model):
      
     class Meta:
         ordering = ['id']
+    
+    @classmethod
+    def bulk_create_from_import(cls, data):
+        cls.objects.bulk_create([cls(**item) for item in data])
 
 class Car(models.Model):
     user = models.ForeignKey(User, null=True, default='1', on_delete=models.SET_NULL)
@@ -71,6 +83,10 @@ class Car(models.Model):
     class Meta:
         ordering = ['zone']
 
+    @classmethod
+    def bulk_create_from_import(cls, data):
+        cls.objects.bulk_create([cls(**item) for item in data])
+
 class Firing(models.Model):
     zone = models.ForeignKey(Zone, on_delete=models.CASCADE, related_name='Firing',null=True, help_text="Zone where the Firing is located")
     
@@ -80,3 +96,7 @@ class Firing(models.Model):
      
     class Meta:
         ordering = ['id']
+
+    @classmethod
+    def bulk_create_from_import(cls, data):
+        cls.objects.bulk_create([cls(**item) for item in data])
