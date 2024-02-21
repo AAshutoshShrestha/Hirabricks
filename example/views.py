@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout, update_session_auth
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 
-from django.db.models import Count,F
+from django.db.models import Count,F, ExpressionWrapper, fields
 
 from datetime import timedelta, date
 
@@ -37,6 +37,10 @@ def format_timedelta(td):
         parts.append(f"{minutes} minutes")
 
     return ', '.join(parts)
+
+
+def page_not_found_view(request, exception):
+    return render(request, '404.html', status=404)
 
 @unauthenticated_user
 def loginPage(request):
@@ -137,15 +141,8 @@ def forms(request):
     context = {'tempform': form}
     return render(request, 'index.html', context)
 
-@login_required(login_url='login')
-def history(request):
-    completed_cars = Car.objects.filter(status='COMPLETED').order_by('-id')
-    for car in completed_cars:
-        cycle_time = car.exit_time - car.entry_time
-        car.cycle_time = format_timedelta(cycle_time)
 
-    context = {'Completed': completed_cars}
-    return render(request, 'history.html', context)
+
 
 @login_required(login_url='login')
 def analytics(request):
@@ -164,11 +161,12 @@ def analytics(request):
     )
     capacities = dict(MultiCondition.objects.order_by('id').values_list('name', 'capacity'))
 
-    total_cooked_bricks = sum(MultiCondition_obj.capacity * count for type_name, count in type_counts.items() 
-                               for MultiCondition_obj in MultiCondition.objects.filter(name=type_name) 
-                               if MultiCondition_obj.capacity is not None)
+    # Calculate combined totals for single and multi type conditions
+    single_type_total = sum(items['capacity'] * type_counts.get(items['name'], 0) for items in single_data)
+    multi_type_total = sum(subitem['capacity'] * type_counts.get(items['name'], 0) for items in multi_data for subitem in items['items'])
+    combined_total = single_type_total+multi_type_total
 
-    formatted_total_cooked_bricks = locale.format_string("%d", total_cooked_bricks, grouping=True)
+    formatted_combined_total = locale.format_string("%d", combined_total, grouping=True)
 
     req_MultiConditions_context = required_MultiConditions(request)
     
@@ -192,7 +190,7 @@ def analytics(request):
         'alldatas': all_data,
         'type_counts': type_counts,
         'capacities': capacities,
-        'total_cooked_bricks': formatted_total_cooked_bricks,
+        'combined_total': formatted_combined_total,
     }
     return render(request, 'analytics.html', context)
 
@@ -203,9 +201,27 @@ def profile(request):
     context = {'Car_count': car_count}
     return render(request, 'profile.html', context)
 
+
+@login_required(login_url='login')
+def history(request):
+    completed_cars = Car.objects.filter(status='COMPLETED').order_by('-id')
+    for car in completed_cars:
+        cycle_time = car.exit_time - car.entry_time
+        car.cycle_time = format_timedelta(cycle_time)
+
+    context = {'Completed': completed_cars}
+    return render(request, 'history.html', context)
+
 @login_required(login_url='login')
 def alldatas(request):
-    all_data = Car.objects.all().prefetch_related('zone', 'Type').order_by('zone')
+    all_data = Car.objects.all().select_related('zone', 'Type').order_by('zone')
+    for car in all_data:
+        if car.exit_time is not None:
+            cycle_time = car.exit_time - car.entry_time
+            car.cycle_time = format_timedelta(cycle_time)
+        else:
+            car.cycle_time = "--"
+            
     context = {'alldatas': all_data}
     return render(request, 'alldatas.html', context)
 

@@ -34,6 +34,10 @@
 6. Use the user's configured `sans` font-variation-settings by default.
 7. Disable tap highlights on iOS
 */
+.pr-3{
+  padding-right: 0.75rem
+}
+
 
 html,
 :host {
