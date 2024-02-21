@@ -34,6 +34,6 @@ class FiringAdmin(ImportExportModelAdmin,admin.ModelAdmin):
 @admin.register(Car)
 class CarAdmin(ImportExportModelAdmin,admin.ModelAdmin):
     list_display = ['zone','car_number', 'entry_time','exit_time','Type','status']
-    list_filter = ('id',)
+    list_filter = ('id','Type',)
     search_fields = ('zone',)
     list_per_page = 15

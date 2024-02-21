@@ -1,49 +1,27 @@
 {% extends 'base.html' %} 
-{% load static %} 
-{% load filters %}
+{% load static app_filters %} 
 
 {% block title %} Frontend test page | TunnelKiln {% endblock %} 
 
 {% block content %}
 <div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
   <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-    <h2 class="text-3xl font-bold text-black">Form</h2>
+    <h2 class="text-4xl font-bold text-black dark:text-white">Form</h2>
   </div>
 
   <!-- ====== 2 col Section  -->
   <div class="grid grid-cols-1 gap-9 sm:grid-cols-2">
-      <!-- ====== Form Section  -->
+  <!-- ====== Conditions Section  -->
     <div class="flex flex-col gap-9">
-      <div class="rounded-md border border-gray-300 bg-white shadow-lg">
+      <div class="border border-gray-300 shadow-lg bg-white rounded-xl p-4 sm:p-7 dark:bg-slate-900">
         <div class="border-b border-gray-100 px-6 py-4">
-          <h3 class="font-medium text-black">Enter New Car</h3>
-        </div>
-        <form class="mx-auto px-12 py-12" action="{% url 'index' %}" method="post">
-          {% csrf_token %}
-          <div class="mb-5">
-            {{ carForm.as_p }}
-          </div>
-        
-          <button type="submit" class="w-full rounded-lg bg-red-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 sm:w-auto dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Submit</button>
-          {% for message in messages %}
-          <p id="bg-green-500 px-4 py-6">{{message}}</p>
-          {% endfor %}
-        </form>
-      </div>
-    </div>
-
-
-  <!-- ====== Conditions Section  --> 
-    <div class="flex flex-col gap-9">
-      <div class="rounded-md border border-gray-300 bg-white shadow-lg">
-        <div class="border-b border-gray-100 px-6 py-4">
-          <h3 class="font-medium text-black">Required Conditions</h3>
+          <h3 class="font-medium text-gray-600 dark:text-gray-400">Required Conditions</h3>
         </div>
         <div class="px-6 py-4">
         <div class="flex gap-x-5 ">
           <i class="ri-hexagon-fill m-1 h-6 w-6 flex-shrink-0 text-red-600 dark:text-red-500"></i>
           <div class="flex gap-6">
-            <h3 class="text-lg font-semibold text-gray-800 dark:text-white pl-2">Name:</h3>
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-white pl-2">Product Type:</h3>
             <h3 class="text-lg font-semibold text-gray-800 dark:text-white">{{ req_condition.name }}</h3>
           </div>
         </div>
@@ -71,15 +49,19 @@
             <h3 class="text-lg font-semibold text-gray-800 dark:text-white">{{ req_condition.Burner_Speed }}</h3>
           </div>
         </div>
+        <div class="flex gap-x-5 pt-2">
+          <i class="ri-hexagon-fill m-1 h-6 w-6 flex-shrink-0 text-red-600 dark:text-red-500"></i>
+          <div class="flex gap-6">
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-white pl-2">Temperature :</h3>
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-white">{{ req_condition.Temperature }} ° C</h3>
+          </div>
+        </div>
 
         <div class="flex gap-x-5 pt-2">
           <i class="ri-hexagon-fill m-1 h-6 w-6 flex-shrink-0 text-red-600 dark:text-red-500"></i>
           <div class="flex gap-6">
             <h3 class="text-lg font-semibold text-gray-800 dark:text-white pl-2">Durations:</h3>
-            {% for condition in conditions %}
-            <h3 class="text-lg font-semibold text-gray-800 dark:text-white">{{ condition.Durations|convert_to_hours_and_minutes }}</li>
-            {% endfor %}
-            <h3 class="text-lg font-semibold text-gray-800 dark:text-white">{{ req_condition.Durations }} <span>Minutes</span></h3>
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-white pl-2">{{ req_condition.Durations|convert_to_hours_and_minutes }}</h3>
           </div>
         </div>
 
@@ -88,14 +70,14 @@
     </div>
   </div>
 </div>
-  
 <script>
   //Query All input fields
   var form_fields = document.getElementsByTagName("input");
   var form_label = document.getElementsByTagName("label");
   var form_textarea = document.getElementsByTagName("textarea");
-  var form_span = document.getElementsByTagName("span");
+  var form_option = document.getElementsByTagName("option");
   var form_select = document.getElementsByTagName("select");
+  var form_helptxt = document.getElementsByClassName("helptext");
 
   for (var field in form_fields) {
     form_fields[field].className +=
@@ -109,6 +91,18 @@
   for (var field in form_label) {
     form_label[field].className +=
       "block mb-4 pt-4 text-sm font-medium text-gray-900 dark:text-white";
+  }
+  for (var field in form_select) {
+    form_select[field].className +=
+      "block inline-flex w-full items-center rounded-lg border border-gray-300 bg-gray-50 p-2.5 px-4 py-2.5 text-center text-sm font-medium text-red-600 dark:text-red-300 focus:outline-none focus:ring-4 focus:ring-red-300 dark:focus:ring-red-800";
+  }
+  for (var field in form_option) {
+    form_option[field].className +=
+      "ml-2 text-sm font-medium text-gray-900 text-left";
+  }
+  for (var field in form_helptxt) {
+    form_helptxt[field].className +=
+      " mt-6 text-sm text-gray-600 dark:text-gray-400";
   }
 </script>
 

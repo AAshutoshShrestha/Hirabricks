@@ -72,7 +72,7 @@
           <i class="ri-hexagon-fill m-1 h-6 w-6 flex-shrink-0 text-red-600 dark:text-red-500"></i>
           <div class="flex gap-6">
             <h3 class="text-lg font-semibold text-gray-800 dark:text-white pl-2">Fan Speed:</h3>
-            <h3 class="text-lg font-semibold text-gray-800 dark:text-white">{{ req_condition.Fan_Speed }}</h3>
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-white">{{ req_condition.fan_speed }}</h3>
           </div>
         </div>
 
@@ -80,7 +80,7 @@
           <i class="ri-hexagon-fill m-1 h-6 w-6 flex-shrink-0 text-red-600 dark:text-red-500"></i>
           <div class="flex gap-6">
             <h3 class="text-lg font-semibold text-gray-800 dark:text-white pl-2">Dryer Speed:</h3>
-            <h3 class="text-lg font-semibold text-gray-800 dark:text-white">{{ req_condition.Dryer_Speed }}</h3>
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-white">{{ req_condition.dryer_speed }}</h3>
           </div>
         </div>
 
@@ -88,14 +88,14 @@
           <i class="ri-hexagon-fill m-1 h-6 w-6 flex-shrink-0 text-red-600 dark:text-red-500"></i>
           <div class="flex gap-6">
             <h3 class="text-lg font-semibold text-gray-800 dark:text-white pl-2">Burner Speed:</h3>
-            <h3 class="text-lg font-semibold text-gray-800 dark:text-white">{{ req_condition.Burner_Speed }}</h3>
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-white">{{ req_condition.burner_speed }}</h3>
           </div>
         </div>
         <div class="flex gap-x-5 pt-2">
           <i class="ri-hexagon-fill m-1 h-6 w-6 flex-shrink-0 text-red-600 dark:text-red-500"></i>
           <div class="flex gap-6">
             <h3 class="text-lg font-semibold text-gray-800 dark:text-white pl-2">Temperature :</h3>
-            <h3 class="text-lg font-semibold text-gray-800 dark:text-white">{{ req_condition.Temperature }} ° C</h3>
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-white">{{ req_condition.temperature }} ° C</h3>
           </div>
         </div>
 
@@ -103,7 +103,7 @@
           <i class="ri-hexagon-fill m-1 h-6 w-6 flex-shrink-0 text-red-600 dark:text-red-500"></i>
           <div class="flex gap-6">
             <h3 class="text-lg font-semibold text-gray-800 dark:text-white pl-2">Durations:</h3>
-            <h3 class="text-lg font-semibold text-gray-800 dark:text-white pl-2">{{ req_condition.Durations|convert_to_hours_and_minutes }}</h3>
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-white pl-2">{{ req_condition.durations|convert }}</h3>
           </div>
         </div>
 
@@ -119,7 +119,7 @@
   <h2 class="mb-4 text-2xl font-bold text-black dark:text-white">All Cars Inside Tunnel</h2>
 
   <!-- Cars Grid -->
-  <div class="grid grid-cols-2 gap-1 md:grid-cols-3 lg:grid-cols-5">
+  <div class="grid grid-cols-1 gap-1 md:grid-cols-3 lg:grid-cols-5">
     {% for Cars in Cars %}
     <div class="mx-auto max-w-6xl">
       <div class="w-full max-w-sm px-3 py-6 sm:w-full lg:w-full">

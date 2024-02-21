@@ -1,6 +1,6 @@
 {% extends "base.html" %} 
+{% load static app_filters %} 
 {% block title %} Analytics | hirabricks {% endblock %} 
-
 {% block content %}
 <div class="max-w-full overflow-x-auto">
   <div class="p-6 pb-8">
@@ -95,7 +95,7 @@
                   <i class="ri-attachment-line flex-shrink-0 pl-1 text-gray-600 dark:text-gray-400"></i>
                 </div>
                 <div id="tooltip-2" role="tooltip" class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm transition-opacity duration-300 dark:bg-gray-700">
-                  Burner placed zones 
+                  Burner placed zones
                   <div class="tooltip-arrow" data-popper-arrow></div>
                 </div>
               </dl>
@@ -147,4 +147,128 @@
     <!-- End Grid -->
   </div>
 </div>
+
+<div class="max-w-full overflow-x-auto">
+  <div class="p-6 pb-8">
+    <h1 class="text-4xl font-semibold text-gray-800 dark:text-gray-200">Total Bricks Cooked</h1>
+  </div>
+  <div class="min-w-[1170px] overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-slate-900">
+    <!-- table header start -->
+    <div class="grid grid-cols-12 rounded-t-2xl bg-red-700 px-5 py-4 lg:px-7 2xl:px-11 dark:bg-red-500">
+      <div class="col-span-3">
+        <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">Type</h5>
+      </div>
+      <div class="col-span-3">
+        <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">Count</h5>
+      </div>
+      <div class="col-span-3">
+        <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">Capacity</h5>
+      </div>
+      <div class="col-span-3">
+        <h5 class="text-center font-semibold uppercase tracking-wide text-white dark:text-gray-200">Cooked</h5>
+      </div>
+    </div>
+    <!-- table header end -->
+
+    <!-- table body start -->
+    <div class="bg-white dark:bg-gray-700">
+      {% for type_name, count in type_counts.items %}
+      <!-- table row item -->
+      <div class="dark:border-strokedark grid grid-cols-12 border-t border-[#EEEEEE] px-5 py-4 lg:px-7 2xl:px-11">
+        <div class="col-span-3">
+          <p class="text-sm font-semibold text-gray-800 dark:text-white">{{ type_name }}</p>
+        </div>
+        <div class="col-span-3">
+          <p class="text-sm font-semibold text-gray-800 dark:text-white">{{ count }}</p>
+        </div>
+        <!-- Assuming `conditions` is the iterable you want to loop through -->
+        {% for Condition in Condition %} 
+          {% if type_name == Condition.name %}
+            <div class="col-span-3">
+              <p class="text-sm font-semibold text-gray-800 dark:text-white">{{ Condition.capacity }}</p>
+            </div>
+            <div class="col-span-3">
+              <p class="text-center text-sm font-semibold text-gray-800 dark:text-white">{{ Condition.capacity|multiply:count }}</p>
+            </div>
+          {% endif %} 
+        {% endfor %}
+      </div>
+      <!-- table row item end -->
+      {% endfor %}
+    </div>
+    <!-- table body end -->
+
+    <!-- table footer start -->
+    <div class="grid grid-cols-12 rounded-b-2xl bg-red-700 px-5 py-4 lg:px-7 2xl:px-11 dark:bg-red-500">
+      <div class="col-span-8">
+        <p class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">Total</p>
+      </div>
+      <div class="col-span-4">
+        <p class="text-center text-3xl font-semibold uppercase tracking-wide text-white dark:text-gray-200">{{ total_cooked_bricks }}</p>
+      </div>
+    </div>
+    <!-- table footer end -->
+  </div>
+</div>
+
+<div class="max-w-full overflow-x-auto">
+	<div class="p-6 pb-8">
+		<h2>Single Type Conditions:</h2>
+		{% for items in single_data %} 
+			<div class="dark:border-strokedark grid grid-cols-12 border-t border-[#EEEEEE] px-5 py-4 lg:px-7 2xl:px-11">
+				<div class="col-span-3">
+				<p class="text-sm font-semibold text-gray-800 dark:text-white">{{ items.name }}</p>
+				</div>
+				<div class="col-span-3">
+				<p class="text-sm font-semibold text-gray-800 dark:text-white">{{ items.capacity }}</p>
+				</div>
+				{% for type_name, count in type_counts.items %}
+					{% if items.name ==  type_name %}
+					<div class="col-span-3">
+						<p class="text-sm font-semibold  text-gray-800 dark:text-white">{{ count }}</p>
+					</div>
+					<div class="col-span-3">
+						<p class="text-center text-sm font-semibold  text-gray-800 dark:text-white">{{ items.capacity|multiply:count }}</p>
+					</div>
+					{% endif %}
+				{% endfor %}
+			</div>
+		{% endfor %}
+	</div>
+</div>
+
+<div class="max-w-full overflow-x-auto">
+	<div class="p-6 pb-8">
+		<h2>Multi Type Conditions:</h2>
+		{% for items in multi_data %} 
+			<div class="dark:border-strokedark grid grid-cols-12 border-t border-[#EEEEEE] px-5 py-4 lg:px-7 2xl:px-11">
+				{% for subitem in items.items %}
+				<div class="col-span-3">
+					<p class="text-sm font-semibold text-gray-800 dark:text-white">{{ items.name }}</p>
+				</div>
+				<div class="col-span-3">
+					<p class="text-sm font-semibold text-gray-800 dark:text-white">{{ subitem.name }}</p>
+				</div>
+				<div class="col-span-2">
+					<p class="text-sm font-semibold text-gray-800 dark:text-white">{{ subitem.capacity }}</p>
+				</div>
+
+				{% for type_name, count in type_counts.items %}
+					{% if items.name ==  type_name %}
+					<div class="col-span-2">
+						<p class="text-sm font-semibold  text-gray-800 dark:text-white">{{ count }}</p>
+					</div>
+					<div class="col-span-2">
+						<p class="text-center text-sm font-semibold  text-gray-800 dark:text-white">{{ subitem.capacity|multiply:count }}</p>
+					</div>
+					{% endif %}
+				{% endfor %}
+				{% endfor %}
+			</div>
+		{% endfor %}
+	</div>
+</div>
+
+
+
 {% endblock content %}

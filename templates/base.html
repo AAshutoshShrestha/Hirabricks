@@ -10,16 +10,13 @@
     <title>{% block title %} {% endblock %}</title>
 
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
-
-    <script src="{% static 'js/script.js' %}"></script>
-
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
     <!-- RemixIcon CDN -->
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
-
+    
     <link href="{% static 'image/factoryicon-black.png' %}" rel="shortcut icon" type="image/x-icon" media="(prefers-color-scheme: light)">
     <link href="{% static 'image/factoryicon-white.png' %}" rel="shortcut icon" type="image/x-icon" media="(prefers-color-scheme: dark)">
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <meta name="description" content="Welcome to the Hirabricks Tunnel-kiln Website." />
     <meta name="keywords" content="Aashutosh shrestha, Hirabricks, Tunnel Kiln, Tunnel, Kiln" />
@@ -204,11 +201,19 @@
       </aside>
 
       <main class="p-4 pt-20 md:ml-64">
-        {% block content %} 
+        {% block content %}
+
         {% endblock %}
       </main>
     </div>
 
+    <!-- flowbite CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
+    <!-- chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="{% static 'js/script.js' %}"></script>
+
+
   </body>
 </html>

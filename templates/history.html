@@ -12,22 +12,25 @@
         <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">ID</h5>
       </div>
       <div class="col-span-1">
-        <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">Car Number</h5>
+        <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">Number</h5>
+      </div>
+      
+      <div class="col-span-2">
+        <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200 ">Entry Time</h5>
+      </div>
+      
+      <div class="col-span-2">
+        <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200 ">Exit Time</h5>
+      </div>
+      <div class="col-span-2">
+        <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">Type</h5>
+      </div>
+      <div class="col-span-2">
+        <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200 ">Cycle time</h5>
       </div>
 
-      <div class="col-span-2">
-        <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">Entry Time</h5>
-      </div>
-
-      <div class="col-span-2">
-        <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">Exit Time</h5>
-      </div>
-      <div class="col-span-3">
-        <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">Cycle time</h5>
-      </div>
-
-      <div class="col-span-2">
-        <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">Status</h5>
+      <div class="col-span-1">
+        <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200 ">Status</h5>
       </div>
 
       <div class="col-span-1">
@@ -55,10 +58,13 @@
         <div class="col-span-2">
           <p class="font-semibold text-sm text-gray-800 dark:text-white">{{ Cars.exit_time }}</p>
         </div>
-        <div class="col-span-3">
-          <p class="font-semibold text-sm text-black dark:text-white">{{ Cars.cycle_time }}</p>
+        <div class="col-span-2">
+          <p class="font-semibold text-sm text-black dark:text-white">{{ Cars.Type }}</p>
         </div>
         <div class="col-span-2">
+          <p class="font-semibold text-sm text-black dark:text-white">{{ Cars.cycle_time }}</p>
+        </div>
+        <div class="col-span-1">
           <p class="inline-block whitespace-nowrap rounded-lg bg-gradient-to-tl from-green-600 to-green-300 px-2 py-2 text-center align-baseline text-xs font-bold uppercase leading-none text-gray-50 text-right">{{ Cars.status }}</p>
         </div>
         <div class="col-span-1">

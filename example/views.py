@@ -1,26 +1,31 @@
 from django.shortcuts import render, redirect
 from django.utils import timezone
-from datetime import timedelta, date
-from django.core import serializers
+
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib.auth import update_session_auth_hash    
 
+from django.db.models import Count,F
+
+from datetime import timedelta, date
 
 from .decorators import unauthenticated_user
 from .forms import CarEntryForm,TemperatureInputForm
 from .models import *
-from conditions.models import *
-from conditions.views import required_conditions
+from conditions.models import MultiCondition
+from conditions.views import required_MultiConditions,foranalytics
 
+import locale
+
+# Set the locale to the user's default setting
+locale.setlocale(locale.LC_ALL, '')
 
 def convert_to_hours_and_minutes(value):
     hours = value // 60
     minutes = value % 60
     return f"{hours} hours, {minutes} minutes"
-    
+
 def format_timedelta(td):
     total_minutes = td.days * 24 * 60 + td.seconds // 60
     hours, minutes = divmod(total_minutes, 60)
@@ -33,25 +38,24 @@ def format_timedelta(td):
 
     return ', '.join(parts)
 
-
 @unauthenticated_user
 def loginPage(request):
-	if request.method == 'POST':
-		username = request.POST.get('username')
-		password =request.POST.get('password')
-		user = authenticate(request, username=username, password=password)
-		if user is not None:
-			login(request, user)
-			return redirect('index')
-		else:
-			messages.info(request, 'Username OR password is incorrect')
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('index')
+        else:
+            messages.info(request, 'Username OR password is incorrect')
 
-	context = {}
-	return render(request, 'login.html', context)
+    context = {}
+    return render(request, 'login.html', context)
 
 def logoutUser(request):
-	logout(request)
-	return redirect('login')
+    logout(request)
+    return redirect('login')
 
 @login_required(login_url='login')
 def index(request):
@@ -59,29 +63,19 @@ def index(request):
     cars = Car.objects.select_related('zone', 'Type').exclude(zone_id=None).order_by('zone')
     completed_cars = Car.objects.filter(status='COMPLETED').select_related('zone', 'Type').order_by('zone')
 
-    req_conditions_context = required_conditions(request)
+    req_MultiConditions_context = required_MultiConditions(request)
 
-    # Check if the form is submitted (POST request)
     if request.method == 'POST':
-        # Create form instance and validate data
         carform = CarEntryForm(request.POST)
         if carform.is_valid():
-            # Get the new car number from the form
             car_number = request.POST.get('car_number')
             remarks = request.POST.get('remarks')
-
-            Type = request.POST.get('Type')
-            condition_instance = condition.objects.get(id=Type)
-
-            # Check if a car with the same car number and status 'INLINE' exists
+            MultiCondition_instance = MultiCondition.objects.get(id=request.POST.get('Type'))
             existing_car_inline = Car.objects.filter(car_number=car_number, status='INLINE').exists()
             if existing_car_inline:
                 carform.add_error(None, "A car with the same car number is already in line.")
-                
-            # Find the total number of zones created by the admin
-            total_zones = Zone.objects.count()
 
-            # Update the exit_time of the last car in the last zone
+            total_zones = Zone.objects.count()
             last_car_in_last_zone = Car.objects.filter(zone_id=total_zones).last()
             if last_car_in_last_zone:
                 last_car_in_last_zone.zone_id = None
@@ -89,21 +83,16 @@ def index(request):
                 last_car_in_last_zone.status = 'COMPLETED'
                 last_car_in_last_zone.save()
 
-            # Update zone IDs for existing cars till the last zone
-            for existing_car in Car.objects.filter(zone_id__lt=total_zones):
-                existing_car.zone_id += 1
-                existing_car.save()
+            Car.objects.filter(zone_id__lt=total_zones).update(zone_id=F('zone_id') + 1)
 
-            # Assign the new car to the first zone
             zone_id = 1
             status = 'INLINE'
-            by =request.user
+            by = request.user
             
-            # Create the new car
             car = Car.objects.create(
-                user =by,
+                user=by,
                 zone_id=zone_id,
-                Type=condition_instance,
+                Type=MultiCondition_instance,
                 car_number=car_number,
                 entry_time=timezone.now(),
                 exit_time=None,
@@ -111,25 +100,20 @@ def index(request):
                 remarks=remarks,
             )
             car.save()
-            
-            
 
-            # Redirect to the same form page after successful submission
-            request.session['success_message'] = "New Car added succesfully"
-            return redirect('index') 
+            request.session['success_message'] = "New Car added successfully"
+            return redirect('index')
     else:
-        # For GET request, create a new form instance
         carform = CarEntryForm()
 
     context = {
-        **req_conditions_context,
+        **req_MultiConditions_context,
         'carForm': carform,
         'Cars': cars,
         'firing': firing,
         'Completed': completed_cars,
     }
     return render(request, 'index.html', context)
-
 
 @login_required(login_url='login')
 def forms(request):
@@ -138,32 +122,19 @@ def forms(request):
         form = TemperatureInputForm(request.POST)
         if form.is_valid():
             current_datetime = timezone.now()
-
             for thermocouple in Thermocouple.objects.all():
                 field_name = f"temperature_{thermocouple.id}"
                 temperature_value = form.cleaned_data.get(field_name)
-
-                # Create a TemperatureRecord object for each Thermocouple
                 TemperatureRecord.objects.create(
-                    date=current_datetime.split()[0],
-                    time=current_datetime.split()[1],
+                    date=current_datetime.date(),
+                    time=current_datetime.time(),
                     temperature=temperature_value,
                     thermocouple=thermocouple
                 )
 
-            object_list = serializers.serialize("python", Thermocouple.objects.all())
-
-            for object in object_list:
-                for i, field_value in object['fields'].items():
-                        print (i, field_value)
             return redirect('dashboard')
 
-    else:
-        form = TemperatureInputForm()
-    
-    context={
-        'tempform': form, 
-    }
+    context = {'tempform': form}
     return render(request, 'index.html', context)
 
 @login_required(login_url='login')
@@ -173,90 +144,100 @@ def history(request):
         cycle_time = car.exit_time - car.entry_time
         car.cycle_time = format_timedelta(cycle_time)
 
-    context={
-        'Completed': completed_cars, 
-    }
+    context = {'Completed': completed_cars}
     return render(request, 'history.html', context)
-    
+
 @login_required(login_url='login')
 def analytics(request):
-    firezone = Firing.objects.all().count()
+    # Query for single and multi-type conditions
+    single_MultiConditions = MultiCondition.objects.filter(is_multi_type=False)
+    multi_MultiConditions = MultiCondition.objects.filter(is_multi_type=True)
+    
+    # Prepare data for single and multi-type conditions
+    single_data = [{'name': cond.name, 'capacity': cond.capacity} for cond in single_MultiConditions]
+    multi_data = [{'name': cond.name, 'items': [{'name': item.name, 'capacity': item.capacity} for item in cond.items.all()]} for cond in multi_MultiConditions]
 
-    # get stats of todays total car entry 
+    # Query for required analytics data
+    firezone = Firing.objects.all().count()
+    type_counts = dict(
+        MultiCondition.objects.annotate(count=Count('car__Type')).order_by('id').values_list('name', 'count')
+    )
+    capacities = dict(MultiCondition.objects.order_by('id').values_list('name', 'capacity'))
+
+    total_cooked_bricks = sum(MultiCondition_obj.capacity * count for type_name, count in type_counts.items() 
+                               for MultiCondition_obj in MultiCondition.objects.filter(name=type_name) 
+                               if MultiCondition_obj.capacity is not None)
+
+    formatted_total_cooked_bricks = locale.format_string("%d", total_cooked_bricks, grouping=True)
+
+    req_MultiConditions_context = required_MultiConditions(request)
+    
     current_date = date.today()
     Todays_total_push = Car.objects.filter(entry_time__date=current_date).count()
     Total_push = Car.objects.all().count()
 
-    # Get yesterday's date
     yesterday = date.today() - timedelta(days=1)
     yesterday_total_push = Car.objects.filter(entry_time__date=yesterday).count()
 
+    all_data = Car.objects.all().order_by('id')
 
-    all = Car.objects.all().order_by('id')
-    context={
+    context = {
+        **req_MultiConditions_context,
+        'single_data': single_data,
+        'multi_data': multi_data,
         'Todays_total_push': Todays_total_push,
         'yesterday_total_push': yesterday_total_push,
         'Total_push': Total_push,
         'firezone': firezone,
-        'alldatas': all,
+        'alldatas': all_data,
+        'type_counts': type_counts,
+        'capacities': capacities,
+        'total_cooked_bricks': formatted_total_cooked_bricks,
     }
     return render(request, 'analytics.html', context)
 
+
 @login_required(login_url='login')
 def profile(request):
-    Car_count = Car.objects.filter(user=request.user).count()
-
-    context={
-        'Car_count': Car_count, 
-    }
+    car_count = Car.objects.filter(user=request.user).count()
+    context = {'Car_count': car_count}
     return render(request, 'profile.html', context)
-    
+
 @login_required(login_url='login')
 def alldatas(request):
-    alldatas = Car.objects.all().order_by('zone')
-    context={
-        'alldatas': alldatas, 
-    }
+    all_data = Car.objects.all().prefetch_related('zone', 'Type').order_by('zone')
+    context = {'alldatas': all_data}
     return render(request, 'alldatas.html', context)
 
 @login_required(login_url='login')
 def test(request):
     firing = Firing.objects.all()
-    
     fire_instance = Firing.objects.first()
     fire_zone_id = fire_instance.id
-
     cars = Car.objects.exclude(zone_id=None).order_by('zone')
     completed_cars = Car.objects.filter(status='COMPLETED').order_by('zone')
     carform = CarEntryForm(request.POST)
-    req_conditions_context = required_conditions(request)
-
-    duration = req_conditions_context.Durations()
-    converted =convert_to_hours_and_minutes(duration)
+    req_MultiConditions_context = required_MultiConditions(request)
     context = {
-        **req_conditions_context,
+        **req_MultiConditions_context,
         'carForm': carform,
-        'converted': converted,
         'Cars': cars,
         'firing': firing,
-        'fire_zone_id': fire_instance,
+        'fire_zone_id': fire_zone_id,
         'Completed': completed_cars,
     }
     return render(request, 'test.html', context)
-
 
 def change_password(request):
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)
         if form.is_valid():
             user = form.save()
-            update_session_auth_hash(request, user)  # Important!
+            update_session_auth_hash(request, user)
             messages.success(request, 'Your password was successfully updated!')
             return redirect('change_password')
         else:
             messages.error(request, 'Please correct the error below.')
     else:
         form = PasswordChangeForm(request.user)
-    return render(request, 'updatepassword.html', {
-        'form': form
-    })
+    return render(request, 'updatepassword.html', {'form': form})

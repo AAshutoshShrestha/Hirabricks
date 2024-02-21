@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User 
 from django.db.models import DateTimeField
 
-from conditions.models import condition
+from conditions.models import MultiCondition
 
 STATUS_CHOICES = (
     ('INLINE', 'Inline'),
@@ -73,7 +73,7 @@ class Car(models.Model):
     car_number = models.CharField(max_length=20)
     entry_time = DateTimeField(help_text="Time when the car enters the zone", null=True, blank=True)
     exit_time = DateTimeField(help_text="Time when the car exits the tunnel", null=True, blank=True)
-    Type = models.ForeignKey(condition, null=True, default='1', on_delete=models.SET_NULL, help_text="Type of product stacked in the car")
+    Type = models.ForeignKey(MultiCondition, null=True, default='1', on_delete=models.SET_NULL, help_text="Type of product stacked in the car")
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='INLINE', help_text="Status of the car (INLINE or COMPLETED)") 
     remarks = models.TextField( default='No remarks',null=True, blank=True)
 
