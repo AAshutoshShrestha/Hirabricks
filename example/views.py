@@ -179,6 +179,8 @@ def analytics(request):
 
     all_data = Car.objects.all().order_by('id')
 
+    push_counts = Car.objects.values('entry_time__date').annotate(push_count=Count('id')).order_by('-entry_time__date')
+    
     context = {
         **req_MultiConditions_context,
         'single_data': single_data,
@@ -188,6 +190,7 @@ def analytics(request):
         'Total_push': Total_push,
         'firezone': firezone,
         'alldatas': all_data,
+        'push_counts': push_counts,
         'type_counts': type_counts,
         'capacities': capacities,
         'combined_total': formatted_combined_total,
