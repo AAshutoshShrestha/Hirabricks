@@ -7,7 +7,7 @@ class MultiItemInline(admin.TabularInline):
     model = MultiItem
 
 @admin.register(MultiCondition)
-class MultiConditionAdmin(admin.ModelAdmin):
+class MultiConditionAdmin(ImportExportModelAdmin,admin.ModelAdmin):
     list_display = ('name','fan_speed','dryer_speed','burner_speed','temperature','durations','capacity','is_multi_type')
     list_filter = ('name',)
     search_fields = ('name',)
@@ -16,7 +16,7 @@ class MultiConditionAdmin(admin.ModelAdmin):
     inlines = [MultiItemInline]
 
 @admin.register(MultiItem)
-class MultiItemAdmin(admin.ModelAdmin):
+class MultiItemAdmin(ImportExportModelAdmin,admin.ModelAdmin):
     list_display = ('multi_condition','name','capacity')
     list_filter = ('multi_condition',)
     search_fields = ('multi_condition',)

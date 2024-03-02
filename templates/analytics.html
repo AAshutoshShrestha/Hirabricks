@@ -1,287 +1,280 @@
 {% extends "base.html" %} 
 {% load static app_filters %} 
-
 {% block title %} Analytics | hirabricks {% endblock %} 
 {% block content %}
-<div class="">
-  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:gap-8">
-    <div class="">
-      <div class="p-6 pb-8">
-        <h1 class="text-4xl font-semibold text-gray-800 dark:text-gray-200">Analytics & Stats</h1>
-      </div>
-      <div class="grid grid-cols-1 gap-6">
-        <!-- Card 1-->
-        <div class="flex flex-col gap-y-3 rounded-xl border bg-white p-4 shadow-sm md:p-5 lg:gap-y-5 dark:border-gray-800 dark:bg-slate-900">
-          <div class="flex gap-x-4">
-            <div class="flex h-[46px] w-[46px] flex-shrink-0 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800">
-              <i class="ri-calendar-check-fill flex-shrink-0 text-gray-600 dark:text-gray-400"></i>
-            </div>
-  
-            <div class="grow">
-              <div class="flex items-center gap-x-2">
-                <div class="inline-flex items-center justify-center">
-                  <span class="me-2 inline-block text-green-600">
-                    <svg class="inline-block h-4 w-4 self-center" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                      <path fill-rule="evenodd" d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z" />
-                    </svg>
-                  </span>
-                  <span class="text-xs font-bold uppercase text-gray-600 dark:text-gray-400">TODAY'S PUSH</span>
-                </div>
-  
-                <dl class="flex items-center justify-center">
-                  <div data-tooltip-target="tooltip-1" type="icon">
-                    <i class="ri-attachment-line flex-shrink-0 pl-1 text-gray-600 dark:text-gray-400"></i>
-                  </div>
-                  <div id="tooltip-1" role="tooltip" class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm transition-opacity duration-300 dark:bg-gray-700">
-                    Total number of Today's Carpush
-                    <div class="tooltip-arrow" data-popper-arrow></div>
-                  </div>
-                </dl>
-              </div>
-  
-              <div class="mt-1 flex items-center gap-x-2">
-                <h3 class="text-3xl font-medium text-gray-800 sm:text-4xl lg:text-5xl dark:text-gray-200">{{ Todays_total_push }}</h3>
-              </div>
-            </div>
-          </div>
-        </div>
-  
-        <!-- Card 2-->
-        <div class="flex flex-col gap-y-3 rounded-xl border bg-white p-4 shadow-sm md:p-5 lg:gap-y-5 dark:border-gray-800 dark:bg-slate-900">
-          <div class="flex gap-x-4">
-            <div class="flex h-[46px] w-[46px] flex-shrink-0 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800">
-              <i class="ri-pushpin-fill flex-shrink-0 text-gray-600 dark:text-gray-400"></i>
-            </div>
-  
-            <div class="grow">
-              <div class="flex items-center gap-x-2">
-                <div class="inline-flex items-center justify-center">
-                  <span class="me-2 inline-block text-green-600">
-                    <svg class="inline-block h-4 w-4 self-center" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                      <path fill-rule="evenodd" d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z" />
-                    </svg>
-                  </span>
-                  <span class="text-xs font-bold uppercase text-gray-600 dark:text-gray-400">Total car's</span>
-                </div>
-              </div>
-  
-              <div class="mt-1 flex items-center gap-x-2">
-                <h3 class="pl-6 text-4xl font-medium text-gray-800 dark:text-gray-200">{{ Total_push }}</h3>
-              </div>
-            </div>
-          </div>
-        </div>
-  
-        <!-- Card 3-->
-        <div class="flex flex-col gap-y-3 rounded-xl border bg-white p-4 shadow-sm md:p-5 lg:gap-y-5 dark:border-gray-800 dark:bg-slate-900">
-          <div class="flex gap-x-4">
-            <div class="flex h-[46px] w-[46px] flex-shrink-0 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800">
-              <i class="ri-fire-fill flex-shrink-0 text-gray-600 dark:text-gray-400"></i>
-            </div>
-  
-            <div class="grow">
-              <div class="flex items-center gap-x-2">
-                <div class="inline-flex items-center justify-center">
-                  <span class="me-2 inline-block text-green-600">
-                    <svg class="inline-block h-4 w-4 self-center" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                      <path fill-rule="evenodd" d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z" />
-                    </svg>
-                  </span>
-                  <span class="text-xs font-bold uppercase text-gray-600 dark:text-gray-400">FireZone</span>
-                </div>
-  
-                <dl class="flex items-center justify-center">
-                  <div data-tooltip-target="tooltip-2" type="icon">
-                    <i class="ri-attachment-line flex-shrink-0 pl-1 text-gray-600 dark:text-gray-400"></i>
-                  </div>
-                  <div id="tooltip-2" role="tooltip" class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm transition-opacity duration-300 dark:bg-gray-700">
-                    Burner placed zones
-                    <div class="tooltip-arrow" data-popper-arrow></div>
-                  </div>
-                </dl>
-              </div>
-  
-              <div class="mt-1 flex items-center gap-x-2">
-                <h3 class="text-3xl font-bold text-gray-800 sm:text-4xl lg:text-5xl dark:text-gray-200">{{ firezone }}</h3>
-              </div>
-            </div>
-          </div>
-        </div>
-  
-        <!-- Card 4-->
-        <div class="flex flex-col gap-y-3 rounded-xl border bg-white p-4 shadow-sm md:p-5 lg:gap-y-5 dark:border-gray-800 dark:bg-slate-900">
-          <div class="flex gap-x-4">
-            <div class="flex h-[46px] w-[46px] flex-shrink-0 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800">
-              <i class="ri-calendar-event-fill flex-shrink-0 text-gray-600 dark:text-gray-400"></i>
-            </div>
-  
-            <div class="grow">
-              <div class="flex items-center gap-x-2">
-                <div class="inline-flex items-center justify-center">
-                  <span class="me-2 inline-block text-green-600">
-                    <svg class="inline-block h-4 w-4 self-center" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                      <path fill-rule="evenodd" d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z" />
-                    </svg>
-                  </span>
-                  <span class="text-xs font-bold uppercase text-gray-600 dark:text-gray-400">Yesterday's push</span>
-                </div>
-  
-                <dl class="flex items-center justify-center">
-                  <div data-tooltip-target="tooltip-3" type="icon">
-                    <i class="ri-attachment-line flex-shrink-0 pl-1 text-gray-600 dark:text-gray-400"></i>
-                  </div>
-                  <div id="tooltip-3" role="tooltip" class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm transition-opacity duration-300 dark:bg-gray-700">
-                    Total number of yesterday's Carpush
-                    <div class="tooltip-arrow" data-popper-arrow></div>
-                  </div>
-                </dl>
-              </div>
-  
-              <div class="mt-1 flex items-center gap-x-2">
-                <h3 class="pl-6 text-4xl font-medium text-gray-800 dark:text-gray-200">{{ yesterday_total_push }}</h3>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+<div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:gap-8">
+  <div class="rounded-lg">
+    <div class="p-6 pb-8">
+      <h1 class="text-4xl font-semibold text-gray-800 dark:text-gray-200">Analytics & Stats</h1>
     </div>
-
-    <div class="rounded-lg col-span-6">
-      <div class="">
-        <div class="p-6 pb-8">
-          <h1 class="text-4xl font-semibold text-gray-800 dark:text-gray-200">Total Bricks Cooked</h1>
-        </div>
-      
-        <div class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-slate-900">
-          <!-- table header start -->
-          <div class="grid grid-cols-12 rounded-t-2xl bg-red-700 px-5 py-4 lg:px-7 2xl:px-11 dark:bg-red-500">
-            <div class="col-span-4">
-              <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">id</h5>
-            </div>
-            <div class="col-span-4">
-              <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">Date</h5>
-            </div>
-            <div class="col-span-4">
-              <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">Push Count</h5>
-            </div>
-          
+    <div class="grid grid-cols-1 gap-6">
+      <!-- Card 1-->
+      <div class="flex flex-col gap-y-3 rounded-xl border bg-white p-4 shadow-sm md:p-5 lg:gap-y-5 dark:border-gray-800 dark:bg-slate-900">
+        <div class="flex gap-x-4">
+          <div class="flex h-[46px] w-[46px] flex-shrink-0 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800">
+            <i class="ri-calendar-check-fill flex-shrink-0 text-gray-600 dark:text-gray-400"></i>
           </div>
-          <!-- table header end -->
-      
-          <!-- table body start -->
-          <div class="bg-white dark:bg-gray-700">
-            {% for items in push_counts %}
-            <div class="dark:border-strokedark grid grid-cols-12 border-t border-[#EEEEEE] px-5 py-4 lg:px-7 2xl:px-11">
-                <div class="col-span-4">
-                  <p class="text-sm font-semibold text-gray-800 dark:text-white">{{ forloop.counter }}</p>
+
+          <div class="grow">
+            <div class="flex items-center gap-x-2">
+              <div class="inline-flex items-center justify-center">
+                <span class="me-2 inline-block text-green-600">
+                  <svg class="inline-block h-4 w-4 self-center" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z" />
+                  </svg>
+                </span>
+                <span class="text-xs font-bold uppercase text-gray-600 dark:text-gray-400">TODAY'S PUSH</span>
+              </div>
+
+              <dl class="flex items-center justify-center">
+                <div data-tooltip-target="tooltip-1" type="icon">
+                  <i class="ri-attachment-line flex-shrink-0 pl-1 text-gray-600 dark:text-gray-400"></i>
                 </div>
-                <div class="col-span-4">
-                  <p class="text-sm font-semibold text-gray-800 dark:text-white">{{ items.entry_time__date }}</p>
+                <div id="tooltip-1" role="tooltip" class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm transition-opacity duration-300 dark:bg-gray-700">
+                  Total number of Today's Carpush
+                  <div class="tooltip-arrow" data-popper-arrow></div>
                 </div>
-                <div class="col-span-4">
-                  <p class="text-sm font-semibold text-gray-800 dark:text-white">{{ items.push_count }}</p>
-                </div>
+              </dl>
             </div>
-            {% endfor %}
+
+            <div class="mt-1 flex items-center gap-x-2">
+              <h3 class="text-3xl font-medium text-gray-800 sm:text-4xl lg:text-5xl dark:text-gray-200">{{ Todays_total_push }}</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2-->
+      <div class="flex flex-col gap-y-3 rounded-xl border bg-white p-4 shadow-sm md:p-5 lg:gap-y-5 dark:border-gray-800 dark:bg-slate-900">
+        <div class="flex gap-x-4">
+          <div class="flex h-[46px] w-[46px] flex-shrink-0 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800">
+            <i class="ri-pushpin-fill flex-shrink-0 text-gray-600 dark:text-gray-400"></i>
+          </div>
+
+          <div class="grow">
+            <div class="flex items-center gap-x-2">
+              <div class="inline-flex items-center justify-center">
+                <span class="me-2 inline-block text-green-600">
+                  <svg class="inline-block h-4 w-4 self-center" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z" />
+                  </svg>
+                </span>
+                <span class="text-xs font-bold uppercase text-gray-600 dark:text-gray-400">Total car's</span>
+              </div>
+            </div>
+
+            <div class="mt-1 flex items-center gap-x-2">
+              <h3 class="pl-6 text-4xl font-medium text-gray-800 dark:text-gray-200">{{ Total_push }}</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3-->
+      <div class="flex flex-col gap-y-3 rounded-xl border bg-white p-4 shadow-sm md:p-5 lg:gap-y-5 dark:border-gray-800 dark:bg-slate-900">
+        <div class="flex gap-x-4">
+          <div class="flex h-[46px] w-[46px] flex-shrink-0 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800">
+            <i class="ri-fire-fill flex-shrink-0 text-gray-600 dark:text-gray-400"></i>
+          </div>
+
+          <div class="grow">
+            <div class="flex items-center gap-x-2">
+              <div class="inline-flex items-center justify-center">
+                <span class="me-2 inline-block text-green-600">
+                  <svg class="inline-block h-4 w-4 self-center" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z" />
+                  </svg>
+                </span>
+                <span class="text-xs font-bold uppercase text-gray-600 dark:text-gray-400">FireZone</span>
+              </div>
+
+              <dl class="flex items-center justify-center">
+                <div data-tooltip-target="tooltip-2" type="icon">
+                  <i class="ri-attachment-line flex-shrink-0 pl-1 text-gray-600 dark:text-gray-400"></i>
+                </div>
+                <div id="tooltip-2" role="tooltip" class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm transition-opacity duration-300 dark:bg-gray-700">
+                  Burner placed zones
+                  <div class="tooltip-arrow" data-popper-arrow></div>
+                </div>
+              </dl>
+            </div>
+
+            <div class="mt-1 flex items-center gap-x-2">
+              <h3 class="text-3xl font-bold text-gray-800 sm:text-4xl lg:text-5xl dark:text-gray-200">{{ firezone }}</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4-->
+      <div class="flex flex-col gap-y-3 rounded-xl border bg-white p-4 shadow-sm md:p-5 lg:gap-y-5 dark:border-gray-800 dark:bg-slate-900">
+        <div class="flex gap-x-4">
+          <div class="flex h-[46px] w-[46px] flex-shrink-0 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800">
+            <i class="ri-calendar-event-fill flex-shrink-0 text-gray-600 dark:text-gray-400"></i>
+          </div>
+
+          <div class="grow">
+            <div class="flex items-center gap-x-2">
+              <div class="inline-flex items-center justify-center">
+                <span class="me-2 inline-block text-green-600">
+                  <svg class="inline-block h-4 w-4 self-center" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z" />
+                  </svg>
+                </span>
+                <span class="text-xs font-bold uppercase text-gray-600 dark:text-gray-400">Yesterday's push</span>
+              </div>
+
+              <dl class="flex items-center justify-center">
+                <div data-tooltip-target="tooltip-3" type="icon">
+                  <i class="ri-attachment-line flex-shrink-0 pl-1 text-gray-600 dark:text-gray-400"></i>
+                </div>
+                <div id="tooltip-3" role="tooltip" class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm transition-opacity duration-300 dark:bg-gray-700">
+                  Total number of yesterday's Carpush
+                  <div class="tooltip-arrow" data-popper-arrow></div>
+                </div>
+              </dl>
+            </div>
+
+            <div class="mt-1 flex items-center gap-x-2">
+              <h3 class="pl-6 text-4xl font-medium text-gray-800 dark:text-gray-200">{{ yesterday_total_push }}</h3>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  
-</div>
 
-<div class="max-w-full overflow-x-auto">
-	<div class="p-6 pb-8">
-	  <h1 class="text-4xl font-semibold text-gray-800 dark:text-gray-200">Total Bricks Cooked</h1>
-	</div>
-	<div class="min-w-[1170px] overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-slate-900">
-	  <!-- table header start -->
-	  <div class="grid grid-cols-12 rounded-t-2xl bg-red-700 px-5 py-4 lg:px-7 2xl:px-11 dark:bg-red-500">
-		<div class="col-span-3">
-			<h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">Main-Type</h5>
-		</div>
-		<div class="col-span-3">
-			<h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">Type</h5>
-		</div>
-		<div class="col-span-2">
-		  <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">Count</h5>
-		</div>
-		<div class="col-span-2">
-		  <h5 class="text-center font-semibold uppercase tracking-wide text-white dark:text-gray-200">Capacity</h5>
-		</div>
-		<div class="col-span-2">
-		  <h5 class="text-center font-semibold uppercase tracking-wide text-white dark:text-gray-200">Cooked</h5>
-		</div>
-	  </div>
-	  <!-- table header end -->
+  <div class="rounded-lg">
+    <div class="">
+      <div class="p-6 pb-8">
+        <h1 class="text-4xl font-semibold text-gray-800 dark:text-gray-200">Total Push Done</h1>
+      </div>
 
-	<!-- table body start -->
-	<div class="bg-white dark:bg-gray-700">
-        {% for items in single_data %}
-            <div class="dark:border-strokedark grid grid-cols-12 border-t border-[#EEEEEE] px-5 py-4 lg:px-7 2xl:px-11">
-				<div class="col-span-3">
-					<p class="text-sm font-semibold text-gray-800 dark:text-white">--</p>
-				</div>
-                <div class="col-span-3">
-                    <p class="text-sm font-semibold text-gray-800 dark:text-white">{{ items.name }}</p>
-                </div>
-                <div class="col-span-2">
-                    <p class="text-sm font-semibold text-gray-800 dark:text-white">{{ items.capacity }}</p>
-                </div>
-                {% for type_name, count in type_counts.items %}
-                    {% if items.name == type_name %}
-                        <div class="col-span-2">
-                            <p class="text-sm font-semibold  text-gray-800 dark:text-white">{{ count }}</p>
-                        </div>
-                        <div class="col-span-2">
-                            <p class="text-center text-sm font-semibold  text-gray-800 dark:text-white">{{ items.capacity|multiply:count }}</p>
-                        </div>
-                    {% endif %}
-                {% endfor %}
+      <div class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-slate-900">
+        <!-- table header start -->
+        <div class="grid grid-cols-12 rounded-t-2xl bg-red-700 px-5 py-4 lg:px-7 2xl:px-11 dark:bg-red-500 text-center">
+          <div class="col-span-4">
+            <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">id</h5>
+          </div>
+          <div class="col-span-4">
+            <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">Date</h5>
+          </div>
+          <div class="col-span-4">
+            <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">Push Count</h5>
+          </div>
+        </div>
+        <!-- table header end -->
+
+        <!-- table body start -->
+        <div class="h-80 overflow-y-auto bg-white dark:bg-gray-700">
+          {% for items in push_counts %}
+          <div class="dark:border-strokedark grid grid-cols-12 border-t border-[#EEEEEE] px-5 py-4 lg:px-7 2xl:px-11 text-center">
+            <div class="col-span-4">
+              <p class="text-sm font-semibold text-gray-800 dark:text-white">{{ forloop.counter }}</p>
             </div>
-        {% endfor %}
-
-        {% for items in multi_data %}
-            {% for subitem in items.items %}
-                <div class="dark:border-strokedark grid grid-cols-12 border-t border-[#EEEEEE] px-5 py-4 lg:px-7 2xl:px-11">
-                    <div class="col-span-3">
-                        <p class="text-sm font-semibold text-gray-800 dark:text-white">{{ items.name }}</p>
-                    </div>
-                    <div class="col-span-3">
-                        <p class="text-sm font-semibold text-gray-800 dark:text-white">{{ subitem.name }}</p>
-                    </div>
-                    <div class="col-span-2">
-                        <p class="text-sm font-semibold text-gray-800 dark:text-white">{{ subitem.capacity }}</p>
-                    </div>
-                    {% for type_name, count in type_counts.items %}
-                        {% if items.name == type_name %}
-                            <div class="col-span-2">
-                                <p class="text-sm font-semibold  text-gray-800 dark:text-white">{{ count }}</p>
-                            </div>
-                            <div class="col-span-2">
-                                <p class="text-center text-sm font-semibold  text-gray-800 dark:text-white">{{ subitem.capacity|multiply:count }}</p>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            {% endfor %}
-        {% endfor %}
-	</div>
-
-	<!-- table footer start -->
-	<div class="grid grid-cols-12 rounded-b-2xl bg-red-700 px-5 py-4 lg:px-7 2xl:px-11 dark:bg-red-500">
-		<div class="col-span-8">
-			<p class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">Total</p>
-		</div>
-		<div class="col-span-4">
-			<p class="text-center text-3xl font-semibold uppercase tracking-wide text-white dark:text-gray-200 text-right">{{ combined_total }}</p>
-		</div>
-	</div>
-	<!-- table footer end -->
+            <div class="col-span-4">
+              <p class="text-sm font-semibold text-gray-800 dark:text-white">{{ items.entry_time__date }}</p>
+            </div>
+            <div class="col-span-4">
+              <p class="text-sm font-semibold text-gray-800 dark:text-white ">{{ items.push_count }}</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 
+<div class="max-w-full overflow-x-auto pt-20">
+  <div class="p-6 pb-8">
+    <h1 class="text-4xl font-semibold text-gray-800 dark:text-gray-200">Total Bricks Cooked</h1>
+  </div>
+  <div class="min-w-[1170px] overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-slate-900">
+    <!-- table header start -->
+    <div class="grid grid-cols-12 rounded-t-2xl bg-red-700 px-5 py-4 lg:px-7 2xl:px-11 dark:bg-red-500">
+      <div class="col-span-3">
+        <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">Main-Type</h5>
+      </div>
+      <div class="col-span-3">
+        <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">Type</h5>
+      </div>
+      <div class="col-span-2">
+        <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">Count</h5>
+      </div>
+      <div class="col-span-2">
+        <h5 class="text-center font-semibold uppercase tracking-wide text-white dark:text-gray-200">Capacity</h5>
+      </div>
+      <div class="col-span-2">
+        <h5 class="text-center font-semibold uppercase tracking-wide text-white dark:text-gray-200">Cooked</h5>
+      </div>
+    </div>
+    <!-- table header end -->
+
+    <!-- table body start -->
+    <div class="bg-white dark:bg-gray-700">
+      {% for items in single_data %}
+        <div class="dark:border-strokedark grid grid-cols-12 border-t border-[#EEEEEE] px-5 py-4 lg:px-7 2xl:px-11">
+          <div class="col-span-3">
+            <p class="text-sm font-semibold text-gray-800 dark:text-white">--</p>
+          </div>
+          <div class="col-span-3">
+            <p class="text-sm font-semibold text-gray-800 dark:text-white">{{ items.name }}</p>
+          </div>
+          <div class="col-span-2">
+            <p class="text-sm font-semibold text-gray-800 dark:text-white">{{ items.capacity }}</p>
+          </div>
+          {% for type_name, count in type_counts.items %} 
+            {% if items.name == type_name %}
+            <div class="col-span-2">
+              <p class="text-sm font-semibold text-gray-800 dark:text-white">{{ count }}</p>
+            </div>
+            <div class="col-span-2">
+              <p class="text-center text-sm font-semibold text-gray-800 dark:text-white">{{ items.capacity|multiply:count }}</p>
+            </div>
+            {% endif %} 
+          {% endfor %}
+        </div>
+      {% endfor %} 
+
+      {% for items in multi_data %} 
+        {% for subitem in items.items %}
+          <div class="dark:border-strokedark grid grid-cols-12 border-t border-[#EEEEEE] px-5 py-4 lg:px-7 2xl:px-11">
+            <div class="col-span-3">
+              <p class="text-sm font-semibold text-gray-800 dark:text-white">{{ items.name }}</p>
+            </div>
+            <div class="col-span-3">
+              <p class="text-sm font-semibold text-gray-800 dark:text-white">{{ subitem.name }}</p>
+            </div>
+            <div class="col-span-2">
+              <p class="text-sm font-semibold text-gray-800 dark:text-white">{{ subitem.capacity }}</p>
+            </div>
+            {% for type_name, count in type_counts.items %} {% if items.name == type_name %}
+            <div class="col-span-2">
+              <p class="text-sm font-semibold text-gray-800 dark:text-white">{{ count }}</p>
+            </div>
+            <div class="col-span-2">
+              <p class="text-center text-sm font-semibold text-gray-800 dark:text-white">{{ subitem.capacity|multiply:count }}</p>
+            </div>
+            {% endif %} 
+          {% endfor %}
+          </div>
+        {% endfor %}
+      {% endfor %}
+    </div>
+
+    <!-- table footer start -->
+    <div class="grid grid-cols-12 rounded-b-2xl bg-red-700 px-5 py-4 lg:px-7 2xl:px-11 dark:bg-red-500">
+      <div class="col-span-8">
+        <p class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">Total</p>
+      </div>
+      <div class="col-span-4">
+        <p class=" text-right text-3xl font-semibold uppercase tracking-wide text-white dark:text-gray-200">{{ combined_total }}</p>
+      </div>
+    </div>
+    <!-- table footer end -->
+  </div>
+</div>
 
 
 

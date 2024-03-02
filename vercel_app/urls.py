@@ -9,6 +9,8 @@ from django.conf.urls.i18n import i18n_patterns
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('example.urls')),
+    path('', include('Resources.urls')),
+
 
     re_path(r'^static/(?P<path>.*)$', serve, {
             'document_root': settings.STATIC_ROOT,

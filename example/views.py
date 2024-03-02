@@ -21,6 +21,7 @@ import locale
 # Set the locale to the user's default setting
 locale.setlocale(locale.LC_ALL, '')
 
+
 def convert_to_hours_and_minutes(value):
     hours = value // 60
     minutes = value % 60
@@ -143,9 +144,94 @@ def forms(request):
 
 
 
-
 @login_required(login_url='login')
 def analytics(request):
+    # Query for single and multi-type conditions
+    single_MultiConditions = MultiCondition.objects.filter(is_multi_type=False)
+    multi_MultiConditions = MultiCondition.objects.filter(is_multi_type=True)
+    
+    # Prepare data for single and multi-type conditions
+    single_data = [{'name': cond.name, 'capacity': cond.capacity} for cond in single_MultiConditions]
+    multi_data = [{'name': cond.name, 'items': [{'name': item.name, 'capacity': item.capacity} for item in cond.items.all()]} for cond in multi_MultiConditions]
+
+    # Query for required analytics data
+    firezone = Firing.objects.all().count()
+    type_counts = dict(
+        MultiCondition.objects.annotate(count=Count('car__Type')).order_by('id').values_list('name', 'count')
+    )
+    capacities = dict(MultiCondition.objects.order_by('id').values_list('name', 'capacity'))
+
+    # Calculate combined totals for single and multi type conditions
+    single_type_total = sum(items['capacity'] * type_counts.get(items['name'], 0) for items in single_data)
+    multi_type_total = sum(subitem['capacity'] * type_counts.get(items['name'], 0) for items in multi_data for subitem in items['items'])
+
+    combined_total = single_type_total+multi_type_total
+
+    formatted_combined_total = locale.format_string("%d", combined_total, grouping=True)
+
+    req_MultiConditions_context = required_MultiConditions(request)
+    
+    current_date = date.today()
+    Todays_total_push = Car.objects.filter(entry_time__date=current_date).count()
+    Total_push = Car.objects.all().count()
+
+    yesterday = date.today() - timedelta(days=1)
+    yesterday_total_push = Car.objects.filter(entry_time__date=yesterday).count()
+
+    push_counts=Car.objects.values('entry_time__date').annotate(push_count=Count('id')).order_by('-entry_time__date')
+
+    all_data = Car.objects.all().order_by('id')
+
+    context = {
+        **req_MultiConditions_context,
+        'single_data': single_data,
+        'multi_data': multi_data,
+        'Todays_total_push': Todays_total_push,
+        'yesterday_total_push': yesterday_total_push,
+        'Total_push': Total_push,
+        'firezone': firezone,
+        'alldatas': all_data,
+        'type_counts': type_counts,
+        'push_counts': push_counts,
+        'capacities': capacities,
+        'combined_total': formatted_combined_total,
+
+    }
+    return render(request, 'analytics.html', context)
+
+
+@login_required(login_url='login')
+def profile(request):
+    car_count = Car.objects.filter(user=request.user).count()
+    context = {'Car_count': car_count}
+    return render(request, 'profile.html', context)
+
+
+@login_required(login_url='login')
+def history(request):
+    completed_cars = Car.objects.filter(status='COMPLETED').order_by('-id')
+    for car in completed_cars:
+        cycle_time = car.exit_time - car.entry_time
+        car.cycle_time = format_timedelta(cycle_time)
+
+    context = {'Completed': completed_cars}
+    return render(request, 'history.html', context)
+
+@login_required(login_url='login')
+def alldatas(request):
+    all_data = Car.objects.all().z('zone', 'Type').order_by('zone')
+    for car in all_data:
+        if car.exit_time is not None:
+            cycle_time = car.exit_time - car.entry_time
+            car.cycle_time = format_timedelta(cycle_time)
+        else:
+            car.cycle_time = "--"
+            
+    context = {'alldatas': all_data}
+    return render(request, 'alldatas.html', context)
+
+@login_required(login_url='login')
+def test(request):
     # Query for single and multi-type conditions
     single_MultiConditions = MultiCondition.objects.filter(is_multi_type=False)
     multi_MultiConditions = MultiCondition.objects.filter(is_multi_type=True)
@@ -177,10 +263,10 @@ def analytics(request):
     yesterday = date.today() - timedelta(days=1)
     yesterday_total_push = Car.objects.filter(entry_time__date=yesterday).count()
 
+    push_counts=Car.objects.values('entry_time__date').annotate(push_count=Count('id')).order_by('entry_time__date')
+
     all_data = Car.objects.all().order_by('id')
 
-    push_counts = Car.objects.values('entry_time__date').annotate(push_count=Count('id')).order_by('-entry_time__date')
-    
     context = {
         **req_MultiConditions_context,
         'single_data': single_data,
@@ -190,60 +276,10 @@ def analytics(request):
         'Total_push': Total_push,
         'firezone': firezone,
         'alldatas': all_data,
-        'push_counts': push_counts,
         'type_counts': type_counts,
+        'push_counts': push_counts,
         'capacities': capacities,
         'combined_total': formatted_combined_total,
-    }
-    return render(request, 'analytics.html', context)
-
-
-@login_required(login_url='login')
-def profile(request):
-    car_count = Car.objects.filter(user=request.user).count()
-    context = {'Car_count': car_count}
-    return render(request, 'profile.html', context)
-
-
-@login_required(login_url='login')
-def history(request):
-    completed_cars = Car.objects.filter(status='COMPLETED').order_by('-id')
-    for car in completed_cars:
-        cycle_time = car.exit_time - car.entry_time
-        car.cycle_time = format_timedelta(cycle_time)
-
-    context = {'Completed': completed_cars}
-    return render(request, 'history.html', context)
-
-@login_required(login_url='login')
-def alldatas(request):
-    all_data = Car.objects.all().select_related('zone', 'Type').order_by('zone')
-    for car in all_data:
-        if car.exit_time is not None:
-            cycle_time = car.exit_time - car.entry_time
-            car.cycle_time = format_timedelta(cycle_time)
-        else:
-            car.cycle_time = "--"
-            
-    context = {'alldatas': all_data}
-    return render(request, 'alldatas.html', context)
-
-@login_required(login_url='login')
-def test(request):
-    firing = Firing.objects.all()
-    fire_instance = Firing.objects.first()
-    fire_zone_id = fire_instance.id
-    cars = Car.objects.exclude(zone_id=None).order_by('zone')
-    completed_cars = Car.objects.filter(status='COMPLETED').order_by('zone')
-    carform = CarEntryForm(request.POST)
-    req_MultiConditions_context = required_MultiConditions(request)
-    context = {
-        **req_MultiConditions_context,
-        'carForm': carform,
-        'Cars': cars,
-        'firing': firing,
-        'fire_zone_id': fire_zone_id,
-        'Completed': completed_cars,
     }
     return render(request, 'test.html', context)
 

@@ -20,8 +20,6 @@ class CarEntryForm(forms.ModelForm):
         fields = ['car_number','Type','remarks']
         exclude = ['user']
 
-
-
 class TemperatureInputForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(TemperatureInputForm, self).__init__(*args, **kwargs)
@@ -36,7 +34,4 @@ class TemperatureInputForm(forms.Form):
 
     def clean(self):
         cleaned_data = super().clean()
-        
-        # You can add custom validation if needed
-        
         return cleaned_data
