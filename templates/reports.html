@@ -27,22 +27,22 @@
       <!-- table body start -->
       <div class="bg-white dark:bg-gray-700">
         {% for i in Burner %}
-        <!-- table row item -->
-        <div class="dark:border-strokedark grid grid-cols-12 border-t border-[#EEEEEE] px-5 py-4 lg:px-7 2xl:px-11">
-          <div class="col-span-3">
-            <p class="text-sm font-semibold text-gray-800 dark:text-white">{{ i.id }}</p>
-          </div>
-          <div class="col-span-3">
-            <p class="text-sm font-semibold text-gray-800 dark:text-white">{{ i.date }}</p>
-          </div>
-          <div class="col-span-3">
-            <p class="text-sm font-semibold text-gray-800 dark:text-white">{{ i.burner_number }}</p>
-          </div>
-  
-          <div class="col-span-3">
-            <p class="text-sm font-semibold text-gray-800 dark:text-white">{{ i.coal_weight }}</p>
-          </div>
-        </div>
+            <!-- table row item -->
+            <div class="dark:border-strokedark grid grid-cols-12 border-t border-[#EEEEEE] px-5 py-4 lg:px-7 2xl:px-11">
+            <div class="col-span-3">
+                <p class="text-sm font-semibold text-gray-800 dark:text-white">{{ i.id }}</p>
+            </div>
+            <div class="col-span-3">
+                <p class="text-sm font-semibold text-gray-800 dark:text-white">{{ i.date }}</p>
+            </div>
+            <div class="col-span-3">
+                <p class="text-sm font-semibold text-gray-800 dark:text-white">{{ i.burner_number }}</p>
+            </div>
+    
+            <div class="col-span-3">
+                <p class="text-sm font-semibold text-gray-800 dark:text-white">{{ i.coal_weight }}</p>
+            </div>
+            </div>
         {% endfor %}
       </div>
       <!-- table body end -->
@@ -58,76 +58,75 @@
       </div>
       <!-- table footer end -->
     </div>
-</div>
-
-<div class="max-w-full overflow-x-auto pt-14">
+  </div>
+  
+  <div class="max-w-full overflow-x-auto pt-14">
     {% for type in METHOD_CHOICES %}
-    <div class="p-6 pb-8">
-      <h1 class="text-4xl font-semibold text-gray-800 dark:text-gray-200">{{ type.1 }}</h1>
-    </div>
-    <div class="min-w-[1170px] overflow-hidden rounded-xl border border-gray-200 bg-white text-center shadow-sm dark:border-gray-700 dark:bg-slate-900">
-    <!-- table header start -->
-    <div class="grid grid-cols-12 rounded-t-2xl bg-red-700 px-5 py-4 lg:px-7 2xl:px-11 dark:bg-red-500">
-        <div class="col-span-3">
-        <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">ID</h5>
+    <div class="col-span-6">
+      <div class="p-6 pb-8">
+        <h1 class="text-4xl font-semibold text-gray-800 dark:text-gray-200">{{ type.1 }}</h1>
+      </div>
+      <div class="min-w-[1170px] overflow-hidden rounded-xl border border-gray-200 bg-white text-center shadow-sm dark:border-gray-700 dark:bg-slate-900">
+        <!-- table header start -->
+        <div class="grid grid-cols-12 rounded-t-2xl bg-red-700 px-5 py-4 lg:px-7 2xl:px-11 dark:bg-red-500">
+          <div class="col-span-3">
+            <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">ID</h5>
+          </div>
+          <div class="col-span-3">
+            <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">Date</h5>
+          </div>
+          <div class="col-span-3">
+            <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">Type</h5>
+          </div>
+          <div class="col-span-3">
+            <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">Weight</h5>
+          </div>
         </div>
-        <div class="col-span-3">
-        <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">Date</h5>
+        <!-- table header end -->
+  
+        <!-- table body start -->
+        <div class="bg-white dark:bg-gray-700">
+          {% for x in Jhogai %} 
+			{% if x.type == type.0 %}
+				<!-- table row item -->
+				<div class="dark:border-strokedark grid grid-cols-12 border-t border-[#EEEEEE] px-5 py-4 lg:px-7 2xl:px-11">
+					<div class="col-span-3">
+						<p class="text-sm font-semibold text-gray-800 dark:text-white">{{ x.id }}</p>
+					</div>
+					<div class="col-span-3">
+						<p class="text-sm font-semibold text-gray-800 dark:text-white">{{ x.date }}</p>
+					</div>
+					<div class="col-span-3">
+						<p class="text-sm font-semibold text-gray-800 dark:text-white">{{ x.type }}</p>
+					</div>
+		
+					<div class="col-span-3">
+						<p class="text-sm font-semibold text-gray-800 dark:text-white">{{ x.weight }}</p>
+					</div>
+				</div>
+			{% endif %} 
+		  {% endfor %}
         </div>
-        <div class="col-span-3">
-        <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">Type</h5>
+        <!-- table body end -->
+  
+        <!-- table footer start -->
+        <div class="grid grid-cols-12 rounded-b-2xl bg-red-700 px-5 py-4 lg:px-7 2xl:px-11 dark:bg-red-500">
+          <div class="col-span-8">
+            <p class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">Total</p>
+          </div>
+  
+          <div class="col-span-4">
+            {% for item in jhogai_totals_list %} 
+				{% if item.type == type.0 %}
+					<p class="text-center text-3xl font-semibold uppercase tracking-wide text-white dark:text-gray-200">{{ item.total_weight }} Kg</p>
+				{% endif %} 
+			{% endfor %}
+          </div>
         </div>
-        <div class="col-span-3">
-        <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">Weight</h5>
-        </div>
-    </div>
-    <!-- table header end -->
-
-    <!-- table body start -->
-    <div class="bg-white dark:bg-gray-700">
-        {% for x in Jhogai %}
-        {% if x.type == type.0 %}
-        <!-- table row item -->
-        <div class="dark:border-strokedark grid grid-cols-12 border-t border-[#EEEEEE] px-5 py-4 lg:px-7 2xl:px-11">
-        <div class="col-span-3">
-            <p class="text-sm font-semibold text-gray-800 dark:text-white">{{ x.id }}</p>
-        </div>
-        <div class="col-span-3">
-            <p class="text-sm font-semibold text-gray-800 dark:text-white">{{ x.date }}</p>
-        </div>
-        <div class="col-span-3">
-            <p class="text-sm font-semibold text-gray-800 dark:text-white">{{ x.type }}</p>
-        </div>
-
-        <div class="col-span-3">
-            <p class="text-sm font-semibold text-gray-800 dark:text-white">{{ x.weight }}</p>
-        </div>
-        </div>
-        {% endif %}
-        {% endfor %}
-    </div>
-    <!-- table body end -->
-
-    <!-- table footer start -->
-    <div class="grid grid-cols-12 rounded-b-2xl bg-red-700 px-5 py-4 lg:px-7 2xl:px-11 dark:bg-red-500">
-        <div class="col-span-8">
-        <p class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">Total</p>
-        </div>
-
-        <div class="col-span-4">
-            {% for item in jhogai_totals_list %}
-                {% if item.type == type.0 %}
-                    <p class="text-center text-3xl font-semibold uppercase tracking-wide text-white dark:text-gray-200">
-                        {{ item.total_weight }} Kg
-                    </p>
-                {% endif %}
-            {% endfor %}
-        </div>
-        
-    </div>
-    <!-- table footer end -->
+        <!-- table footer end -->
+      </div>
     </div>
     {% endfor %}
-</div>
+  </div>
 
 {% endblock content %}

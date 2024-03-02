@@ -656,7 +656,9 @@ video {
 .col-span-8{
   grid-column: span 8 / span 8
 }
-
+.col-span-6{
+  grid-column: span 6 / span 6
+}
 .m-1{
   margin: 0.25rem
 }
