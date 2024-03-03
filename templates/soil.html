@@ -1,0 +1,23 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+{% block title %} Soil | TunnelKiln {% endblock %} 
+
+{% block content %}
+<div class="border border-gray-300 shadow-lg bg-white rounded-xl p-4 sm:p-7 dark:bg-slate-900">
+    <div class="border-b border-gray-100 px-6 py-4">
+      <h3 class="font-medium text-gray-600 dark:text-gray-400">Soil details Form</h3>
+    </div>
+    <form class="mx-auto px-12 py-12" action="{% url 'soil_mixture' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-5">
+            {{ formset.as_p }}
+        </div>
+    
+        <button type="submit" class="w-full rounded-lg bg-red-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 sm:w-auto dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Submit</button>
+        {% for message in messages %}
+            <p id="bg-green-500 px-4 py-6">{{message}}</p>
+        {% endfor %}
+    </form>
+</div>
+{% endblock %}

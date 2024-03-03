@@ -1,5 +1,7 @@
 from django import forms
 from .models import BurnerConsumption, JhogaiConsumption
+from django.forms import modelformset_factory
+from .models import *
 
 class BurnerConsumptionForm(forms.ModelForm):
     class Meta:
@@ -12,3 +14,16 @@ class JhogaiConsumptionForm(forms.ModelForm):
         model = JhogaiConsumption
         fields = ['type','weight']
         exclude = ['user','date']
+
+
+class MixtureForm(forms.ModelForm):
+    type = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'What type of soil is it?'}))
+    remarks = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Add notes if any'}),required=False)
+    soil_img = forms.ImageField(required=False)
+
+    class Meta:
+        model = SoilDetails
+        fields = ['type','sand','mud','clay','remarks','soil_img']
+        exclude = ['user','date']
+
+# MixtureFormSet = modelformset_factory(Mixture, form=MixtureForm, extra=1)

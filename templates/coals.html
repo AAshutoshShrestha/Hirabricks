@@ -52,22 +52,19 @@
   
 
 <script>
-    document.getElementById('method').addEventListener('change', function() {
-        var method = this.value;
-        var burnerForm = document.getElementById('burner_form');
-        var jhogaiForm = document.getElementById('jhogai_form');
+document.getElementById('method').addEventListener('change', function() {
+  var method = this.value;
+  var burnerForm = document.getElementById('burner_form');
+  var jhogaiForm = document.getElementById('jhogai_form');
 
-        if (method === 'burner') {
-            burnerForm.classList.remove('hidden');
-            jhogaiForm.classList.add('hidden');
-        } else if (method === 'jhogai') {
-            burnerForm.classList.add('hidden');
-            jhogaiForm.classList.remove('hidden');
-        }
-    });
-
- 
-
+  if (method === 'burner') {
+      burnerForm.classList.remove('hidden');
+      jhogaiForm.classList.add('hidden');
+  } else if (method === 'jhogai') {
+      burnerForm.classList.add('hidden');
+      jhogaiForm.classList.remove('hidden');
+  }
+});
 </script>
 
 {% endblock %}

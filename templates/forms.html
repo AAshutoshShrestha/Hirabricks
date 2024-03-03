@@ -17,42 +17,4 @@
 
         <!-- Other Sidebar Content Goes Here -->
       </div>
-
-  
-
-<script>
-  //Query All input fields
-  var form_fields = document.getElementsByTagName('input')
-  var form_label = document.getElementsByTagName('label')
-  var form_span = document.getElementsByTagName('span')
-  var form_select = document.getElementsByTagName('select')
-
-
-
-  for (var field in form_fields){
-  form_fields[field].className += 'mt-2 block w-full rounded-md border border-gray-200 bg-white px-4 py-2 text-gray-700 placeholder-gray-400 focus:border-orange-400 focus:outline-none focus:ring focus:ring-orange-400 focus:ring-opacity-40 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:placeholder-gray-600 dark:focus:border-orange-400'
-  }
-
-  for (var field in form_label){
-      form_label[field].className += 'mt-2 block w-full px-1 py-2 text-gray-700 font-bold hover:text-orange-400 '
-  }
-
-  for (var field in form_span){
-      form_span[field].className += 'mt-2 block w-full px-4 py-2 text-gray-500 font-italic hover:text-Orange-400 '
-  }
-  for (var field in form_select){
-    form_select[field].className += 'mt-2 block w-full rounded-md border border-gray-200 bg-white px-4 py-2 text-gray-700 placeholder-gray-400 focus:border-orange-400 focus:outline-none focus:ring focus:ring-orange-400 focus:ring-opacity-40 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:placeholder-gray-600 dark:focus:border-orange-400'
-  }
-  for (var field in form_select){
-    form_select[field].className += 'mt-2 block w-full rounded-md border border-gray-200 bg-white px-4 py-2 text-gray-700 placeholder-gray-400 focus:border-orange-400 focus:outline-none focus:ring focus:ring-orange-400 focus:ring-opacity-40 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:placeholder-gray-600 dark:focus:border-orange-400'
-  }
-
-
-  // const button = document.getElementById('id_user');
-  // button.setAttribute('disabled', ''); 
-  
-
-  
-
-</script>
 {% endblock %}

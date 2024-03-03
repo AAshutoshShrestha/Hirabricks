@@ -1,0 +1,183 @@
+{% extends "base.html" %} 
+{% block title %} Coals Used | hirabricks {% endblock %} 
+
+{% block content %}
+<div class="max-w-full overflow-x-auto">
+	<div class="p-6 pb-8">
+		<h1 class="text-4xl font-semibold text-gray-800 dark:text-gray-200">Coals Used Records [ Burner ]</h1>
+	</div>
+	{% if burner_empty %}
+    <div class="mx-auto min-w-[1170px] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-slate-900">
+      <!-- Card -->
+      <div class="flex flex-col">
+        <div class="-m-1.5 overflow-x-auto">
+        <div class="inline-block min-w-full p-1.5 align-middle">
+          <div class=" ">
+          <!-- Header -->
+          <div class="border-b border-gray-200 px-6 py-4 dark:border-gray-700">
+            <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200">Burner Coal</h2>
+            <p class="text-sm text-gray-600 dark:text-gray-400">Add Burner coal consumption Records.</p>
+          </div>
+          <!-- End Header -->
+      
+          <!-- Body -->
+          <div class="mx-auto flex min-h-[400px] w-full max-w-sm flex-col justify-center px-6 py-4">
+            <div class="group flex size-[46px] items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800">
+              <i class="ri-file-text-line h-6 w-6 pl-1 text-lg text-gray-500 transition duration-75 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-white"></i>            
+            </div>
+      
+            <h2 class="mt-5 font-semibold text-gray-800 dark:text-white">No record by todays test invoices</h2>
+      
+            <div class="mt-5 grid gap-2 sm:flex">
+            <a href="{% url 'resource_form' %}">
+              <button type="button" class="inline-flex items-center justify-center gap-x-2 rounded-lg border border-transparent bg-red-600 px-3 py-2 text-sm font-semibold text-white hover:bg-red-700 disabled:pointer-events-none disabled:opacity-50 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+              <i class="ri-add-line h-6 w-6 pl-1 text-lg text-white transition duration-75 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-white"></i>
+              Add new record
+              </button>
+            </a>
+            </div>
+          </div>
+          <!-- End Body -->
+      
+          <!-- Footer -->
+          <div class="grid gap-3 border-t border-gray-200 px-6 py-4 md:flex md:items-center md:justify-between dark:border-gray-700">
+            <div>
+            <p class="text-sm text-gray-600 dark:text-gray-400"><span class="font-semibold text-gray-800 dark:text-gray-200">0</span> results</p>
+            </div>
+          </div>
+          <!-- End Footer -->
+          </div>
+        </div>
+        </div>
+      </div>
+      <!-- End Card -->
+    </div>
+	{% else %}
+	<section class="bg-gray-100 px-4 text-gray-600">
+		<div class="flex h-full flex-col justify-center">
+		  <!-- Table -->
+		  <div class="mx-auto w-full rounded-sm border border-gray-200 bg-white shadow-lg">
+			<header class="border-b border-gray-100 px-5 py-4">
+			  <div class="font-semibold text-gray-800">Burner Coal</div>
+			</header>
+	  
+			<div class="overflow-x-auto p-3">
+			  <table class="w-full table-auto">
+				<thead class="bg-gray-50 text-xs font-semibold uppercase text-gray-400">
+				  <tr>
+					<th class="p-2">
+					  <div class="text-left font-semibold">Id</div>
+					</th>
+					<th class="p-2">
+					  <div class="text-left font-semibold">Date</div>
+					</th>
+					<th class="p-2">
+					  <div class="text-left font-semibold">Burner</div>
+					</th>
+					<th class="p-2">
+					  <div class="text-left font-semibold">Weight</div>
+					</th>
+				  </tr>
+				</thead>
+	  
+				<tbody class="divide-y divide-gray-100 text-sm">
+				  {% for i in Burner %}>
+				  <tr>
+					<td class="p-2">
+					  <div class="text-center font-medium text-gray-800">{{ i.id }}</div>
+					</td>
+					<td class="p-2">
+					  <div class="font-medium text-gray-800">{{ i.date }}</div>
+					</td>
+					<td class="p-2">
+					  <div class="text-left">{{ i.burner_number }}</div>
+					</td>
+					<td class="p-2">
+					  <div class="text-left font-medium text-red-500">{{ i.coal_weight }}</div>
+					</td>
+				  </tr>
+				  {% endfor %}
+				</tbody>
+			  </table>
+			</div>
+	  
+			<!-- total amount -->
+			<div class="flex justify-end space-x-4 border-t border-gray-100 px-5 py-4 text-2xl font-bold text-gray-700">
+			  <div>Total</div>
+			  <div class="text-red-600"><span>{{ burner_total_weight }}</span>Kg</div>
+			</div>
+		  </div>
+		</div>
+	  </section>
+	{% endif %}
+</div>
+  <div class="max-w-full overflow-x-auto pt-14">
+    {% for type in METHOD_CHOICES %}
+    <div class="col-span-6">
+      <div class="p-6 pb-8">
+        <h1 class="text-4xl font-semibold text-gray-800 dark:text-gray-200">{{ type.1 }}</h1>
+      </div>
+      <div class="min-w-[1170px] overflow-hidden rounded-xl border border-gray-200 bg-white text-center shadow-sm dark:border-gray-700 dark:bg-slate-900">
+        <!-- table header start -->
+        <div class="grid grid-cols-12 rounded-t-2xl bg-red-700 px-5 py-4 lg:px-7 2xl:px-11 dark:bg-red-500">
+          <div class="col-span-3">
+            <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">ID</h5>
+          </div>
+          <div class="col-span-3">
+            <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">Date</h5>
+          </div>
+          <div class="col-span-3">
+            <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">Type</h5>
+          </div>
+          <div class="col-span-3">
+            <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">Weight</h5>
+          </div>
+        </div>
+        <!-- table header end -->
+  
+        <!-- table body start -->
+        <div class="bg-white dark:bg-gray-700">
+          {% for x in Jhogai %} 
+			{% if x.type == type.0 %}
+				<!-- table row item -->
+				<div class="dark:border-strokedark grid grid-cols-12 border-t border-[#EEEEEE] px-5 py-4 lg:px-7 2xl:px-11">
+					<div class="col-span-3">
+						<p class="text-sm font-semibold text-gray-800 dark:text-white">{{ x.id }}</p>
+					</div>
+					<div class="col-span-3">
+						<p class="text-sm font-semibold text-gray-800 dark:text-white">{{ x.date }}</p>
+					</div>
+					<div class="col-span-3">
+						<p class="text-sm font-semibold text-gray-800 dark:text-white">{{ x.type }}</p>
+					</div>
+		
+					<div class="col-span-3">
+						<p class="text-sm font-semibold text-gray-800 dark:text-white">{{ x.weight }}</p>
+					</div>
+				</div>
+			{% endif %} 
+		  {% endfor %}
+        </div>
+        <!-- table body end -->
+  
+        <!-- table footer start -->
+        <div class="grid grid-cols-12 rounded-b-2xl bg-red-700 px-5 py-4 lg:px-7 2xl:px-11 dark:bg-red-500">
+          <div class="col-span-8">
+            <p class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">Total</p>
+          </div>
+  
+          <div class="col-span-4">
+            {% for item in jhogai_totals_list %} 
+				{% if item.type == type.0 %}
+					<p class="text-center text-3xl font-semibold uppercase tracking-wide text-white dark:text-gray-200">{{ item.total_weight }} Kg</p>
+				{% endif %} 
+			{% endfor %}
+          </div>
+        </div>
+        <!-- table footer end -->
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+{% endblock content %}

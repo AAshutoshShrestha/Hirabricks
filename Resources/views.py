@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.db.models import Sum
-from .forms import BurnerConsumptionForm, JhogaiConsumptionForm
-from .models import BurnerConsumption, JhogaiConsumption,METHOD_CHOICES
+from .forms import BurnerConsumptionForm, JhogaiConsumptionForm, MixtureForm
+from .models import *
+
+from datetime import timedelta,date
 
 def coals(request):
     burner_form = BurnerConsumptionForm(request.POST)
@@ -44,10 +46,46 @@ def coals(request):
     }
     return render(request, 'coals.html', context)
 
+def todaysRecord(request):
+    Today = date.today()
+    
+    # Filter BurnerConsumption records by Today's date
+    burner = BurnerConsumption.objects.filter(date__date=Today).order_by('burner_number')
+    
+    # Check if burner content is empty
+    burner_empty = not burner.exists()
+
+    # Filter JhogaiConsumption records by Today's date
+    jhogai = JhogaiConsumption.objects.filter(date__date=Today).order_by('type')
+
+    jhogai_types = [choice[0] for choice in METHOD_CHOICES]
+    jhogai_totals = {}
+
+    for type_value in jhogai_types:
+        # Calculate total sum of weight for each type for Today's date
+        total_weight = JhogaiConsumption.objects.filter(date__date=Today, type=type_value).aggregate(total_weight=Sum('weight'))['total_weight'] or 0
+        jhogai_totals[type_value] = total_weight
+
+    # Create a list of dictionaries containing type and corresponding total weight
+    jhogai_totals_list = [{'type': type_value, 'total_weight': jhogai_totals.get(type_value, 0)} for type_value in jhogai_types]
+
+    # Calculate total sum of coal_weight for Today's date
+    burner_total_weight = BurnerConsumption.objects.filter(date__date=Today).aggregate(total_weight=Sum('coal_weight'))['total_weight'] or 0
+    
+    context = {
+        'METHOD_CHOICES': METHOD_CHOICES,
+        'Burner': burner,
+        'Jhogai': jhogai,
+        'burner_total_weight': burner_total_weight,
+        'jhogai_totals_list': jhogai_totals_list,
+        'burner_empty': burner_empty,
+    }
+    return render(request, 'todays_coal_report.html', context)
+
 
 def reports(request):
     burner = BurnerConsumption.objects.all().order_by('burner_number','-date')
-    jhogai = JhogaiConsumption.objects.order_by('type')
+    jhogai = JhogaiConsumption.objects.all().order_by('type')
 
     jhogai_types = [choice[0] for choice in METHOD_CHOICES]
     jhogai_totals = {}
@@ -70,5 +108,39 @@ def reports(request):
         'Jhogai': jhogai,
         'burner_total_weight': burner_total_weight,
         'jhogai_totals_list': jhogai_totals_list,
+        
     }
-    return render(request, 'reports.html', context)
+    return render(request, 'All_coal_records.html', context)
+
+def soil_mixture(request):
+    if request.method == 'POST':
+        formset = MixtureForm(request.POST, request.FILES)  # Include request.FILES for file uploads
+        if formset.is_valid():
+            # Extract data from the form
+            type = request.POST.get('type')
+            sand = request.POST.get('sand')
+            mud = request.POST.get('mud')
+            clay = request.POST.get('clay')
+            remarks = request.POST.get('remarks')
+            soilimg = request.FILES.get('soil_img')
+
+            # Create a new Mixture instance
+            mix = SoilDetails.objects.create(
+                user=request.user,
+                date=timezone.now(),
+                type=type,
+                sand=sand,
+                mud=mud,
+                clay=clay,
+                remarks=remarks,
+                soil_img=soilimg,
+            )
+            # Save the Mixture instance
+            mix.save()
+            return redirect('soil_mixture')
+    else:
+        formset = MixtureForm()
+    context = {
+        'formset': formset,
+    }
+    return render(request, 'soil.html', context)
