@@ -174,6 +174,7 @@ MEDIAFILE_DIRS =[
     os.path.join( BASE_DIR, 'media')
 ]
 
+SUPABASE_ROOT_PATH = '/dir/'
 
 JAZZMIN_SETTINGS ={
     "site_title": "Hirabricks",

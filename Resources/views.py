@@ -1,10 +1,27 @@
+import vercel
+import os
+
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.db.models import Sum
 from .forms import BurnerConsumptionForm, JhogaiConsumptionForm, MixtureForm
 from .models import *
-
 from datetime import timedelta,date
+
+def upload_image_to_vercel(image_path, file_name):
+    client = vercel.VercelClient(token=os.environ.get("VERCEL_TOKEN"))
+    project_id = 'prj_TNE8pGrEza0NoXJlAQukwe4pw4y4'  # Replace with your project ID
+    deployment_id = '4WL7jogneAvNBdtVeGVLHUvShAid' # Replace with your deployment ID
+
+    with open(image_path, "rb") as file:
+        result = client.upload_file(
+            project_id,
+            deployment_id,
+            file_name=file_name,
+            file_content=file.read(),
+        )
+
+    return result
 
 def coals(request):
     burner_form = BurnerConsumptionForm(request.POST)
@@ -119,7 +136,7 @@ def soil_mixture(request):
             # Extract data from the form
             type = request.POST.get('type')
             sand = request.POST.get('sand')
-            mud = request.POST.get('mud')
+            silt = request.POST.get('silt')
             clay = request.POST.get('clay')
             remarks = request.POST.get('remarks')
             soilimg = request.FILES.get('soil_img')
@@ -130,13 +147,14 @@ def soil_mixture(request):
                 date=timezone.now(),
                 type=type,
                 sand=sand,
-                mud=mud,
+                silt=silt,
                 clay=clay,
                 remarks=remarks,
                 soil_img=soilimg,
             )
             # Save the Mixture instance
             mix.save()
+            upload_image_to_vercel(soilimg.temporary_file_path(), file_name=soilimg.name)
             return redirect('soil_mixture')
     else:
         formset = MixtureForm()

@@ -23,7 +23,7 @@ class MixtureForm(forms.ModelForm):
 
     class Meta:
         model = SoilDetails
-        fields = ['type','sand','mud','clay','remarks','soil_img']
+        fields = ['type','sand','silt','clay','remarks','soil_img']
         exclude = ['user','date']
 
 # MixtureFormSet = modelformset_factory(Mixture, form=MixtureForm, extra=1)
