@@ -160,3 +160,16 @@ def soil_mixture(request):
         'formset': formset,
     }
     return render(request, 'soil.html', context)
+
+def Soilreports(request):
+    soil = SoilDetails.objects.all()
+    for soil_detail in soil:
+        # Get public URL for soil_img
+        res = supabase.storage.from_('image-bucket').get_public_url(soil_detail.soil_img)
+        # Update soil_img field with the public URL
+        soil_detail.soil_img = res
+
+    context = {
+        'soil_details': soil,
+    }
+    return render(request, 'test.html', context)

@@ -7,6 +7,7 @@ from django.utils import timezone
 from django.db.models import DateTimeField
 from supabase import create_client, Client, ClientOptions
 
+from django.utils.html import format_html
 
 load_dotenv()
 
@@ -75,6 +76,10 @@ class SoilDetails(models.Model):
     remarks = models.TextField( default='No remarks',null=True, blank=True,help_text="Add remarks if any")
     soil_img = models.ImageField(upload_to ='',null=True, blank=True)
     
+    def soil_img_display(self):
+        res = supabase.storage.from_('image-bucket').get_public_url(self.soil_img)
+        return format_html('<img src="{}" width="100" height="100">', res)
+
     def __str__(self):
         return f"{self.id}"
     
