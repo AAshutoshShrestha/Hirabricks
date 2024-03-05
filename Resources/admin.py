@@ -2,6 +2,11 @@ from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
 from .models import *
 
+import logging
+
+logger = logging.getLogger(__name__)
+
+
 @admin.register(BurnerConsumption)
 class BurnerConsumptionAdmin(ImportExportModelAdmin,admin.ModelAdmin):
     list_display = ('id','date','coal_weight','burner_number')
@@ -30,12 +35,30 @@ class SoilDetailsAdmin(ImportExportModelAdmin,admin.ModelAdmin):
 
         # Check if a soil image is provided
         if 'soil_img' in request.FILES:
-            soil_img = request.FILES['soil_img']
+            soilimg = request.FILES.get('soil_img')
+
+            # Check if the uploaded file is not empty
+            if soilimg.size == 0:
+                logger.error("Uploaded soil image is empty")
+                # Handle the error or raise an exception accordingly
+                return
+
+            # Check if the uploaded file is an image
+            if not soilimg.content_type.startswith('image'):
+                logger.error("Uploaded file is not an image")
+                # Handle the error or raise an exception accordingly
+                return
 
             # Upload the soil image to Supabase storage
-            res = supabase.storage.from_('image-bucket').upload(soil_img.name, soil_img.read(), {'content-type': 'image/jpeg'})
-            obj.soil_img = res
-            obj.save()
+            res = supabase.storage.from_('image-bucket').upload(soilimg.name, soilimg.read(), {'content-type': 'image/jpeg'})
+
+            # Check the type of the response
+            if isinstance(res, dict):
+                obj.soil_img = res['url']  # Save the URL of the uploaded image
+                obj.save()
+            else:
+                logger.error(f"Error uploading soil image: {res}")
+                # Handle the error or raise an exception accordingly
 
     list_display = ('id', 'user', 'date', 'type', 'sand', 'silt', 'clay', 'remarks', 'soil_img_display')
     list_filter = ('id', 'date',)
