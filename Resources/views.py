@@ -1,5 +1,5 @@
-import vercel
-import os
+import tempfile
+from django.http import JsonResponse
 
 from django.shortcuts import render, redirect
 from django.utils import timezone
@@ -7,21 +7,6 @@ from django.db.models import Sum
 from .forms import BurnerConsumptionForm, JhogaiConsumptionForm, MixtureForm
 from .models import *
 from datetime import timedelta,date
-
-def upload_image_to_vercel(image_path, file_name):
-    client = vercel.VercelClient(token=os.environ.get("VERCEL_TOKEN"))
-    project_id = 'prj_TNE8pGrEza0NoXJlAQukwe4pw4y4'  # Replace with your project ID
-    deployment_id = '4WL7jogneAvNBdtVeGVLHUvShAid' # Replace with your deployment ID
-
-    with open(image_path, "rb") as file:
-        result = client.upload_file(
-            project_id,
-            deployment_id,
-            file_name=file_name,
-            file_content=file.read(),
-        )
-
-    return result
 
 def coals(request):
     burner_form = BurnerConsumptionForm(request.POST)
@@ -131,7 +116,7 @@ def reports(request):
 
 def soil_mixture(request):
     if request.method == 'POST':
-        formset = MixtureForm(request.POST, request.FILES)  # Include request.FILES for file uploads
+        formset = MixtureForm(request.POST, request.FILES)
         if formset.is_valid():
             # Extract data from the form
             type = request.POST.get('type')
@@ -141,10 +126,11 @@ def soil_mixture(request):
             remarks = request.POST.get('remarks')
             soilimg = request.FILES.get('soil_img')
 
+            by=request.user
             # Create a new Mixture instance
             mix = SoilDetails.objects.create(
-                user=request.user,
-                date=timezone.now(),
+                user=by,
+                date=timezone.now() ,
                 type=type,
                 sand=sand,
                 silt=silt,
@@ -154,7 +140,6 @@ def soil_mixture(request):
             )
             # Save the Mixture instance
             mix.save()
-            upload_image_to_vercel(soilimg.temporary_file_path(), file_name=soilimg.name)
             return redirect('soil_mixture')
     else:
         formset = MixtureForm()

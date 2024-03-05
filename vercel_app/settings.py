@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
+
 from dotenv import load_dotenv
 
 from django.utils.translation import gettext_lazy as _
@@ -20,7 +21,7 @@ from supabase import create_client, Client, ClientOptions
 # Load environment variables from .env file
 load_dotenv()
 
-
+# supabase init
 url: str = os.environ.get("SUPABASE_URL")
 key: str = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
 supabase: Client = create_client(url, key,

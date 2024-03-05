@@ -78,22 +78,6 @@ class SoilDetails(models.Model):
     def __str__(self):
         return f"{self.id}"
     
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        if self.soil_img:
-            with open(self.soil_img.path, 'rb') as file:
-                response = supabase.storage.from_('Soils').upload(f'images/{self.soil_img.name}', file)
-                if response.status_code == 201:
-                    self.soil_img = response.data['Key']
-                    super().save(*args, **kwargs)
-
-    def delete(self, *args, **kwargs):
-        if self.soil_img:
-            response = supabase.storage.from_('Soils').remove(self.soil_img)
-            if response.status_code == 200:
-                self.soil_img = None
-        super().delete(*args, **kwargs)
-
     class Meta:
         ordering = ['id']
 
