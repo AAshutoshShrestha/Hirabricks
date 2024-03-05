@@ -16,19 +16,11 @@ import os
 from dotenv import load_dotenv
 
 from django.utils.translation import gettext_lazy as _
-from supabase import create_client, Client, ClientOptions
 
 # Load environment variables from .env file
 load_dotenv()
 
-# supabase init
-SUPABASE_URL: str = os.environ.get("SUPABASE_URL")
-SUPABASE_SERVICE_ROLE_KEY: str = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
-supabase: Client = create_client(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY,
-  options=ClientOptions(
-    postgrest_client_timeout=10,
-    storage_client_timeout=10
-  ))
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -169,13 +161,12 @@ STATICFILES_DIRS = (
 )
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
 
-MEDIA_URL = '/media/'
+MEDIA_URL = '/tmp/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIAFILE_DIRS =[
     os.path.join( BASE_DIR, 'media')
 ]
 
-SUPABASE_ROOT_PATH = '/dir/'
 
 JAZZMIN_SETTINGS ={
     "site_title": "Hirabricks",

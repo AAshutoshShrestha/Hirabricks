@@ -1,7 +1,3 @@
-from django.http import HttpResponse
-import requests
-import os
-
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.db.models import Sum
@@ -9,26 +5,6 @@ from .forms import BurnerConsumptionForm, JhogaiConsumptionForm, MixtureForm
 from .models import *
 from datetime import timedelta,date
 
-
-def upload_to_supabase(file_data, file_name):
-    # Supabase credentials
-    SUPABASE_URL = os.environ.get("SUPABASE_URL")
-    SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
-
-    # Endpoint for uploading to Supabase storage
-    endpoint = f"{SUPABASE_URL}/storage/v1/object/Soils/{file_name}"
-    
-    # Headers
-    headers = {
-        "apikey": SUPABASE_KEY,
-        "Content-Type": "application/octet-stream"
-    }
-
-    # Upload file to Supabase
-    response = requests.post(endpoint, headers=headers, data=file_data)
-    return response
-    
-   
 def coals(request):
     burner_form = BurnerConsumptionForm(request.POST)
     jhogai_form = JhogaiConsumptionForm(request.POST)
@@ -161,19 +137,7 @@ def soil_mixture(request):
             )
             # Save the Mixture instance
             mix.save()
-            # Get file data and name
-            file_data = soilimg.read()
-            file_name = soilimg.name
-
-            # Upload to Supabase
-            response = upload_to_supabase(file_data, file_name)
-            
-            if response.status_code == 200:
-                # Success, handle accordingly
-                return HttpResponse("Image uploaded successfully to Supabase!")
-            else:
-                # Handle upload failure
-                return redirect('soil_mixture')
+            return redirect('soil_mixture')
         
     else:
         formset = MixtureForm()
