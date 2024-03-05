@@ -161,7 +161,7 @@ STATICFILES_DIRS = (
 )
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
 
-MEDIA_URL = '/tmp/media/'
+MEDIA_URL = 'var/task/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIAFILE_DIRS =[
     os.path.join( BASE_DIR, 'media')
