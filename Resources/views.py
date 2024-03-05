@@ -3,7 +3,19 @@ from django.utils import timezone
 from django.db.models import Sum
 from .forms import BurnerConsumptionForm, JhogaiConsumptionForm, MixtureForm
 from .models import *
-from datetime import timedelta,date
+from datetime import date
+from django.core.files.base import ContentFile
+
+import os
+from supabase import create_client
+from dotenv import load_dotenv
+
+load_dotenv()
+
+
+url=os.environ.get('SUPABASE_URL')
+key=os.environ.get('SUPABASE_SERVICE_ROLE_KEY')
+supabase = create_client(url, key)
 
 def coals(request):
     burner_form = BurnerConsumptionForm(request.POST)
@@ -123,20 +135,23 @@ def soil_mixture(request):
             remarks = request.POST.get('remarks')
             soilimg = request.FILES.get('soil_img')
 
-            by=request.user
+            by = request.user
             # Create a new Mixture instance
             mix = SoilDetails.objects.create(
                 user=by,
-                date=timezone.now() ,
+                date=timezone.now(),
                 type=type,
                 sand=sand,
                 silt=silt,
                 clay=clay,
                 remarks=remarks,
-                soil_img=soilimg,
+                soil_img=soilimg.name,  # Save the file name in the database
             )
             # Save the Mixture instance
             mix.save()
+            
+            # Upload soilimg to Supabase storage
+            supabase.storage.from_('image-bucket').upload(soilimg.name, soilimg.read(), {'content-type': 'image/jpeg'})
             return redirect('soil_mixture')
         
     else:
