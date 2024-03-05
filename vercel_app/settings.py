@@ -22,9 +22,9 @@ from supabase import create_client, Client, ClientOptions
 load_dotenv()
 
 # supabase init
-url: str = os.environ.get("SUPABASE_URL")
-key: str = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
-supabase: Client = create_client(url, key,
+SUPABASE_URL: str = os.environ.get("SUPABASE_URL")
+SUPABASE_SERVICE_ROLE_KEY: str = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY,
   options=ClientOptions(
     postgrest_client_timeout=10,
     storage_client_timeout=10
