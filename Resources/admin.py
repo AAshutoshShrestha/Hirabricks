@@ -3,6 +3,16 @@ from import_export.admin import ImportExportModelAdmin
 from .models import *
 from django.utils.html import format_html
 
+
+from dotenv import load_dotenv
+load_dotenv()
+
+from supabase import create_client
+
+url=os.environ.get('SUPABASE_URL')
+key=os.environ.get('SUPABASE_SERVICE_ROLE_KEY')
+supabase = create_client(url, key)
+
 @admin.register(BurnerConsumption)
 class BurnerConsumptionAdmin(ImportExportModelAdmin,admin.ModelAdmin):
     list_display = ('id','date','coal_weight','burner_number')

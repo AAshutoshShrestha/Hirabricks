@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-
+from django.utils.html import mark_safe
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
@@ -74,7 +74,7 @@ class SoilDetails(models.Model):
     clay = models.IntegerField(default=0)
     remarks = models.TextField( default='No remarks',null=True, blank=True,help_text="Add remarks if any")
     soil_img = models.ImageField(upload_to ='',null=True, blank=True)
-
+    
     def __str__(self):
         return f"{self.id}"
     
