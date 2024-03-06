@@ -11,6 +11,8 @@ urlpatterns = [
     path('profile/', profile, name='profile'),
     path('test/', test, name='test'),
 
+    path('export-csv/<str:project_name>/<str:model_name>/', export_csv, name='export_csv'),
+    
     path('login/', loginPage, name="login"),  
 	path('logout/', logoutUser, name="logout"),
 	path('change_password/', change_password, name="change_password"),

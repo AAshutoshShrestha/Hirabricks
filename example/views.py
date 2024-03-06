@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.utils import timezone
-
+from django.http import HttpResponse
+from django.apps import apps
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
@@ -17,11 +18,23 @@ from conditions.models import MultiCondition
 from conditions.views import required_MultiConditions,foranalytics
 from Resources.models import *
 
+from .utils import download_csv 
 import locale
 
 # Set the locale to the user's default setting
 locale.setlocale(locale.LC_ALL, '')
 
+def export_csv(request, project_name, model_name):
+    # Get the app config for the provided project name
+    app_config = apps.get_app_config(project_name)
+
+    # Get the model class dynamically using the provided model name
+    model = app_config.get_model(model_name)
+
+    queryset = model.objects.all()
+    data = download_csv(request, queryset)
+    response = HttpResponse(data, content_type='text/csv')
+    return response
 
 def convert_to_hours_and_minutes(value):
     hours = value // 60
@@ -286,3 +299,4 @@ def test(request):
         
     }
     return render(request, 'test.html', context)
+
