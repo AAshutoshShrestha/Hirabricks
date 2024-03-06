@@ -12,7 +12,7 @@ from django.db.models import Count,F, Sum
 from datetime import timedelta, date
 
 from .decorators import unauthenticated_user
-from .forms import CarEntryForm,TemperatureInputForm
+from .forms import CarEntryForm,TemperatureRecordForm
 from .models import *
 from conditions.models import MultiCondition
 from conditions.views import required_MultiConditions,foranalytics
@@ -135,26 +135,25 @@ def index(request):
     return render(request, 'index.html', context)
 
 @login_required(login_url='login')
-def forms(request):
-    form = TemperatureInputForm()
+def temp_forms(request):
+    temperature_records = TemperatureRecord.objects.all()
     if request.method == 'POST':
-        form = TemperatureInputForm(request.POST)
+        form = TemperatureRecordForm(request.POST)
         if form.is_valid():
-            current_datetime = timezone.now()
-            for thermocouple in Thermocouple.objects.all():
-                field_name = f"temperature_{thermocouple.id}"
-                temperature_value = form.cleaned_data.get(field_name)
-                TemperatureRecord.objects.create(
-                    date=current_datetime.date(),
-                    time=current_datetime.time(),
-                    temperature=temperature_value,
-                    thermocouple=thermocouple
-                )
+            temperature_record = form.save(commit=False)
+            temperature_record.user = request.user
+            temperature_record.date = timezone.now().date()
+            temperature_record.time = timezone.now().time()
+            temperature_record.save()
+            return redirect('temp_forms')  # Redirect to a success URL upon successful form submission
+    else:
+        form = TemperatureRecordForm()
 
-            return redirect('dashboard')
-
-    context = {'tempform': form}
-    return render(request, 'index.html', context)
+    context = {
+        'tempform': form,
+        'temperature_records': temperature_records
+    }
+    return render(request, 'forms.html', context)
 
 
 

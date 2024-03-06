@@ -17,7 +17,7 @@ def record_time(request):
     except MachineRuntime.DoesNotExist:
         machine_runtime = None
 
-    form = MachineRuntimeForm()  # Define form outside of if-else block
+    form = MachineRuntimeForm() 
 
     if request.method == 'POST':
         if 'start' in request.POST:
@@ -29,7 +29,6 @@ def record_time(request):
                     machine_runtime.machine_operator = operator
                     machine_runtime.save()
             else:
-                # Record already exists for start time, do nothing
                 pass
         elif 'end' in request.POST:
             if machine_runtime:
@@ -42,6 +41,7 @@ def record_time(request):
         'form': form
     }
     return render(request, 'machineruntime.html', context)
+
 
 def runtime_records(request):
     runtime_records  = MachineRuntime.objects.all()

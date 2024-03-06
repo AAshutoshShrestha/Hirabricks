@@ -9,6 +9,7 @@ urlpatterns = [
     path('alldatas/', alldatas, name='alldatas'),
     path('analytics/', analytics, name='analytics'),
     path('profile/', profile, name='profile'),
+    path('temperature-forms/', temp_forms, name='temp_forms'),
     path('test/', test, name='test'),
 
     path('export-csv/<str:project_name>/<str:model_name>/', export_csv, name='export_csv'),

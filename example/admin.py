@@ -12,9 +12,17 @@ class ThermocoupleAdmin(ImportExportModelAdmin,admin.ModelAdmin):
 
 @admin.register(TemperatureRecord)
 class TemperatureRecordAdmin(ImportExportModelAdmin,admin.ModelAdmin):
-    list_display = ['id','date', 'thermocouple','temperature']
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        thermocouples = Thermocouple.objects.all()
+        for thermocouple in thermocouples:
+            field_name = thermocouple.name.lower().replace(" ", "_")
+            form.base_fields[field_name] = forms.IntegerField(required=False)  # Fix the NameError here by referring to forms
+        return form
+
+    list_display = ['id','date', 'time','user']
     list_filter = ('id',)
-    search_fields = ('thermocouple',)
+    search_fields = ('id',)
     list_per_page = 15
 
 @admin.register(Zone)

@@ -12,9 +12,9 @@
     <form action="{% url 'machine_runtime' %}" method="post" class="mb-4">
         {% csrf_token %}
         
-        <button type="submit" class="w-full rounded-lg bg-green-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 sm:w-auto dark:bg-green-200 dark:hover:bg-green-500 dark:focus:ring-green-800">Start Machine</button>
+        <button type="submit" name="start" class="w-full rounded-lg bg-green-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 sm:w-auto dark:bg-green-200 dark:hover:bg-green-500 dark:focus:ring-green-800">Start Machine</button>
 
-        <button type="submit" class="w-full rounded-lg bg-red-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-500 focus:outline-none focus:ring-4 focus:ring-red-300 sm:w-auto dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Stop Machine</button>
+        <button type="submit" name="end" class="w-full rounded-lg bg-red-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-500 focus:outline-none focus:ring-4 focus:ring-red-300 sm:w-auto dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Stop Machine</button>
         
 
     </form>

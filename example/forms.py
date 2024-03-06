@@ -20,18 +20,14 @@ class CarEntryForm(forms.ModelForm):
         fields = ['car_number','Type','remarks']
         exclude = ['user']
 
-class TemperatureInputForm(forms.Form):
+class TemperatureRecordForm(forms.Form):
     def __init__(self, *args, **kwargs):
-        super(TemperatureInputForm, self).__init__(*args, **kwargs)
-        
+        super(TemperatureRecordForm, self).__init__(*args, **kwargs)
         thermocouples = Thermocouple.objects.all()
-        
         for thermocouple in thermocouples:
-            field_name = f"temperature_{thermocouple.id}"
-            label = f"Temperature for {thermocouple.name}"
-            
-            self.fields[field_name] = forms.FloatField(label=label, required=False)
+            field_name = thermocouple.name.lower().replace(" ", "_")
+            self.fields[field_name] = forms.IntegerField(required=False)
 
-    def clean(self):
-        cleaned_data = super().clean()
-        return cleaned_data
+    class Meta:
+        model = TemperatureRecord
+        fields = ['date', 'time', 'user']

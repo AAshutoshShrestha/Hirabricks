@@ -16,7 +16,6 @@ Section_choise =(
     ('COOLING','Cooling'),
 )
 
-
 class DateTimeWithoutTZField(DateTimeField):
     def db_type(self, connection):
         return 'timestamp'
@@ -24,8 +23,7 @@ class DateTimeWithoutTZField(DateTimeField):
 
 class Thermocouple(models.Model):
     name = models.CharField(max_length=50, unique=True, help_text="Name of the thermocouple")
-    temperature = models.FloatField(null=True, blank=True, help_text="Temperature of the thermocouple in degrees Celsius")
-
+    
     def __str__(self):
         return f"{self.name}"
 
@@ -36,11 +34,21 @@ class Thermocouple(models.Model):
     def bulk_create_from_import(cls, data):
         cls.objects.bulk_create([cls(**item) for item in data])
 
+
+
+
+
+
+
+
 class TemperatureRecord(models.Model):
-    thermocouple = models.ForeignKey(Thermocouple, on_delete=models.CASCADE, related_name='temperature_records', help_text="Thermocouple associated with the temperature record")
+    user = models.ForeignKey(User, null=True, default='1', on_delete=models.SET_NULL)
     date = models.DateField(help_text="Date of the temperature record")
     time = models.TimeField(help_text="Time of the temperature record")
-    temperature = models.FloatField(help_text="Temperature recorded in degrees Celsius")
+
+    class Meta:
+        verbose_name = "Temperature Record"
+        verbose_name_plural = "Temperature Records"
 
     def __str__(self):
         return f"{self.thermocouple.name} - {self.date} {self.time} - {self.temperature}°C"
@@ -51,6 +59,22 @@ class TemperatureRecord(models.Model):
     @classmethod
     def bulk_create_from_import(cls, data):
         cls.objects.bulk_create([cls(**item) for item in data])
+
+def create_temperature_field(name):
+    return models.IntegerField(null=True, blank=True, verbose_name=name)
+
+# Dynamically create fields for each thermocouple
+thermocouples = Thermocouple.objects.all()
+for thermocouple in thermocouples:
+    field_name = thermocouple.name.lower().replace(" ", "_")
+    TemperatureRecord.add_to_class(field_name, create_temperature_field(thermocouple.name))
+
+
+
+
+
+
+
 
 class Zone(models.Model):
     name = models.CharField(max_length=50, help_text="Name of the zone")
@@ -66,6 +90,13 @@ class Zone(models.Model):
     @classmethod
     def bulk_create_from_import(cls, data):
         cls.objects.bulk_create([cls(**item) for item in data])
+
+
+
+
+
+
+
 
 class Car(models.Model):
     user = models.ForeignKey(User, null=True, default='1', on_delete=models.SET_NULL)
@@ -86,6 +117,13 @@ class Car(models.Model):
     @classmethod
     def bulk_create_from_import(cls, data):
         cls.objects.bulk_create([cls(**item) for item in data])
+
+
+
+
+
+
+
 
 class Firing(models.Model):
     zone = models.ForeignKey(Zone, on_delete=models.CASCADE, related_name='Firing',null=True, help_text="Zone where the Firing is located")
