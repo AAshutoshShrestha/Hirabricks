@@ -220,7 +220,7 @@ def history(request):
 
 @login_required(login_url='login')
 def alldatas(request):
-    all_data = Car.objects.all().z('zone', 'Type').order_by('zone')
+    all_data = Car.objects.all().select_related('zone', 'Type').order_by('zone')
     for car in all_data:
         if car.exit_time is not None:
             cycle_time = car.exit_time - car.entry_time

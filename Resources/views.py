@@ -172,4 +172,4 @@ def Soilreports(request):
     context = {
         'soil_details': soil,
     }
-    return render(request, 'test.html', context)
+    return render(request, 'soils_report.html', context)

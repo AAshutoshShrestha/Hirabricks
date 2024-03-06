@@ -1,6 +1,4 @@
 from django import forms
-from .models import BurnerConsumption, JhogaiConsumption
-from django.forms import modelformset_factory
 from .models import *
 
 class BurnerConsumptionForm(forms.ModelForm):

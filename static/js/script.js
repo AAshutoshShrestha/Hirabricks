@@ -31,3 +31,4 @@
    form_helptxt[field].className +=
      " mt-6 text-sm text-gray-600 dark:text-gray-400";
  }
+ 

@@ -1,0 +1,35 @@
+{% extends 'base.html' %} 
+{% block title %} Machine Runtimes | TunnelKiln {% endblock %} 
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+	<h1 class="text-2xl font-bold mb-4">Machine Runtimes</h1>
+	<div class="overflow-x-auto">
+		<table class="table-auto w-full border-collapse border border-gray-200">
+			<thead class="bg-gray-100">
+				<tr>
+					<th class="px-4 py-2">id</th>
+					<th class="px-4 py-2">user</th>
+					<th class="px-4 py-2">Machine</th>
+					<th class="px-4 py-2">Start time</th>
+					<th class="px-4 py-2">End time</th>
+					<th class="px-4 py-2">Work durations</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for details in Runtime_details %}
+				<tr>
+					<td class="border px-4 py-2">{{ details.id }}</td>
+					<td class="border px-4 py-2">{{ details.machine_operator }}</td>
+					<td class="border px-4 py-2">{{ details.machine_name }}</td>
+					<td class="border px-4 py-2">{{ details.start_time }}</td>
+					<td class="border px-4 py-2">{{ details.end_time }}</td>
+					<td class="border px-4 py-2">{{ details.Worked_hours }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+{% endblock %}
