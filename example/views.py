@@ -18,7 +18,8 @@ from conditions.models import MultiCondition
 from conditions.views import required_MultiConditions,foranalytics
 from Resources.models import *
 
-from .utils import download_csv 
+from vercel_app.utils import download_csv
+
 import locale
 
 # Set the locale to the user's default setting
@@ -134,18 +135,20 @@ def index(request):
     }
     return render(request, 'index.html', context)
 
+
 @login_required(login_url='login')
 def temp_forms(request):
     temperature_records = TemperatureRecord.objects.all()
     if request.method == 'POST':
+        by = request.user
         form = TemperatureRecordForm(request.POST)
         if form.is_valid():
             temperature_record = form.save(commit=False)
-            temperature_record.user = request.user
-            temperature_record.date = timezone.now().date()
-            temperature_record.time = timezone.now().time()
-            temperature_record.save()
-            return redirect('temp_forms')  # Redirect to a success URL upon successful form submission
+            form.user.instance = by
+            form.date.instance = timezone.now().date()
+            form.time.instance = timezone.now().time()
+            form.save()
+            return redirect('temp_forms') 
     else:
         form = TemperatureRecordForm()
 
@@ -154,7 +157,6 @@ def temp_forms(request):
         'temperature_records': temperature_records
     }
     return render(request, 'forms.html', context)
-
 
 
 @login_required(login_url='login')
@@ -256,6 +258,9 @@ def change_password(request):
     else:
         form = PasswordChangeForm(request.user)
     return render(request, 'updatepassword.html', {'form': form})
+
+
+
 
 @login_required(login_url='login')
 def test(request):

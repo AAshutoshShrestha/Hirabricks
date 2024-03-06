@@ -1,5 +1,7 @@
-{% extends 'base.html' %} 
+{% extends "base.html" %} 
+
 {% load static %}
+{% load app_filters %}
 
 {% block title %} Machine Runtime | TunnelKiln {% endblock %} 
 
@@ -15,11 +17,29 @@
         <button type="submit" name="start" class="w-full rounded-lg bg-green-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 sm:w-auto dark:bg-green-200 dark:hover:bg-green-500 dark:focus:ring-green-800">Start Machine</button>
 
         <button type="submit" name="end" class="w-full rounded-lg bg-red-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-500 focus:outline-none focus:ring-4 focus:ring-red-300 sm:w-auto dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Stop Machine</button>
+        {% for message in messages %}
+        <p id="bg-green-500 px-4 py-6">{{message}}</p>
+        {% endfor %}
+      </form>
+
+      
+      {% if request.session.success_message %}
+        <div class="fixed right-0 top-6 z-50 w-auto bg-green-500 text-white" x-data="{ isOpen: true }">
+          <div class="container mx-auto flex items-center justify-between px-6 py-4" x-show="isOpen">
+            <div class="flex">
+              <i class="ri-check-line items-center rounded-full bg-white fill-current px-1 text-xl text-green-600"></i>
         
-
-    </form>
-
-   
+              <p class="mx-3 text-white">{{ request.session.success_message }}</p>
+            </div>
+        
+            <button class="transform rounded-md p-1 transition-colors duration-300 hover:bg-gray-600 hover:bg-opacity-25 focus:outline-none" @click="isOpen = false">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 18L18 6M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
+          </div>
+        </div>    
+      {% endif %}
 </div>
 
 

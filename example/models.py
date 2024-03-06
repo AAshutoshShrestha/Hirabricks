@@ -49,12 +49,11 @@ class TemperatureRecord(models.Model):
     class Meta:
         verbose_name = "Temperature Record"
         verbose_name_plural = "Temperature Records"
+        ordering = ['id']
 
     def __str__(self):
         return f"{self.thermocouple.name} - {self.date} {self.time} - {self.temperature}°C"
 
-    class Meta:
-        ordering = ['id']
 
     @classmethod
     def bulk_create_from_import(cls, data):

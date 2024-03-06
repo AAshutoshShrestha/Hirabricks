@@ -29,11 +29,16 @@ def record_time(request):
                     machine_runtime.machine_operator = operator
                     machine_runtime.save()
             else:
-                pass
+                request.session['success_message'] = "The machine is already in Running state"
+                return redirect('machine_runtime')
+
         elif 'end' in request.POST:
             if machine_runtime:
                 machine_runtime.end_time = timezone.now()
                 machine_runtime.save()
+            if not machine_runtime:
+                request.session['success_message'] ="The machine is not running yet"
+                return redirect('machine_runtime')
     else:
         form = MachineRuntimeForm()
     context = {
