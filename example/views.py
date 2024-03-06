@@ -25,7 +25,9 @@ import locale
 # Set the locale to the user's default setting
 locale.setlocale(locale.LC_ALL, '')
 
-def export_csv(request, project_name, model_name):
+def export_csv(request):
+    project_name = request.session.get('project_name', '')
+    model_name = request.session.get('model_name', '')
     # Get the app config for the provided project name
     app_config = apps.get_app_config(project_name)
 
@@ -264,6 +266,8 @@ def change_password(request):
 
 @login_required(login_url='login')
 def test(request):
+    request.session['project_name'] = 'example'
+    request.session['model_name'] = 'TemperatureRecord'
     Today = date.today()
     
     # Filter BurnerConsumption records by Today's date

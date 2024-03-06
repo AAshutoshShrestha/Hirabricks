@@ -12,7 +12,7 @@ urlpatterns = [
     path('temperature-forms/', temp_forms, name='temp_forms'),
     path('test/', test, name='test'),
 
-    path('export-csv/<str:project_name>/<str:model_name>/', export_csv, name='export_csv'),
+    path('export-csv/', export_csv, name='export_csv'),
     
     path('login/', loginPage, name="login"),  
 	path('logout/', logoutUser, name="logout"),

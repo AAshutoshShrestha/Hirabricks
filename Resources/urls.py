@@ -9,5 +9,6 @@ urlpatterns = [
     path('resource-reports/', reports, name='resource_reports'),
     path('soil-form/', soil_mixture, name='soil_mixture'),
     path('soil-report/', Soilreports, name='soil_report'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

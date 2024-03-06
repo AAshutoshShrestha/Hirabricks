@@ -95,6 +95,10 @@ def todaysRecord(request):
 
 
 def reports(request):
+    request.session['project_name'] = 'Resources'
+    request.session['model_name'] = 'BurnerConsumption'
+
+    
     burner = BurnerConsumption.objects.all().order_by('burner_number','-date')
     jhogai = JhogaiConsumption.objects.all().order_by('type')
 
