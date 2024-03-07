@@ -5,4 +5,7 @@ urlpatterns = [
     path('machineRunTime', record_time, name='machine_runtime'),
     path('Runtime-records', runtime_records, name='runtime_records'),
 
+    path('maintenance/', maintenance_tasks, name='maintenance_tasks'),
+    path('update_task_status/', update_task_status, name='update_task_status'),
+    
 ]

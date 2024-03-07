@@ -3,12 +3,21 @@ from import_export.admin import ImportExportModelAdmin
 from import_export import resources, fields
 from .models import *
 
-@admin.register(Machine)
-class MachineAdmin(ImportExportModelAdmin,admin.ModelAdmin):
+@admin.register(MachineArea)
+class MachineAreaAdmin(ImportExportModelAdmin,admin.ModelAdmin):
     list_display = ['id','name','area']
     list_filter = ('name',)
     search_fields = ('name',)
     list_per_page = 15
+
+@admin.register(Machine)
+class MachineAdmin(ImportExportModelAdmin,admin.ModelAdmin):
+    list_display = ['id','machine_area','name']
+    list_filter = ('machine_area','name',)
+    search_fields = ('name',)
+    list_per_page = 15
+
+
 
 @admin.register(MachineOperator)
 class Machine_ControlerAdmin(ImportExportModelAdmin,admin.ModelAdmin):
@@ -16,10 +25,6 @@ class Machine_ControlerAdmin(ImportExportModelAdmin,admin.ModelAdmin):
     list_filter = ('user','name',)
     search_fields = ('user','name',)
     list_per_page = 15
-
-
-
-
 
 
 class MachineRuntimeResource(resources.ModelResource):
@@ -38,4 +43,11 @@ class MachineRuntimeAdmin(ImportExportModelAdmin,admin.ModelAdmin):
     list_display = ('id', 'Machine_name', 'machine_operator','start_time', 'end_time','Worked_hours')
     list_filter = ('id','start_time',)
     search_fields = ('id','machine_operator__machine__name',)
+    list_per_page = 15
+
+@admin.register(MaintenanceTask)
+class MaintenanceTaskAdmin(ImportExportModelAdmin,admin.ModelAdmin):
+    list_display = ('id', 'title', 'description', 'status', 'position')
+    list_filter = ('id','title', 'status',)
+    search_fields = ('id','title', 'status',)
     list_per_page = 15

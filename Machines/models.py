@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-class Machine(models.Model):
+class MachineArea(models.Model):
     name = models.CharField(max_length=50, help_text="Name for the machine")
     area = models.CharField(max_length=50, help_text="Machine place")
     
@@ -14,6 +14,36 @@ class Machine(models.Model):
     @classmethod
     def bulk_create_from_import(cls, data):
         cls.objects.bulk_create([cls(**item) for item in data])
+
+class Machine(models.Model):
+    machine_area = models.ForeignKey(MachineArea, null=True, on_delete=models.SET_NULL)
+    name = models.CharField(max_length=50, help_text="Name for the machine")
+    
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ['id']
+    
+    @classmethod
+    def bulk_create_from_import(cls, data):
+        cls.objects.bulk_create([cls(**item) for item in data])
+        
+STATUS_CHOICES = (
+    ('Pending', 'Pending'), 
+    ('Onprocess', 'On Process'), 
+    ('Completed', 'Completed'),
+)
+
+
+class MaintenanceTask(models.Model):
+    Area = models.ForeignKey(MachineArea, on_delete=models.CASCADE)
+    machine = models.ForeignKey(Machine, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES)
+    position = models.IntegerField(default=0)
+
 
 class MachineOperator(models.Model):
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)

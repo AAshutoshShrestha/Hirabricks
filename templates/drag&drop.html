@@ -1,0 +1,96 @@
+{% extends 'base.html' %} 
+{% load static app_filters %} 
+
+{% block title %} soil report test page | TunnelKiln {% endblock %} 
+
+{% block content %}
+<!-- maintenance_tasks.html -->
+<div class="flex justify-center">
+    <div class="flex space-x-4">
+      <div class="border p-4 w-64">
+        <h2 class="text-lg font-semibold mb-4">Pending</h2>
+        <ul id="pending-tasks" class="sortable">
+           
+          <div class="flex justify-center">
+            <div class="flex space-x-4">
+              <div class="border p-4 w-64">
+                <ul id="pending-tasks" class="sortable">
+                  {% for task in pending_tasks %}
+                    <li class="card text-red-500" data-id="{{ task.id }}">{{ task.title }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+        </ul>
+      </div>
+      <div class="border p-4 w-64">
+        <h2 class="text-lg font-semibold mb-4">On Process</h2>
+        <ul id="onprocess-tasks" class="sortable">
+          <div class="flex justify-center">
+            <div class="flex space-x-4">
+              <div class="border p-4 w-64">
+                <ul id="pending-tasks" class="sortable">
+                  {% for task in onprocess_tasks %}
+                    <li class="card" data-id="{{ task.id }}">{{ task.title }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+        </ul>
+      </div>
+      <div class="border p-4 w-64">
+        <h2 class="text-lg font-semibold mb-4">Completed</h2>
+        <ul id="completed-tasks" class="sortable">
+          <div class="flex justify-center">
+            <div class="flex space-x-4">
+              <div class="border p-4 w-64"> 
+                <ul id="pending-tasks" class="sortable">
+                  {% for task in completed_tasks %}
+                    <li class="card" data-id="{{ task.id }}">{{ task.title }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script>
+  $(function() {
+    $(".sortable").sortable({
+      connectWith: ".sortable",
+      update: function(event, ui) {
+        var taskId = ui.item.data("id");
+        var newStatus = ui.item.parent().attr("id").split("-")[0]; // Extract status from id
+        console.log("Task ID:", taskId);
+        console.log("New Status:", newStatus);
+        $.ajax({
+          url: "/update_task_status/",
+          method: "POST",
+          data: {
+            task_id: taskId,
+            new_status: newStatus
+          },
+          success: function(response) {
+            console.log("Success:", response);
+            // Handle success
+          },
+          error: function(xhr, status, error) {
+            console.error("Error:", error);
+            // Handle error
+          }
+        });
+      }
+    });
+  });
+</script>
+
+{% endblock %}

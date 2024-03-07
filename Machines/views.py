@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
-from .forms import MachineRuntimeForm
-from django.utils import timezone
 from datetime import date
+from django.utils import timezone
 from django.contrib.auth.decorators import login_required
-from .models import MachineOperator,MachineRuntime
-
+from django.http import JsonResponse
 from django.contrib import messages
+
+from .forms import MachineRuntimeForm
+from .models import *
 
 @login_required
 def record_time(request):
@@ -59,3 +60,22 @@ def runtime_records(request):
         'Runtime_details': runtime_records,
     }
     return render(request, 'Machine/Records.html', context)
+
+def maintenance_tasks(request):
+    pending_tasks = MaintenanceTask.objects.filter(status='Pending')
+    onprocess_tasks = MaintenanceTask.objects.filter(status='Onprocess')
+    completed_tasks = MaintenanceTask.objects.filter(status='Completed')
+    context ={
+        'pending_tasks': pending_tasks, 
+        'onprocess_tasks': onprocess_tasks, 
+        'completed_tasks': completed_tasks
+    }
+    return render(request, 'drag&drop.html', context)
+
+def update_task_status(request):
+    if request.method == 'POST' and request.is_ajax():
+        task_id = request.POST.get('task_id')
+        new_status = request.POST.get('new_status')
+        MaintenanceTask.objects.filter(id=task_id).update(status=new_status)
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False})
