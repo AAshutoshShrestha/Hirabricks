@@ -1,8 +1,9 @@
 import csv
 from django.http import HttpResponse
 from django.core.exceptions import PermissionDenied
+from django.apps import apps
 
-def download_csv(request, queryset):
+def download_csv(request, queryset, model_name):
     if not request.user.is_staff:
         raise PermissionDenied
 
@@ -11,7 +12,7 @@ def download_csv(request, queryset):
     field_names = [field.name for field in model_fields]
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="Burner_consumptions.csv"'
+    response['Content-Disposition'] = f'attachment; filename="{model_name}.csv"'  # Corrected line
 
     # the csv writer
     writer = csv.writer(response)
@@ -32,3 +33,17 @@ def download_csv(request, queryset):
             values.append(value)
         writer.writerow(values)
     return response
+
+
+def export_csv(request):
+    project_name = request.session.get('project_name', '')
+    model_name = request.session.get('model_name', '')
+    # Get the app config for the provided project name
+    app_config = apps.get_app_config(project_name)
+
+    # Get the model class dynamically using the provided model name
+    model = app_config.get_model(model_name)
+
+    queryset = model.objects.all()
+    data = download_csv(request, queryset, model_name)  # Pass model_name to the function
+    return data  # Just returning the HttpResponse object is enough for download

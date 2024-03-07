@@ -55,7 +55,7 @@ def coals(request):
         'Burnerform': burner_form,
         'Jhogaiform': jhogai_form
     }
-    return render(request, 'coals.html', context)
+    return render(request, 'Coals/Forms.html', context)
 
 def todaysRecord(request):
     Today = date.today()
@@ -91,7 +91,7 @@ def todaysRecord(request):
         'jhogai_totals_list': jhogai_totals_list,
         'burner_empty': burner_empty,
     }
-    return render(request, 'todays_coal_report.html', context)
+    return render(request, 'Coals/Todays.html', context)
 
 
 def reports(request):
@@ -125,7 +125,7 @@ def reports(request):
         'jhogai_totals_list': jhogai_totals_list,
         
     }
-    return render(request, 'All_coal_records.html', context)
+    return render(request, 'Coals/Reports.html', context)
 
 def soil_mixture(request):
     if request.method == 'POST':
@@ -133,11 +133,13 @@ def soil_mixture(request):
         if formset.is_valid():
             # Extract data from the form
             type = request.POST.get('type')
+            source = request.POST.get('Source')
             sand = request.POST.get('sand')
             silt = request.POST.get('silt')
             clay = request.POST.get('clay')
             remarks = request.POST.get('remarks')
             soilimg = request.FILES.get('soil_img')
+            soiltest = request.FILES.get('soil_test_report')
 
             by = request.user
             # Create a new Mixture instance
@@ -145,17 +147,20 @@ def soil_mixture(request):
                 user=by,
                 date=timezone.now(),
                 type=type,
+                Source=source,
                 sand=sand,
                 silt=silt,
                 clay=clay,
                 remarks=remarks,
                 soil_img=soilimg.name,  # Save the file name in the database
+                soil_test_report=soiltest.name,  # Save the file name in the database
             )
             # Save the Mixture instance
             mix.save()
             
             # Upload soilimg to Supabase storage
             supabase.storage.from_('image-bucket').upload(soilimg.name, soilimg.read(), {'content-type': 'image/jpeg'})
+            supabase.storage.from_('image-bucket/Reports').upload(soiltest.name, soiltest.read(), {'content-type': 'image/jpeg'})
             return redirect('soil_mixture')
         
     else:
@@ -163,17 +168,21 @@ def soil_mixture(request):
     context = {
         'formset': formset,
     }
-    return render(request, 'soil.html', context)
+    return render(request, 'Soils/Form.html', context)
 
 def Soilreports(request):
+    request.session['project_name'] = 'Resources'
+    request.session['model_name'] = 'SoilDetails'
     soil = SoilDetails.objects.all()
     for soil_detail in soil:
         # Get public URL for soil_img
-        res = supabase.storage.from_('image-bucket').get_public_url(soil_detail.soil_img)
+        res1 = supabase.storage.from_('image-bucket').get_public_url(soil_detail.soil_img)
+        res2 = supabase.storage.from_('image-bucket/Reports/').get_public_url(soil_detail.soil_test_report)
         # Update soil_img field with the public URL
-        soil_detail.soil_img = res
+        soil_detail.soil_img = res1
+        soil_detail.soil_test_report = res2
 
     context = {
         'soil_details': soil,
     }
-    return render(request, 'soils_report.html', context)
+    return render(request, 'Soils/Reports.html', context)

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.http import HttpResponse
-from django.apps import apps
+
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
@@ -18,26 +18,11 @@ from conditions.models import MultiCondition
 from conditions.views import required_MultiConditions,foranalytics
 from Resources.models import *
 
-from vercel_app.utils import download_csv
-
 import locale
 
 # Set the locale to the user's default setting
 locale.setlocale(locale.LC_ALL, '')
 
-def export_csv(request):
-    project_name = request.session.get('project_name', '')
-    model_name = request.session.get('model_name', '')
-    # Get the app config for the provided project name
-    app_config = apps.get_app_config(project_name)
-
-    # Get the model class dynamically using the provided model name
-    model = app_config.get_model(model_name)
-
-    queryset = model.objects.all()
-    data = download_csv(request, queryset)
-    response = HttpResponse(data, content_type='text/csv')
-    return response
 
 def convert_to_hours_and_minutes(value):
     hours = value // 60
@@ -73,7 +58,7 @@ def loginPage(request):
             messages.info(request, 'Username OR password is incorrect')
 
     context = {}
-    return render(request, 'login.html', context)
+    return render(request, 'Auth/login.html', context)
 
 def logoutUser(request):
     logout(request)
@@ -137,7 +122,6 @@ def index(request):
     }
     return render(request, 'index.html', context)
 
-
 @login_required(login_url='login')
 def temp_forms(request):
     temperature_records = TemperatureRecord.objects.all()
@@ -145,11 +129,12 @@ def temp_forms(request):
         by = request.user
         form = TemperatureRecordForm(request.POST)
         if form.is_valid():
-            temperature_record = form.save(commit=False)
-            form.user.instance = by
-            form.date.instance = timezone.now().date()
-            form.time.instance = timezone.now().time()
-            form.save()
+            create = form.save(commit=False)
+            create.user = by  # Assigning the user directly to the instance
+            create.date = timezone.now().date()  # Assigning date directly
+            create.time = timezone.now().time()  # Assigning time directly
+            create.save()  # Saving the instance
+            messages.success(request, "Kiln temperature recorded Succesfully")
             return redirect('temp_forms') 
     else:
         form = TemperatureRecordForm()
@@ -158,7 +143,8 @@ def temp_forms(request):
         'tempform': form,
         'temperature_records': temperature_records
     }
-    return render(request, 'forms.html', context)
+    return render(request, 'Temperatureforms.html', context)
+
 
 
 @login_required(login_url='login')
@@ -221,7 +207,7 @@ def analytics(request):
 def profile(request):
     car_count = Car.objects.filter(user=request.user).count()
     context = {'Car_count': car_count}
-    return render(request, 'profile.html', context)
+    return render(request, 'Auth/profile.html', context)
 
 
 @login_required(login_url='login')
@@ -232,10 +218,12 @@ def history(request):
         car.cycle_time = format_timedelta(cycle_time)
 
     context = {'Completed': completed_cars}
-    return render(request, 'history.html', context)
+    return render(request, 'Datas/history.html', context)
 
 @login_required(login_url='login')
 def alldatas(request):
+    request.session['project_name'] = 'example'
+    request.session['model_name'] = 'Car'
     all_data = Car.objects.all().select_related('zone', 'Type').order_by('zone')
     for car in all_data:
         if car.exit_time is not None:
@@ -245,7 +233,7 @@ def alldatas(request):
             car.cycle_time = "--"
             
     context = {'alldatas': all_data}
-    return render(request, 'alldatas.html', context)
+    return render(request, 'Datas/All_records.html', context)
 
 def change_password(request):
     if request.method == 'POST':
@@ -268,6 +256,7 @@ def change_password(request):
 def test(request):
     request.session['project_name'] = 'example'
     request.session['model_name'] = 'TemperatureRecord'
+
     Today = date.today()
     
     # Filter BurnerConsumption records by Today's date

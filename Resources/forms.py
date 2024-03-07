@@ -18,10 +18,11 @@ class MixtureForm(forms.ModelForm):
     type = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'What type of soil is it?'}))
     remarks = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Add notes if any'}),required=False)
     soil_img = forms.ImageField(required=False)
+    soil_test_report = forms.ImageField(required=False)
     
     class Meta:
         model = SoilDetails
-        fields = ['type','sand','silt','clay','remarks','soil_img']
+        fields = ['type','Source','sand','silt','clay','remarks','soil_img','soil_test_report']
         exclude = ['user','date']
 
 # MixtureFormSet = modelformset_factory(Mixture, form=MixtureForm, extra=1)

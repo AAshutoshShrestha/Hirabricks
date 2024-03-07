@@ -30,6 +30,16 @@ METHOD_CHOICES = [
     ('झोगाई Mixed', 'झोगाई Mixed'),
     ('झोगाई WoodDust', 'झोगाई WoodDust'),
 ]
+Soilsource_CHOICES = [
+    ('Gokarna', 'Gokarna'),
+    ('Chyasal', 'Chyasal'),
+    ('Min Bhawan', 'Min Bhawan'),
+    ('Satungal', 'Satungal'),
+    ('Kharipati', 'Kharipati'),
+    ('Tuwachwok', 'Tuwachwok'),
+    ('Gundu', 'Gundu'),
+    ('Other', 'Other'),
+]
 
 
 class BurnerConsumption(models.Model):
@@ -75,10 +85,25 @@ class SoilDetails(models.Model):
     clay = models.IntegerField(default=0)
     remarks = models.TextField( default='No remarks',null=True, blank=True,help_text="Add remarks if any")
     soil_img = models.ImageField(upload_to ='',null=True, blank=True)
+    soil_test_report = models.ImageField(upload_to ='Reports',null=True, blank=True)
+    Source = models.CharField(max_length=20, choices=Soilsource_CHOICES)
     
     def soil_img_display(self):
         res = supabase.storage.from_('image-bucket').get_public_url(self.soil_img)
         return format_html('<img src="{}" width="100" height="100">', res)
+    
+    def soil_test_report_display(self):
+        res = supabase.storage.from_('image-bucket/Reports').get_public_url(self.soil_test_report)
+        return format_html('<img src="{}" width="100" height="100">', res)
+    
+    def export_soil_img(self):
+        res = supabase.storage.from_('image-bucket').get_public_url(self.soil_img)
+        return (res)
+    
+    def export_Soil_testrep(self):
+        res = supabase.storage.from_('image-bucket/Reports').get_public_url(self.soil_test_report)
+        return (res)
+        
 
     def __str__(self):
         return f"{self.id}"

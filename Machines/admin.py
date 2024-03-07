@@ -1,6 +1,6 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-
+from import_export import resources, fields
 from .models import *
 
 @admin.register(Machine)
@@ -17,9 +17,25 @@ class Machine_ControlerAdmin(ImportExportModelAdmin,admin.ModelAdmin):
     search_fields = ('user','name',)
     list_per_page = 15
 
+
+
+
+
+
+class MachineRuntimeResource(resources.ModelResource):
+    Machine_name = fields.Field(attribute='Machine_name')
+    Worked_hours = fields.Field(attribute='Worked_hours')
+
+    class Meta:
+        model = MachineRuntime
+        fields = ('id', 'start_time', 'end_time', 'machine_operator', 'Machine_name', 'Worked_hours')
+
+
 @admin.register(MachineRuntime)
 class MachineRuntimeAdmin(ImportExportModelAdmin,admin.ModelAdmin):
-    list_display = ('id', 'machine_name', 'machine_operator','start_time', 'end_time','Worked_hours')
+    resource_class = MachineRuntimeResource
+
+    list_display = ('id', 'Machine_name', 'machine_operator','start_time', 'end_time','Worked_hours')
     list_filter = ('id','start_time',)
     search_fields = ('id','machine_operator__machine__name',)
     list_per_page = 15

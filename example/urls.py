@@ -11,8 +11,6 @@ urlpatterns = [
     path('profile/', profile, name='profile'),
     path('temperature-forms/', temp_forms, name='temp_forms'),
     path('test/', test, name='test'),
-
-    path('export-csv/', export_csv, name='export_csv'),
     
     path('login/', loginPage, name="login"),  
 	path('logout/', logoutUser, name="logout"),

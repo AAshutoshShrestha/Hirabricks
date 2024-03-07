@@ -1,0 +1,86 @@
+{% extends "base.html" %} 
+
+{% load static %}
+{% load app_filters %}
+
+{% block title %} Machine Runtime | TunnelKiln {% endblock %} 
+
+{% block content %}
+
+<div class="bg-gray-200  px-12 py-12">
+    <h2 class="text-2xl font-bold mb-4">Time Tracker</h2>
+
+    <!-- Your Form Goes Here -->
+    <form action="{% url 'machine_runtime' %}" method="post" class="mb-4">
+        {% csrf_token %}
+        
+        <button type="submit" name="start" class="mt-4 w-full rounded-lg bg-green-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 sm:w-auto dark:bg-green-200 dark:hover:bg-green-500 dark:focus:ring-green-800">Start Machine</button>
+
+        <button type="submit" name="end" class="mt-4 w-full rounded-lg bg-red-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 sm:w-auto dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Stop Machine</button>
+       
+       
+        {% for message in messages %}
+        <div class="pt-4" x-data="{ isOpen: true }">
+        <div class="border-stroke dark:border-dark-3 dark:bg-dark-2 mb-11 flex items-center rounded-md border border-l-[8px] border-l-[#00B078] bg-white p-5 pl-8" x-show="isOpen">
+          <div class="mr-5 flex h-[36px] w-full max-w-[36px] items-center justify-center rounded-full bg-[#00B078]" >
+            <i class="ri-check-fill"></i>
+          </div>
+          <div class="flex w-full items-center justify-between">
+            <div>
+              <h3 class="text-dark mb-1 text-lg font-medium dark:text-white">{{message}}</h3>
+            </div>
+            <div>
+              <button class="hover:text-danger text-[#ACACB0]" @click="isOpen = false">
+                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M6 18L18 6M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+        {% endfor %}
+      </form>
+
+      
+</div>
+
+
+
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-2xl font-bold mb-4">Machine Runtimes</h1>
+  <div class="overflow-x-auto">
+    <table class="table-auto w-full border-collapse border border-gray-200">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="px-4 py-2">No.</th>
+          <th class="px-4 py-2">Start time</th>
+          <th class="px-4 py-2">End time</th>
+          <th class="px-4 py-2">Machine</th>
+          <th class="px-4 py-2">Work durations</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for details in Runtime_details %}
+        <tr>
+          <td class="border px-4 py-2">{{ forloop.counter }}</td>
+          <td class="border px-4 py-2">{{ details.start_time }}</td>
+          <td class="border px-4 py-2">{{ details.end_time }}</td>
+          <td class="border px-4 py-2">{{ details.machine_name }}</td>
+          <td class="border px-4 py-2">{{ details.Worked_hours }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<style>
+  input:checked ~ .dot {
+  transform: translateX(100%);
+}
+input:checked ~ .bg {
+  background-color: #48bb78;
+}
+</style>
+{% endblock %}

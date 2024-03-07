@@ -1,0 +1,93 @@
+{% extends 'base.html' %} 
+{% load static app_filters %} 
+
+{% block title %} soil report test page | TunnelKiln {% endblock %} 
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+
+	<div class="sm:col-span-2 md:grow">
+		<div class="flex justify-end gap-x-2">
+		  <div class="hs-dropdown relative inline-block [--placement:bottom-right]">
+			<a href="{% url 'export_csv' %}">
+				<button id="hs-as-table-table-export-dropdown" type="button" class="inline-flex items-center gap-x-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-800 shadow-sm hover:bg-gray-50 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-700 dark:bg-slate-900 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+					<svg class="size-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+					<path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
+					<path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
+					</svg>
+					Export
+				</button>
+				</a>
+		  </div>
+		</div>
+	</div>
+
+	<h1 class="text-2xl font-bold mb-4">Soil Details</h1>
+	<div class="overflow-x-auto">
+		<table class="table-auto w-full border-collapse border border-gray-200">
+			<thead class="bg-gray-100">
+				<tr>
+					<th class="px-4 py-2">User</th>
+					<th class="px-4 py-2">Date</th>
+					<th class="px-4 py-2">Type</th>
+					<th class="px-4 py-2">Sand</th>
+					<th class="px-4 py-2">Silt</th>
+					<th class="px-4 py-2">Clay</th>
+					<th class="px-4 py-2">Remarks</th>
+					<th class="px-4 py-2">Soil Image</th>
+					<th class="px-4 py-2">Soil Test</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for soil_detail in soil_details %}
+				<tr>
+					<td class="border px-4 py-2">{{ soil_detail.user }}</td>
+					<td class="border px-4 py-2">{{ soil_detail.date }}</td>
+					<td class="border px-4 py-2">{{ soil_detail.type }}</td>
+					<td class="border px-4 py-2">{{ soil_detail.sand }}</td>
+					<td class="border px-4 py-2">{{ soil_detail.silt }}</td>
+					<td class="border px-4 py-2">{{ soil_detail.clay }}</td>
+					<td class="border px-4 py-2">{{ soil_detail.remarks }}</td>
+					<td class="border px-4 py-2">
+                        <img src="{{ soil_detail.soil_img }}" alt="Soil Image" class="w-20 h-20 object-cover" onclick="showPopup('{{ soil_detail.soil_img }}')">
+                    </td>
+					<td class="border px-4 py-2">
+                        <img src="{{ soil_detail.soil_test_report }}" alt="Soil Test Image" class="w-20 h-20 object-cover" onclick="showPopup('{{ soil_detail.soil_test_report }}')">
+                    </td>
+				</tr>
+
+				{% endfor %}
+				
+				<div id="popupContainer" class="fixed top-0 left-0 w-full h-full flex items-center justify-center hidden bg-gray-100 opacity-50">
+					<!-- Overlay -->
+					<div class="fixed top-0 left-0 w-full h-full bg-black opacity-50"></div>
+					<!-- Popup Content -->
+					<div class="bg-white p-4">
+						<img id="fullSizeImage" src="" alt="Full Size Image" class="max-w-full max-h-full">
+					</div>
+				</div>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+
+<script>
+    function showPopup(imageSrc) {
+        // Display the popup container
+        document.getElementById("popupContainer").classList.remove("hidden");
+        // Set the source of the full-size image
+        document.getElementById("fullSizeImage").src = imageSrc;
+    }
+
+    function hidePopup() {
+        // Hide the popup container
+        document.getElementById("popupContainer").classList.add("hidden");
+        // Clear the source of the full-size image
+        document.getElementById("fullSizeImage").src = "";
+    }
+
+    // Close the popup when clicking on the overlay
+    document.querySelector("#popupContainer .bg-black").addEventListener("click", hidePopup);
+</script>
+{% endblock %}

@@ -5,19 +5,21 @@ from datetime import date
 from django.contrib.auth.decorators import login_required
 from .models import MachineOperator,MachineRuntime
 
+from django.contrib import messages
+
 @login_required
 def record_time(request):
     today = date.today()
     user = request.user
 
-    runtime_records  = MachineRuntime.objects.filter(start_time__date=today, machine_operator__user=user)
+    runtime_records = MachineRuntime.objects.filter(start_time__date=today, machine_operator__user=user)
     operator = MachineOperator.objects.get(user=request.user)
     try:
         machine_runtime = MachineRuntime.objects.filter(machine_operator=operator, end_time__isnull=True).latest('start_time')
     except MachineRuntime.DoesNotExist:
         machine_runtime = None
 
-    form = MachineRuntimeForm() 
+    form = MachineRuntimeForm()
 
     if request.method == 'POST':
         if 'start' in request.POST:
@@ -28,24 +30,27 @@ def record_time(request):
                     machine_runtime.start_time = timezone.now()
                     machine_runtime.machine_operator = operator
                     machine_runtime.save()
+                    messages.success(request, "The machine has started running.")
             else:
-                request.session['success_message'] = "The machine is already in Running state"
-                return redirect('machine_runtime')
+                messages.error(request, "The machine is already in Running state")
 
         elif 'end' in request.POST:
             if machine_runtime:
                 machine_runtime.end_time = timezone.now()
                 machine_runtime.save()
-            if not machine_runtime:
-                request.session['success_message'] ="The machine is not running yet"
-                return redirect('machine_runtime')
-    else:
-        form = MachineRuntimeForm()
+                messages.success(request, "The machine has stopped running.")
+            else:
+                messages.error(request, "The machine is not running yet")
+
+        return redirect('machine_runtime')  # Redirect after setting the message
+
     context = {
         'Runtime_details': runtime_records,
         'form': form
     }
-    return render(request, 'machineruntime.html', context)
+
+    return render(request, 'Machine/Runtime.html', context)
+
 
 
 def runtime_records(request):
@@ -53,4 +58,4 @@ def runtime_records(request):
     context = {
         'Runtime_details': runtime_records,
     }
-    return render(request, 'machine-runtime-records.html', context)
+    return render(request, 'Machine/Records.html', context)

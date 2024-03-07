@@ -36,9 +36,9 @@ class MachineRuntime(models.Model):
     machine_operator = models.ForeignKey(MachineOperator, on_delete=models.CASCADE, related_name='runtime_entries')
 
     def __str__(self):
-        return f"MachineRuntime ID: {self.pk}"
+        return f"MachineRuntime ID: {self.pk}"  
 
-    def machine_name(self):
+    def Machine_name(self):
         return self.machine_operator.machine.name
     
     def Worked_hours(self):

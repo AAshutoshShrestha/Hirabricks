@@ -1,7 +1,7 @@
 {% extends 'base.html' %} 
 {% load static %}
 
-{% block title %} Coal Consumption | TunnelKiln {% endblock %} 
+{% block title %} Coal Consumption Form | TunnelKiln {% endblock %} 
 
 {% block content %}
 <div class="container mx-auto p-4">
@@ -23,7 +23,7 @@
             {{ Burnerform.as_p }}
         </div>
         
-        <button type="submit" class="w-full rounded-lg bg-red-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 sm:w-auto dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800 pt">Submit</button>
+        <button type="submit" class="mt-4 w-full rounded-lg bg-red-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 sm:w-auto dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Submit</button>
 
 
         {% for message in messages %}
@@ -40,7 +40,7 @@
         </div>
 
         
-        <button type="submit" class="w-full rounded-lg bg-red-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 sm:w-auto dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800 pt">Submit</button>
+        <button type="submit" class="mt-4 w-full rounded-lg bg-red-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 sm:w-auto dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Submit</button>
 
 
         {% for message in messages %}

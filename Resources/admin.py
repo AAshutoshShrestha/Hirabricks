@@ -1,7 +1,7 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
 from .models import *
-
+from import_export import resources, fields
 import logging
 
 logger = logging.getLogger(__name__)
@@ -21,46 +21,33 @@ class JhogaiConsumptionAdmin(ImportExportModelAdmin,admin.ModelAdmin):
     search_fields = ('type',)
     list_per_page = 15
 
+
+
+class SoilDetailsResource(resources.ModelResource):
+    export_soil_img = fields.Field(attribute='export_soil_img')
+    export_Soil_testrep = fields.Field(attribute='export_Soil_testrep')
+
+    class Meta:
+        model = SoilDetails
+        fields = ['id',  'date','user', 'type','Source','sand','silt','clay','remarks', 'export_soil_img','export_Soil_testrep']
+
+
 @admin.register(SoilDetails)
 class SoilDetailsAdmin(ImportExportModelAdmin,admin.ModelAdmin):
+    resource_class = SoilDetailsResource
     def soil_img_display(self, obj):
         # Call the soil_img_display method on the provided object
         return obj.soil_img_display()
 
-    soil_img_display.short_description = 'Soil Image URL'
+    soil_img_display.short_description = 'Soil Image'
 
-    def save_model(self, request, obj, form, change):
-        # Call the parent class's save_model method to save the model instance
-        super().save_model(request, obj, form, change)
+    def soil_test_report_display(self, obj):
+        # Call the soil_img_display method on the provided object
+        return obj.soil_test_report_display()
 
-        # Check if a soil image is provided
-        if 'soil_img' in request.FILES:
-            soilimg = request.FILES.get('soil_img')
+    soil_test_report_display.short_description = 'Soil Test Image'
 
-            # Check if the uploaded file is not empty
-            if soilimg.size == 0:
-                logger.error("Uploaded soil image is empty")
-                # Handle the error or raise an exception accordingly
-                return
-
-            # Check if the uploaded file is an image
-            if not soilimg.content_type.startswith('image'):
-                logger.error("Uploaded file is not an image")
-                # Handle the error or raise an exception accordingly
-                return
-
-            # Upload the soil image to Supabase storage
-            res = supabase.storage.from_('image-bucket').upload(soilimg.name, soilimg.read(), {'content-type': 'image/jpeg'})
-
-            # Check the type of the response
-            if isinstance(res, dict):
-                obj.soil_img = res['url']  # Save the URL of the uploaded image
-                obj.save()
-            else:
-                logger.error(f"Error uploading soil image: {res}")
-                # Handle the error or raise an exception accordingly
-
-    list_display = ('id', 'user', 'date', 'type', 'sand', 'silt', 'clay', 'remarks', 'soil_img_display')
+    list_display = ('id',  'date','user', 'type','Source','sand','silt','clay','remarks', 'soil_img_display','soil_test_report_display')
     list_filter = ('id', 'date',)
     search_fields = ('id', 'date')
     list_per_page = 15

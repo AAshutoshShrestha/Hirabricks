@@ -20,7 +20,7 @@ class CarEntryForm(forms.ModelForm):
         fields = ['car_number','Type','remarks']
         exclude = ['user']
 
-class TemperatureRecordForm(forms.Form):
+class TemperatureRecordForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(TemperatureRecordForm, self).__init__(*args, **kwargs)
         thermocouples = Thermocouple.objects.all()
@@ -29,5 +29,5 @@ class TemperatureRecordForm(forms.Form):
             self.fields[field_name] = forms.IntegerField(required=False)
 
     class Meta:
-        model = TemperatureRecord
-        fields = ['date', 'time', 'user']
+        model = TemperatureRecord   
+        fields = ['thermocouples_1', 'thermocouples_2', 'thermocouples_3', 'thermocouples_4', 'thermocouples_5', 'thermocouples_6', 'thermocouples_7', 'thermocouples_8', 'thermocouples_9', 'thermocouples_10', 'thermocouples_11', 'thermocouples_12']

@@ -1,0 +1,53 @@
+{% extends 'base.html' %} 
+{% load static %}
+
+{% block title %} Soil Form | TunnelKiln {% endblock %} 
+
+{% block content %}
+<div class="border border-gray-300 shadow-lg bg-white rounded-xl p-3 sm:p-7 dark:bg-slate-900">
+    <div class="border-b border-gray-100 px-6 py-4">
+        <h3 class="font-medium text-gray-600 dark:text-gray-400">Soil details Form</h3>
+    </div>
+
+    <form class="mx-auto px-12 py-12" action="{% url 'soil_mixture' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-5">
+            {{ formset.as_p }} 
+
+            <div id="otherSourceInput" style="display: none;">
+                <label for="id_other_source">Other Source:</label>
+                <input type="text" id="id_other_source" name="other_source">
+                <p class="mt-2 text-sm text-red-700 dark:text-gray-400">You have selected the 'Others' option. Kindly specify the location from which the soil is imported</p>
+
+            </div>
+            
+        </div>
+        <button type="submit" class="mt-4 w-full rounded-lg bg-red-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 sm:w-auto dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Submit</button>
+        {% for message in messages %}
+            <p id="bg-green-500 px-4 py-6">{{message}}</p>
+        {% endfor %}
+    </form>
+</div>
+
+<script>
+    function showHideInput() {
+        var sourceSelect = document.getElementById("id_Source");
+        var otherSourceInput = document.getElementById("otherSourceInput");
+
+        if (sourceSelect.value === "Other") {
+            otherSourceInput.style.display = "block";
+        } else {
+            otherSourceInput.style.display = "none";
+        }
+    }
+
+    // Ensure the DOM is fully loaded before executing the script
+    document.addEventListener("DOMContentLoaded", function() {
+        // Call the showHideInput function to handle initial display
+        showHideInput();
+        // Add event listener to the source select field
+        document.getElementById("id_Source").addEventListener("change", showHideInput);
+    });
+</script>
+
+{% endblock %}
