@@ -10,6 +10,7 @@ urlpatterns = [
     path('', include('example.urls')),
     path('Machine/', include('Machines.urls')),
     path('Resources/', include('Resources.urls')),
+    path('docs/', include('docs.urls')),
 
     path('export-csv/', export_csv, name='export_csv'),
     

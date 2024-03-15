@@ -46,7 +46,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sitemaps',
     'import_export',
+    'docs',
     'example',
     'conditions',
     'Resources',
@@ -77,6 +79,10 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'builtins':[
+                'example.templatetags.app_filters',
+                'docs.templatetags.markdownprocessing',
+                ]
         },
     },
 ]

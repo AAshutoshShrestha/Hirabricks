@@ -4,7 +4,7 @@ from django.db.models import Sum
 from .forms import BurnerConsumptionForm, JhogaiConsumptionForm, MixtureForm
 from .models import *
 from datetime import date
-from django.core.files.base import ContentFile
+from django.contrib.auth.decorators import login_required
 
 import os
 from supabase import create_client
@@ -17,6 +17,7 @@ url=os.environ.get('SUPABASE_URL')
 key=os.environ.get('SUPABASE_SERVICE_ROLE_KEY')
 supabase = create_client(url, key)
 
+@login_required(login_url='login')
 def coals(request):
     burner_form = BurnerConsumptionForm(request.POST)
     jhogai_form = JhogaiConsumptionForm(request.POST)
@@ -57,6 +58,7 @@ def coals(request):
     }
     return render(request, 'Coals/Forms.html', context)
 
+@login_required(login_url='login')
 def todaysRecord(request):
     Today = date.today()
     
@@ -93,7 +95,7 @@ def todaysRecord(request):
     }
     return render(request, 'Coals/Todays.html', context)
 
-
+@login_required(login_url='login')
 def reports(request):
     request.session['project_name'] = 'Resources'
     request.session['model_name'] = 'BurnerConsumption'
@@ -127,6 +129,7 @@ def reports(request):
     }
     return render(request, 'Coals/Reports.html', context)
 
+@login_required(login_url='login')
 def soil_mixture(request):
     if request.method == 'POST':
         formset = MixtureForm(request.POST, request.FILES)
@@ -170,6 +173,7 @@ def soil_mixture(request):
     }
     return render(request, 'Soils/Form.html', context)
 
+@login_required(login_url='login')
 def Soilreports(request):
     request.session['project_name'] = 'Resources'
     request.session['model_name'] = 'SoilDetails'

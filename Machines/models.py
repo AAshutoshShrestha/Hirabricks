@@ -20,7 +20,7 @@ class Machine(models.Model):
     name = models.CharField(max_length=50, help_text="Name for the machine")
     
     def __str__(self):
-        return self.name
+        return f"{self.machine_area}"
 
     class Meta:
         ordering = ['id']
@@ -32,17 +32,17 @@ class Machine(models.Model):
 STATUS_CHOICES = (
     ('Pending', 'Pending'), 
     ('Onprocess', 'On Process'), 
+    ('Onhold', 'On Hold'), 
     ('Completed', 'Completed'),
 )
 
 
 class MaintenanceTask(models.Model):
-    Area = models.ForeignKey(MachineArea, on_delete=models.CASCADE)
+    area = models.ForeignKey(MachineArea, on_delete=models.CASCADE)
     machine = models.ForeignKey(Machine, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     description = models.TextField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES)
-    position = models.IntegerField(default=0)
 
 
 class MachineOperator(models.Model):
@@ -51,7 +51,7 @@ class MachineOperator(models.Model):
     machine = models.ForeignKey(Machine, on_delete=models.CASCADE, related_name='operators')
 
     def __str__(self):
-        return self.name
+        return f"{self.name}"
      
     class Meta:
         ordering = ['id']
@@ -69,7 +69,7 @@ class MachineRuntime(models.Model):
         return f"MachineRuntime ID: {self.pk}"  
 
     def Machine_name(self):
-        return self.machine_operator.machine.name
+        return self.machine_operator.machine.machine_area
     
     def Worked_hours(self):
         if self.start_time and self.end_time:

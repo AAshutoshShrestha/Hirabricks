@@ -1,95 +1,143 @@
-{% extends 'base.html' %} 
-{% load static app_filters %} 
+{% extends 'base.html' %}
+{% load static app_filters %}
 
-{% block title %} soil report test page | TunnelKiln {% endblock %} 
+{% block title %}maintenance_tasks Test Page | TunnelKiln{% endblock %}
 
 {% block content %}
-<!-- maintenance_tasks.html -->
+<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+<!-- Kanban Board -->
 <div class="flex justify-center">
-    <div class="flex space-x-4">
-      <div class="border p-4 w-64">
-        <h2 class="text-lg font-semibold mb-4">Pending</h2>
-        <ul id="pending-tasks" class="sortable">
-           
-          <div class="flex justify-center">
-            <div class="flex space-x-4">
-              <div class="border p-4 w-64">
-                <ul id="pending-tasks" class="sortable">
-                  {% for task in pending_tasks %}
-                    <li class="card text-red-500" data-id="{{ task.id }}">{{ task.title }}</li>
-                  {% endfor %}
-                </ul>
-              </div>
-            </div>
-          </div>
-
+  <div class="flex space-x-4">
+    <div class="w-1/4">
+      <div class="bg-gray-100 p-4 rounded-lg">
+        <h2 class="mb-4 text-lg font-semibold">Pending</h2>
+        <ul id="pending-tasks" class="task-list border border-gray-300 rounded p-2" data-status="Pending" taskId>
+          {% for task in pending_tasks %}
+          <li class="task cursor-move mb-2" id="task-{{ task.id }}" data-status="Pending" draggable="true">{{ task.title }}</li>
+          {% endfor %}
         </ul>
       </div>
-      <div class="border p-4 w-64">
-        <h2 class="text-lg font-semibold mb-4">On Process</h2>
-        <ul id="onprocess-tasks" class="sortable">
-          <div class="flex justify-center">
-            <div class="flex space-x-4">
-              <div class="border p-4 w-64">
-                <ul id="pending-tasks" class="sortable">
-                  {% for task in onprocess_tasks %}
-                    <li class="card" data-id="{{ task.id }}">{{ task.title }}</li>
-                  {% endfor %}
-                </ul>
-              </div>
-            </div>
-          </div>
-
+    </div>
+    <div class="w-1/4">
+      <div class="bg-gray-100 p-4 rounded-lg">
+        <h2 class="mb-4 text-lg font-semibold">On Process</h2>
+        <ul id="onprocess-tasks" class="task-list border border-gray-300 rounded p-2" data-status="Onprocess" taskId>
+          {% for task in onprocess_tasks %}
+          <li class="task cursor-move mb-2" id="task-{{ task.id }}" data-status="Onprocess" draggable="true">{{ task.title }}</li>
+          {% endfor %}
         </ul>
       </div>
-      <div class="border p-4 w-64">
-        <h2 class="text-lg font-semibold mb-4">Completed</h2>
-        <ul id="completed-tasks" class="sortable">
-          <div class="flex justify-center">
-            <div class="flex space-x-4">
-              <div class="border p-4 w-64"> 
-                <ul id="pending-tasks" class="sortable">
-                  {% for task in completed_tasks %}
-                    <li class="card" data-id="{{ task.id }}">{{ task.title }}</li>
-                  {% endfor %}
-                </ul>
-              </div>
-            </div>
-          </div>
+    </div>
+    <div class="w-1/4">
+      <div class="bg-gray-100 p-4 rounded-lg">
+        <h2 class="mb-4 text-lg font-semibold">On Hold</h2>
+        <ul id="onhold-tasks" class="task-list border border-gray-300 rounded p-2" data-status="Onhold" taskId>
+          {% for task in onhold_tasks %}
+          <li class="task cursor-move mb-2" id="task-{{ task.id }}" data-status="Onhold" draggable="true">{{ task.title }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    <div class="w-1/4">
+      <div class="bg-gray-100 p-4 rounded-lg">
+        <h2 class="mb-4 text-lg font-semibold">Completed</h2>
+        <ul id="completed-tasks" class="task-list border border-gray-300 rounded p-2" data-status="Completed" taskId>
+          {% for task in completed_tasks %}
+          <li class="task cursor-move mb-2" id="task-{{ task.id }}" data-status="Completed" draggable="true">{{ task.title }}</li>
+          {% endfor %}
         </ul>
       </div>
     </div>
   </div>
-  
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+</div>
+
+
+<!-- JavaScript for Drag and Drop -->
 <script>
-  $(function() {
-    $(".sortable").sortable({
-      connectWith: ".sortable",
-      update: function(event, ui) {
-        var taskId = ui.item.data("id");
-        var newStatus = ui.item.parent().attr("id").split("-")[0]; // Extract status from id
-        console.log("Task ID:", taskId);
-        console.log("New Status:", newStatus);
-        $.ajax({
-          url: "/update_task_status/",
-          method: "POST",
-          data: {
-            task_id: taskId,
-            new_status: newStatus
-          },
-          success: function(response) {
-            console.log("Success:", response);
-            // Handle success
-          },
-          error: function(xhr, status, error) {
-            console.error("Error:", error);
-            // Handle error
-          }
-        });
-      }
+  document.addEventListener('DOMContentLoaded', function() {
+    const tasks = document.querySelectorAll('.task');
+
+    tasks.forEach(task => {
+      task.addEventListener('dragstart', dragStart);
+      task.addEventListener('dragend', dragEnd);
     });
+
+    const columns = document.querySelectorAll('.task-list');
+
+    columns.forEach(column => {
+      column.addEventListener('dragover', dragOver);
+      column.addEventListener('dragenter', dragEnter);
+      column.addEventListener('dragleave', dragLeave);
+      column.addEventListener('drop', dragDrop);
+    });
+
+    function dragStart(e) {
+      e.dataTransfer.setData('text/plain', this.id);
+      setTimeout(() => {
+        this.classList.add('invisible');
+      }, 0);
+    }
+
+    function dragEnd() {
+      this.classList.remove('invisible');
+    }
+
+    function dragOver(e) {
+      e.preventDefault();
+    }
+
+    function dragEnter(e) {
+      e.preventDefault();
+      this.classList.add('bg-blue-200');
+    }
+
+    function dragLeave() {
+      this.classList.remove('bg-blue-200');
+    }
+
+    function dragDrop(e) {
+      e.preventDefault();
+      const taskId = e.dataTransfer.getData('text/plain');
+      const task = document.getElementById(taskId);
+      const currentStatus = task.getAttribute('data-status');
+      const newStatus = this.getAttribute('data-status');
+
+
+      // Update the task status only if it's moved to a different column
+      if (currentStatus !== newStatus) {
+        updateTaskStatus(taskId, newStatus);
+        this.appendChild(task);
+      }
+
+      this.classList.remove('bg-blue-200');
+    }
+
+    function updateTaskStatus(taskId, newStatus) {
+      // Send AJAX request to update task status
+      const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+      const url = `/Machine/update_task_status/${taskId}/`; 
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': csrfToken
+        },
+        body: JSON.stringify({ new_status: newStatus })
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Task status updated successfully.');
+      })
+      .catch(error => {
+        console.error('Error updating task status:', error);
+      });
+    }
   });
 </script>
 

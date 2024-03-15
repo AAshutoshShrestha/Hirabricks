@@ -3,6 +3,7 @@ from .models import *
 
 from example.models import Car,Firing
 
+
 @login_required(login_url='login')
 def required_MultiConditions(request):
     first_firing_zone = Firing.objects.first()
@@ -21,6 +22,7 @@ def required_MultiConditions(request):
     }
     return context
 
+@login_required(login_url='login')
 def foranalytics(request):
     single_MultiConditions = MultiCondition.objects.filter(is_multi_type=False)
     multi_MultiConditions = MultiCondition.objects.filter(is_multi_type=True)

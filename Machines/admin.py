@@ -13,8 +13,8 @@ class MachineAreaAdmin(ImportExportModelAdmin,admin.ModelAdmin):
 @admin.register(Machine)
 class MachineAdmin(ImportExportModelAdmin,admin.ModelAdmin):
     list_display = ['id','machine_area','name']
-    list_filter = ('machine_area','name',)
-    search_fields = ('name',)
+    list_filter = ('id','machine_area',)
+    search_fields = ('machine_area','name',)
     list_per_page = 15
 
 
@@ -47,7 +47,7 @@ class MachineRuntimeAdmin(ImportExportModelAdmin,admin.ModelAdmin):
 
 @admin.register(MaintenanceTask)
 class MaintenanceTaskAdmin(ImportExportModelAdmin,admin.ModelAdmin):
-    list_display = ('id', 'title', 'description', 'status', 'position')
+    list_display = ('id','area','machine', 'title', 'description', 'status',)
     list_filter = ('id','title', 'status',)
     search_fields = ('id','title', 'status',)
     list_per_page = 15
