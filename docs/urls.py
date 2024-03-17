@@ -6,7 +6,7 @@ from .views import *
 urlpatterns = [
     path('', docs, name='docs'),
     path('developers/<slug:slug>/', dev, name='dev'),
-    path('users/<slug:slug>/', user, name='user'),
+    path('users/<slug:slug>/', users, name='users'),
     path('System-Administrator/<slug:slug>/', sys_admin, name='sys_admin'),
 
     

@@ -9,6 +9,15 @@ register = template.Library()
 @stringfilter
 def markdown(value):
     try:
-        return md.markdown(value, extensions=["markdown.extensions.fenced_code"])
+        return md.markdown(value, extensions = [
+    'fenced_code',
+    'footnotes',
+    'attr_list',
+    'def_list',
+    'tables',
+    'abbr',
+    'md_in_html'
+]
+)
     except (TypeError, ValueError):
         return "Invalid input"

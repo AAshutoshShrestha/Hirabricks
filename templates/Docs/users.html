@@ -9,7 +9,7 @@
       <ul class="space-y-2 pt-4">
         {% for i in all_users_post %}
         <li>
-          <a href="{% url 'user' slug=i.slug %}" class="group flex items-center rounded-lg p-2 text-base font-medium text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+          <a href="{% url 'users' slug=i.slug %}" class="group flex items-center rounded-lg p-2 text-base font-medium text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
             <span class="ml-3">{{i.title}}</span>
           </a>
         </li>

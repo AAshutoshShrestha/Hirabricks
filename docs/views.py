@@ -46,7 +46,7 @@ def dev(request, slug):
     return render(request, 'Docs/dev.html', context)
 
 @login_required(login_url='login')
-def user(request, slug):
+def users(request, slug):
     all_users_post = Post.objects.all().filter(category='Users Guide')
     post = get_object_or_404(Post, slug=slug, category='Users Guide')
     context = {
