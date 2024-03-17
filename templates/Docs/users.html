@@ -5,69 +5,68 @@
 
 {% block content %}
 <aside class="fixed left-0 top-0 z-40 h-screen w-64 -translate-x-full border-r border-gray-200 bg-white pt-14 transition-transform md:translate-x-0 dark:border-gray-700 dark:bg-gray-800" aria-label="Sidenav" id="drawer-navigation">
-    <div class="h-full overflow-y-auto bg-white px-3 py-5 dark:bg-gray-800">
-      <ul class="space-y-2 pt-4">
-        {% for i in all_users_post %}
-        <li>
-          <a href="{% url 'users' slug=i.slug %}" class="group flex items-center rounded-lg p-2 text-base font-medium text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
-            <span class="ml-3">{{i.title}}</span>
-          </a>
-        </li>
-        {% endfor %}
-      </ul>
-      <ul class="mt-5 space-y-2 border-t border-gray-200 pt-5 dark:border-gray-700">
-        <li>
-          <span class="ml-3 text-gray-500 dark:text-gray-400">Created by</span>
-  
-          <a href="https://shresthaaashutosh.com.np/" class="group flex items-center rounded-lg p-2 text-base font-medium text-gray-700 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" target="_blank_">
-            <i class="ri-creative-commons-by-fill h-6 w-6 pl-1 text-lg text-gray-500 transition duration-75 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-white"></i>
-            <span class="ml-3">Aashutosh Shrestha</span>
-          </a>
-        </li>
-      </ul>
-    </div>
-    <div class="absolute bottom-0 left-0 z-20 hidden w-full justify-center space-x-4 bg-white p-4 lg:flex dark:bg-gray-800">
-      <a href="{% url 'logout' %}" class="inline-flex cursor-pointer justify-center rounded p-2 text-gray-500 hover:bg-red-500 hover:text-white dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white">
-        <i class="ri-logout-box-r-line h-6 w-6 text-xl font-bold"></i>
-      </a>
-    </div>
-  </aside>
-  
+  <div class="h-full overflow-y-auto bg-white px-3 py-5 dark:bg-gray-800">
+    <ul class="space-y-2 pt-4">
+      {% for i in all_users_post %}
+      <li>
+        <a href="{% url 'dev' slug=i.slug %}" class="group flex items-center rounded-lg p-2 text-base font-medium text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+          <span class="ml-3">{{i.title}}</span>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+    <ul class="mt-5 space-y-2 border-t border-gray-200 pt-5 dark:border-gray-700">
+      <li>
+        <span class="ml-3 text-gray-500 dark:text-gray-400">Created by</span>
 
-<div class="mx-auto md:p-12 p-6">
-    <div class="grid grid-cols-1 gap-4 md:grid-cols-3 lg:gap-8">
-        <!-- First Column: List of Blog Post Titles -->
-        <div class="mx-auto flex max-w-screen-xl justify-between px-4 col-span-2">
-            <div id="post-{{ post.slug }}">
-                {{ post.content | safe }}
-            </div>
-            
-        </div>
-        <!-- Third Column: Post Content Markdown Headings -->
-        <div class=" h-screen pl-12 text-red-600 justify-end">
-            <h2 class="text-xl font-bold mb-4">In-Page Navigation</h2>
-           
-            <div id="nav-{{ post.slug }}">
-                <ul>
-                    <script>
-                        var headings = document.querySelector("#post-{{ post.slug }}").querySelectorAll("h1, h2, h3, h4, h5, h6");
-                        headings.forEach(function (heading) {
-                            var headingText = heading.innerText;
-                            var headingLevel = heading.tagName.toLowerCase().substring(1);
-                            var listItem = document.createElement("li");
-                            var link = document.createElement("a");
-                            link.setAttribute("href", "#");
-                            link.setAttribute("class", "ml-" + (headingLevel - 2) * 4); // Adjust indentation based on heading level
-                            link.innerText = headingText;
-                            listItem.appendChild(link);
-                            document.querySelector("#nav-{{ post.slug }}").appendChild(listItem);
-                        });
-                    </script>
-                </ul>
-            </div>
-            
-        </div>
+        <a href="https://shresthaaashutosh.com.np/" class="group flex items-center rounded-lg p-2 text-base font-medium text-gray-700 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" target="_blank_">
+          <i class="ri-creative-commons-by-fill h-6 w-6 pl-1 text-lg text-gray-500 transition duration-75 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-white"></i>
+          <span class="ml-3">Aashutosh Shrestha</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="absolute bottom-0 left-0 z-20 hidden w-full justify-center space-x-4 bg-white p-4 lg:flex dark:bg-gray-800">
+    <a href="{% url 'logout' %}" class="inline-flex cursor-pointer justify-center rounded p-2 text-gray-500 hover:bg-red-500 hover:text-white dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white">
+      <i class="ri-logout-box-r-line h-6 w-6 text-xl font-bold"></i>
+    </a>
+  </div>
+</aside>
+
+<div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+  <div class="col-span-2">
+    <div class="mx-auto text-center">
+      <p class="mb-1 inline-flex rounded-full bg-red-500 px-3 py-1 text-sm font-medium text-white">{{ post.category }}</p>
+      <h1 class="mb-5 text-2xl font-bold text-black sm:text-4xl lg:text-red-600">{{ post.title }}</h1>
+      <h4 class="text-custom-lg text-dark mb-1 font-medium">{{ post.created_at }}</h4>
     </div>
+    <!-- First Column: List of Blog Post Titles -->
+    <div class="col-span-2 mx-auto flex max-w-screen-xl justify-between overflow-auto px-4">
+      <div id="post-{{ post.slug }}">{{ post.content | markdown | safe }}</div>
+    </div>
+  </div>
+
+  <div class="fixed right-0 top-10 hidden overflow-y-auto pr-12 pt-20 md:block">
+    <h2 class="mb-4 text-xl font-bold">On this Page</h2>
+    <div id="nav-{{ post.slug }}" class="">
+      <ul>
+        <script>
+          var headings = document.querySelector("#post-{{ post.slug }}").querySelectorAll("h1, h2, h3, h4, h5, h6");
+          headings.forEach(function (heading) {
+              var headingText = heading.innerText;
+              var headingLevel = heading.tagName.toLowerCase().substring(1);
+              var listItem = document.createElement("li");
+              var link = document.createElement("a");
+              link.setAttribute("href", "#");
+              link.setAttribute("class", "ml-" + (headingLevel - 2) * 4); // Adjust indentation based on heading level
+              link.innerText = headingText;
+              listItem.appendChild(link);
+              document.querySelector("#nav-{{ post.slug }}").appendChild(listItem);
+          });
+        </script>
+      </ul>
+    </div>
+  </div>
 </div>
 
 

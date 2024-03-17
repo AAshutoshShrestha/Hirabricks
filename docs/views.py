@@ -37,11 +37,11 @@ def docs(request):
 
 @login_required(login_url='login')
 def dev(request, slug):
-    all_related_post = Post.objects.all().filter(category='Developers')
+    all_dev_post = Post.objects.all().filter(category='Developers')
     post = get_object_or_404(Post, slug=slug, category='Developers')
     context = {
         'post': post,
-        'all_related_post': all_related_post,
+        'all_dev_post': all_dev_post,
     }
     return render(request, 'Docs/dev.html', context)
 
@@ -51,17 +51,17 @@ def users(request, slug):
     post = get_object_or_404(Post, slug=slug, category='Users Guide')
     context = {
         'post': post,
-        'all_related_post': all_users_post,
+        'all_users_post': all_users_post,
     }
-    return render(request, 'Docs/dev.html', context)
+    return render(request, 'Docs/users.html', context)
 
 
 @login_required(login_url='login')
 def sys_admin(request, slug):
-    all_related_post = Post.objects.all().filter(category='System Admin')
+    all_admin_post = Post.objects.all().filter(category='System Admin')
     post = get_object_or_404(Post, slug=slug, category='System Admin')
     context = {
         'post': post,
-        'all_related_post': all_related_post,
+        'all_admin_post': all_admin_post,
     }
     return render(request, 'Docs/system.html',context)

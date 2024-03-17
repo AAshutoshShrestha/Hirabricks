@@ -43,7 +43,7 @@ def format_timedelta(td):
 
 
 def page_not_found_view(request, exception):
-    return render(request, '404.html', status=404)
+    return render(request, 'Auth/404.html', status=404)
 
 @unauthenticated_user
 def loginPage(request):
