@@ -1,0 +1,48 @@
+{% extends "Docs/base.html" %} 
+{% load static %} 
+
+{% block title %} Developers Documentations | hirabricks {% endblock %} 
+
+{% block content %}
+<section class="container mx-auto px-8 py-10 lg:py-28">
+  <h2 class="block font-sans text-2xl font-semibold !leading-snug tracking-normal text-red-900 antialiased lg:!text-3xl">Hirabricks Web Application Documentation</h2>
+  <p class="mt-2 block max-w-lg pt-4 font-sans text-lg !font-normal leading-relaxed !text-gray-500 antialiased">Welcome to the official documentation for the <span class="font-bold">Hirabricks Tunnel application!</span> Whether you're a member of our development team, a system administrator, or an end-user navigating our platform, this comprehensive guide has everything you need to effectively understand and utilize our application. Explore the sections below to find detailed information, tutorials, and best practices tailored to your role.</p>
+  <div class="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-3">
+    <div class="relative grid min-h-[20rem] flex-col items-end overflow-hidden rounded-xl bg-transparent bg-clip-border text-gray-700 shadow-md">
+      <img src="https://images.unsplash.com/photo-1600492515568-8868f609511e?q=80&w=1550&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="bg" class="absolute inset-0 h-full w-full object-cover object-center" />
+      <div class="absolute inset-0 bg-black/70"></div>
+      <div class="relative flex flex-col justify-end p-6">
+
+        <a href="{% if usersguide_post %}{% url 'user' slug=usersguide_post.slug %}{% endif %}">
+          <h4 class="block font-sans text-2xl font-semibold leading-snug tracking-normal text-white antialiased">User Guide</h4>
+          <p class="my-2 block font-sans text-base font-normal leading-relaxed text-white antialiased">Empower end-users with comprehensive guides and resources to navigate our web application effortlessly to leverage the full potential of our platform.</p>
+        </a>
+      </div>
+    </div>
+    <div class="relative grid min-h-[15rem] flex-col items-end overflow-hidden rounded-xl bg-transparent bg-clip-border text-gray-700 shadow-md">
+      <img src="https://images.unsplash.com/photo-1522252234503-e356532cafd5?q=80&w=1450&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="bg" class="absolute inset-0 h-full w-full object-cover object-center" />
+      <div class="absolute inset-0 bg-black/70"></div>
+      <div class="relative flex flex-col justify-end p-6">
+
+        <a href="{% if sysadmin_post %}{% url 'sys_admin' slug=sysadmin_post.slug %}{% endif %}">
+          <h4 class="block font-sans text-2xl font-semibold leading-snug tracking-normal text-white antialiased">System Admin</h4>
+          <p class="my-2 block font-sans text-base font-normal leading-relaxed text-white antialiased">From settings to managing databases and handling security, it provides step-by-step guides, tips, and practices for system Admins.</p>
+        </a>
+      </div>
+    </div>
+    <div class="relative grid min-h-[15rem] flex-col items-end overflow-hidden rounded-xl bg-transparent bg-clip-border text-gray-700 shadow-md">
+      <img src="https://images.unsplash.com/photo-1522252234503-e356532cafd5?q=80&w=1450&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="bg" class="absolute inset-0 h-full w-full object-cover object-center" />
+      <div class="absolute inset-0 bg-black/70"></div>
+      <div class="relative flex flex-col justify-end p-6">
+        <a href="{% if developers_post %}{% url 'dev' slug=developers_post.slug %}{% endif %}">
+          <h4 class="block font-sans text-2xl font-semibold leading-snug tracking-normal text-white antialiased">Developers</h4>
+          <p class="my-2 block font-sans text-base font-normal leading-relaxed text-white antialiased">Access specialized documentation and resources designed exclusively for our team. With detailed tutorials, references, and code explaination of the App</p>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+{% endblock %} 
