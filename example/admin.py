@@ -11,11 +11,6 @@ class ThermocoupleAdmin(ImportExportModelAdmin,admin.ModelAdmin):
     search_fields = ('name',)
     list_per_page = 15
 
-
-
-
-
-
 # Custom form for TemperatureRecordAdmin
 class TemperatureRecordForm(forms.ModelForm):
     class Meta:
@@ -67,3 +62,4 @@ class CarAdmin(ImportExportModelAdmin,admin.ModelAdmin):
     list_filter = ('id','Type',)
     search_fields = ('zone',)
     list_per_page = 15
+

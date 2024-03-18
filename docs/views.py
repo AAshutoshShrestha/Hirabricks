@@ -39,11 +39,18 @@ def docs(request):
 def dev(request, slug):
     all_dev_post = Post.objects.all().filter(category='Developers')
     post = get_object_or_404(Post, slug=slug, category='Developers')
+    
+    previous_post = Post.objects.filter(pk__lt=post.pk, category='Developers').order_by('-pk').first()
+    next_post = Post.objects.filter(pk__gt=post.pk, category='Developers').order_by('pk').first()
+
     context = {
         'post': post,
+        'previous_post': previous_post,
+        'next_post': next_post,
         'all_dev_post': all_dev_post,
     }
     return render(request, 'Docs/dev.html', context)
+
 
 @login_required(login_url='login')
 def users(request, slug):

@@ -10,6 +10,9 @@ from .models import *
 
 @login_required(login_url='login')
 def record_time(request):
+    request.session['project_name'] = 'Machines'
+    request.session['model_name'] = 'MachineRuntime'
+
     today = date.today()
     user = request.user
 

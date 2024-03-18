@@ -2,6 +2,8 @@ import csv
 from django.http import HttpResponse
 from django.core.exceptions import PermissionDenied
 from django.apps import apps
+from django.core.serializers import serialize
+
 
 def download_csv(request, queryset, model_name):
     if not request.user.is_staff:
@@ -45,5 +47,6 @@ def export_csv(request):
     model = app_config.get_model(model_name)
 
     queryset = model.objects.all()
+    
     data = download_csv(request, queryset, model_name)  # Pass model_name to the function
     return data  # Just returning the HttpResponse object is enough for download

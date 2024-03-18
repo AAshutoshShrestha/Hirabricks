@@ -64,7 +64,7 @@ class MachineRuntime(models.Model):
     start_time = models.DateTimeField(null=True, blank=True)
     end_time = models.DateTimeField(null=True, blank=True)
     machine_operator = models.ForeignKey(MachineOperator, on_delete=models.CASCADE, related_name='runtime_entries')
-
+    
     def __str__(self):
         return f"MachineRuntime ID: {self.pk}"  
 
