@@ -20,7 +20,7 @@ class Machine(models.Model):
     name = models.CharField(max_length=50, help_text="Name for the machine")
     
     def __str__(self):
-        return f"{self.machine_area}"
+        return f"{self.name}"
 
     class Meta:
         ordering = ['id']
@@ -48,7 +48,7 @@ class MaintenanceTask(models.Model):
 class MachineOperator(models.Model):
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     name = models.CharField(max_length=50, help_text="Name for the machine operator")
-    machine = models.ForeignKey(Machine, on_delete=models.CASCADE, related_name='operators')
+    machine = models.ForeignKey(MachineArea, on_delete=models.CASCADE, related_name='operators')
 
     def __str__(self):
         return f"{self.name}"
@@ -65,6 +65,9 @@ class MachineRuntime(models.Model):
     end_time = models.DateTimeField(null=True, blank=True)
     machine_operator = models.ForeignKey(MachineOperator, on_delete=models.CASCADE, related_name='runtime_entries')
     
+    not_working = models.BooleanField(default=False)
+    reason = models.CharField(max_length=100, blank=True, null=True)
+
     def __str__(self):
         return f"MachineRuntime ID: {self.pk}"  
 

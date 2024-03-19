@@ -20,8 +20,16 @@ class MachineOperatorForm(forms.ModelForm):
 class MachineRuntimeForm(forms.ModelForm):
     class Meta:
         model = MachineRuntime
-        fields = ['start_time', 'end_time']
+        fields = ['start_time', 'end_time','not_working','reason']
         exlcude = ['operator']
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        instance = kwargs.get('instance')
+        if instance and instance.not_working:
+            self.fields['reason'].widget.attrs['style'] = ''  # Show the reason field
+        else:
+            self.fields['reason'].widget.attrs['style'] = 'display:none'
 
 class MaintenanceTaskForm(forms.ModelForm):
     class Meta:

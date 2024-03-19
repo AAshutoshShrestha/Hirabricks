@@ -40,7 +40,7 @@ class MachineRuntimeResource(resources.ModelResource):
 class MachineRuntimeAdmin(ImportExportModelAdmin,admin.ModelAdmin):
     resource_class = MachineRuntimeResource
 
-    list_display = ('id', 'Machine_name', 'machine_operator','start_time', 'end_time','Worked_hours')
+    list_display = ('id', 'Machine_name', 'machine_operator','start_time', 'end_time','Worked_hours','not_working','reason')
     list_filter = ('id','start_time',)
     search_fields = ('id','machine_operator__machine__name',)
     list_per_page = 15

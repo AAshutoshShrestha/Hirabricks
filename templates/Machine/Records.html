@@ -3,6 +3,21 @@
 
 {% block content %}
 <div class="container mx-auto px-4 py-8">
+	<div class="sm:col-span-2 md:grow">
+		<div class="flex justify-end gap-x-2">
+		  <div class="hs-dropdown relative inline-block [--placement:bottom-right]">
+			<a href="{% url 'export_csv' %}">
+			<button id="hs-as-table-table-export-dropdown" type="button" class="inline-flex items-center gap-x-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-800 shadow-sm hover:bg-gray-50 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-700 dark:bg-slate-900 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+			  <svg class="size-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+				<path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
+				<path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
+			  </svg>
+			  Export
+			</button>
+		</a>
+		  </div>
+		</div>
+	</div>
 	<h1 class="text-2xl font-bold mb-4">Machine Runtimes</h1>
 	<div class="overflow-x-auto">
 		<table class="table-auto w-full border-collapse border border-gray-200">

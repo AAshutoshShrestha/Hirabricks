@@ -11,6 +11,7 @@ urlpatterns = [
     path('Machine/', include('Machines.urls')),
     path('Resources/', include('Resources.urls')),
     path('docs/', include('docs.urls')),
+    path('inventory/', include('Inventory.urls')),
 
     path('export-csv/', export_csv, name='export_csv'),
     

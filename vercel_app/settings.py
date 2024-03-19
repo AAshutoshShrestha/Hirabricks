@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'conditions',
     'Resources',
     'Machines',
+    'Inventory',
 ]
 
 MIDDLEWARE = [
