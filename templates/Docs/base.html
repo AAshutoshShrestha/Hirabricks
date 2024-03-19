@@ -71,9 +71,10 @@
                 <span class="block truncate text-sm text-gray-700 dark:text-white">{{ request.user.email }}</span>
               </div>
 
-              <a href="{% url 'index' %}" class="m-2 block md:hidden mb-2 me-2 rounded-lg bg-slate-200 px-5 py-2.5 pt-2 text-sm font-medium text-black hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
-                View Dashboard
-             </a>
+             <a class="group relative inline-block overflow-hidden rounded-md border border-gray-200 px-4 py-3 text-sm font-semibold text-[#b53721] transition duration-300 hover:text-white" href="{% url 'index' %}">
+              <div class="group-hover:scale-102 absolute right-full top-0 h-full w-full transform bg-[#b53721] transition duration-500 group-hover:translate-x-full"></div>
+              <span class="relative">Dashboard</span>
+            </a>
 
               <ul class="py-1 text-gray-700 dark:text-gray-400" aria-labelledby="dropdown">
                 <li>

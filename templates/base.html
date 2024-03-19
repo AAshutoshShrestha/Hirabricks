@@ -54,15 +54,25 @@
             <a href="{% url 'index' %}" class="mr-4 flex items-center justify-between">
               <img src="{% static 'image/lightlogo.png' %}" class="mr-3 h-11 w-28 dark:hidden" alt="Hirabricks Light Logo"/>
               <img src="{% static 'image/darklogo.png' %}" class="mr-3 h-11 w-28 hidden dark:block " alt="Hirabricks Dark Logo"/>
-          </a>
+            </a>
           </div>
+
           <div class="flex items-center lg:order-2">
+            <a class="group relative inline-block overflow-hidden rounded-md border border-gray-200 px-4 py-3 text-sm font-semibold text-[#b53721] transition duration-300 hover:text-white" href="{% url 'homepage' %}">
+              <div class="group-hover:scale-102 absolute right-full top-0 h-full w-full transform bg-[#b53721] transition duration-500 group-hover:translate-x-full"></div>
+              <span class="relative">Home</span>
+            </a>
+    
+
+
             <!-- Apps -->
-            <button type="button" data-dropdown-toggle="apps-dropdown" class="rounded-lg p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700 focus:ring-4 focus:ring-gray-400 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-600">
+            <button type="button" data-dropdown-toggle="apps-dropdown" class="rounded-lg p-2 ml-3 hover:bg-gray-100 hover:text-gray-700 focus:ring-4 focus:ring-gray-400 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-600">
               <span class="sr-only">View apps</span>
               <!-- Icon -->
               <i class="ri-dashboard-fill h-6 w-6 text-xl font-bold" aria-hidden="true"></i>
             </button>
+
+
             <!-- Dropdown menu -->
             <div class="z-50 my-4 hidden max-w-sm list-none divide-y divide-gray-100 overflow-hidden rounded-xl bg-white text-base shadow-lg dark:divide-gray-600 dark:bg-gray-700" id="apps-dropdown">
               <div class="block bg-gray-50 px-4 py-2 text-center text-base font-medium text-gray-700 dark:bg-gray-600 dark:text-gray-400">Apps</div>

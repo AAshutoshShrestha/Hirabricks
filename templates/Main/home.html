@@ -1,0 +1,475 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hirabricks | Home Page</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- RemixIcon CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
+
+    <link href="{% static 'image/factoryicon-black.png' %}" rel="shortcut icon" type="image/x-icon" media="(prefers-color-scheme: light)" />
+    <link href="{% static 'image/factoryicon-white.png' %}" rel="shortcut icon" type="image/x-icon" media="(prefers-color-scheme: dark)" />
+
+    <!-- ALpine.js CDN -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <meta name="description" content="Welcome to the Hirabricks Tunnel-kiln Website." />
+    <meta name="keywords" content="Aashutosh shrestha, Hirabricks, Tunnel Kiln, Tunnel, Kiln" />
+    <meta name="robots" content="index, follow" />
+    <meta name="copyright" content="Aashutosh Shrestha @ 2024" />
+    <meta name="language" content="EN" />
+    <meta name="author" content="Aashutosh Shrestha" />
+    <meta name="distribution" content="global" />
+    <meta name="rating" content="general" />
+
+    <meta property="og:title" content="Hirabricks | Tunnel-Kiln" />
+    <meta property="og:description" content="Tunnel Kiln Car Position and history " />
+    <meta property="og:image" content="{% static 'image/logo.png' %}" loading="eager" />
+    <meta property="og:locale" content="en_US" />
+
+    <link rel="canonical" href="https://car-records.vercel.app/" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+
+    <style type="text/tailwindcss">
+            @layer keyframes {
+        @keyframes moveHand {
+          0% {
+            /* Define the starting position */
+            transform: translateX(0);
+          }
+          30% {
+            transform: translateY(60%);
+          }
+          70% {
+            /* Define the ending position */
+            transform: translateX(60%);
+          }
+          100% {
+            /* Define the ending position */
+            transform: translateX(0%);
+          }
+        }
+      }
+
+      @layer utilities {
+        .animate-moveHand {
+          animation: moveHand 10s linear infinite 1s;
+          animation-duration: 10s;
+          animation-timing-function: linear;
+          animation-delay: 1s;
+          animation-iteration-count: infinite;
+          animation-direction: normal;
+          animation-fill-mode: none;
+          animation-play-state: running;
+          animation-name: moveHand;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <img class="absolute right-0 top-0 w-52 lg:w-auto" src="https://govmngfhcfddnuqorust.supabase.co/storage/v1/object/public/image-bucket/star-background-header.png" alt="" />
+      <img class="absolute right-0 top-0 mr-10 mt-10" src="https://shuffle.dev/saturn-assets/images/headers/light-orange-blue-1.png" alt="" />
+      <img class="lg:mt-125 lg:mt-88 xl:mt-112 lg:h-88 animate-moveHand absolute right-0 top-0 -mr-10 mt-64 h-32 sm:-mr-0 lg:h-60" src="https://shuffle.dev/saturn-assets/images/headers/robot-hand-header.png" alt="" />
+
+      <nav class="relative mb-12 bg-transparent py-6 lg:mb-20" >
+        <div class="container mx-auto px-4">
+          <div class="flex items-center">
+            <a href="{% url 'homepage' %}" class="mr-4 inline-block items-center justify-between">
+              <img src="{% static 'image/lightlogo.png' %}" class="mr-3 h-11 w-28 dark:hidden" alt="Hirabricks Light Logo" />
+              <img src="{% static 'image/darklogo.png' %}" class="mr-3 hidden h-11 w-28 dark:block" alt="Hirabricks Dark Logo" />
+            </a>
+
+            <div class="lg:hidden ml-auto">
+              <button class="navbar-burger flex h-12 w-12 items-center justify-center rounded-md bg-gray-100 transition duration-200 hover:bg-gray-200" data-drawer-target="drawer-navigation" data-drawer-toggle="drawer-navigation" aria-controls="drawer-navigation">
+                <svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3 12H21" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                  <path d="M3 6H21" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                  <path d="M3 18H21" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+              </button>
+            </div>
+              
+            <ul class="ml-14 hidden lg:flex lg:w-auto lg:space-x-12" >
+              <li><a class="inline-block text-sm font-medium text-gray-900 hover:text-[#b53721]" href="#">Home</a></li>
+              <li class="group relative">
+                <a class="inline-block text-sm font-medium text-gray-900 hover:text-[#b53721]" href="#">About</a>
+                <div class="absolute left-0 top-full z-30 hidden min-w-max max-w-xs p-4 group-hover:block">
+                  <div class="-mb-2 ml-8 h-4 w-4 rotate-45 transform rounded-sm border-l border-t border-gray-200 bg-white"></div>
+                  <div class="w-full max-w-xs rounded-3xl border border-gray-100 bg-white px-4 pb-4 pt-4">
+                    <div class="mb-3 border-b border-gray-100 pb-3"><a class="block rounded-lg px-4 py-3 text-sm text-gray-900 hover:bg-orange-50" href="#aboutus">About Us</a><a class="block rounded-lg px-4 py-3 text-sm text-gray-900 hover:bg-orange-50" href="#">Products</a></div>
+                    <div class="mb-3 border-b border-gray-100 pb-3">
+                      <a class="mb-2 flex items-center rounded-lg px-4 py-3 text-sm text-gray-900 hover:bg-orange-50" href="#">
+                        <img src="https://shuffle.dev/saturn-assets/images/headers/icon-download.svg" alt="" />
+                        <span class="ml-3">Architecture Designs</span>
+                      </a>
+                      <a class="mb-2 flex items-center rounded-lg px-4 py-3 text-sm text-gray-900 hover:bg-orange-50" href="{% url 'docs' %}">
+                        <img src="https://shuffle.dev/saturn-assets/images/headers/icon-slack.svg" alt="" />
+                        <span class="ml-3">Documentation</span>
+                      </a>
+                      <a class="mb-2 flex items-center rounded-lg px-4 py-3 text-sm text-gray-900 hover:bg-orange-50" href="#">
+                        <img src="https://shuffle.dev/saturn-assets/images/headers/icon-help.svg" alt="" />
+                        <span class="ml-3">Contact</span>
+                      </a>
+                    </div>
+                    <div class="flex items-center">
+                      <div class="flex h-10 w-10 items-center justify-center rounded-full bg-orange-50">
+                        <img src="https://shuffle.dev/saturn-assets/images/headers/icon-email-me.svg" alt="" />
+                      </div>
+                      <div class="ml-3">
+                        <span class="block text-xs text-gray-500">Drop us a line</span>
+                        <a class="text-sm font-semibold text-black hover:text-[#b53721]" href="#">info@hirabricks.com</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li><a class="inline-block text-sm font-medium text-gray-900 hover:text-[#b53721]" href="#">Products</a></li>
+              <li><a class="inline-block text-sm font-medium text-gray-900 hover:text-[#b53721]" href="#">Gallery</a></li>
+            </ul>
+            <div class="ml-auto hidden lg:block">
+              <div class="flex items-center">
+                {% if user.is_authenticated %}
+                <a class="group relative inline-block overflow-hidden rounded-md border border-gray-200 px-4 py-3 text-sm font-semibold text-[#b53721] transition duration-300 hover:text-white" href="{% url 'index' %}">
+                  <div class="group-hover:scale-102 absolute right-full top-0 h-full w-full transform bg-[#b53721] transition duration-500 group-hover:translate-x-full"></div>
+                  <span class="relative">Dashboard</span>
+                </a>
+                {% else %}
+                <a class="mr-9 inline-block text-sm font-semibold text-[#b53721] hover:text-gray-900" href="{% url 'index' %}">Sign In</a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <div class="navbar-menu fixed top-0 left-0 bottom-0 w-5/6 max-w-md z-50" id="drawer-navigation">
+        <div class="fixed inset-0 bg-gray-800 opacity-25"></div>
+        <nav class="relative flex flex-col py-6 px-10 w-full h-full bg-white border-r overflow-y-auto">
+          <div class="mb-16 flex items-center">
+            <a href="{% url 'homepage' %}" class="mr-auto inline-block items-center justify-between text-2xl font-medium leading-none">
+              <img src="{% static 'image/lightlogo.png' %}" class="mr-3 h-11 w-28 dark:hidden" alt="Hirabricks Light Logo" />
+              <img src="{% static 'image/darklogo.png' %}" class="mr-3 hidden h-11 w-28 dark:block" alt="Hirabricks Dark Logo" />
+            </a>
+      
+            <button class="navbar-burger flex h-12 w-12 items-center justify-center rounded-md bg-gray-100 transition duration-200 hover:bg-gray-200" data-drawer-target="drawer-navigation" data-drawer-toggle="drawer-navigation" aria-controls="drawer-navigation">
+              <svg class="h-6 w-6 text-gray-500 cursor-pointer hover:text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-config-id="svg-inline17"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+          </div>
+          <div>
+            <ul class="mb-2">
+              <li><a class="block rounded-lg px-5 py-4 text-gray-900 hover:bg-orange-50" href="#" data-config-id="text44">About Us</a></li>
+              <li><a class="block rounded-lg px-5 py-4 text-gray-900 hover:bg-orange-50" href="#" data-config-id="text45">Products</a></li>
+              <li><a class="block rounded-lg px-5 py-4 text-gray-900 hover:bg-orange-50" href="#" data-config-id="text47">Contact US</a></li>
+              <li><a class="block rounded-lg px-5 py-4 text-gray-900 hover:bg-orange-50" href="#" data-config-id="text48">Gallery</a></li>
+              <li><a class="block rounded-lg px-5 py-4 text-gray-900 hover:bg-orange-50" href="#" data-config-id="text46">Documentation</a></li>
+            </ul>
+            <div class="mb-16 flex items-center border-b border-t border-gray-200 px-6 py-8">
+              {% if user.is_authenticated %}
+              <a class="group relative inline-block overflow-hidden rounded-md border border-gray-200 px-4 py-3 text-sm font-semibold text-[#b53721] transition duration-300 hover:text-white" href="{% url 'index' %}">
+                <div class="group-hover:scale-102 absolute right-full top-0 h-full w-full transform bg-[#b53721] transition duration-500 group-hover:translate-x-full"></div>
+                <span class="relative">Dashboard</span>
+              </a>
+              {% else %}
+              <a class="mr-9 inline-block text-sm font-semibold text-[#b53721] hover:text-gray-900" href="{% url 'index' %}">Sign In</a>
+              {% endif %}
+            </div>
+            <div>
+              <div class="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-orange-50">
+                <svg width="29" height="28" viewBox="0 0 29 28" fill="none" xmlns="http://www.w3.org/2000/svg" data-config-id="svg-inline19"><path d="M25.3333 16.6667C24.9797 16.6667 24.6406 16.8072 24.3905 17.0572C24.1405 17.3073 24 17.6464 24 18V23.3334C24 23.687 23.8595 24.0261 23.6095 24.2762C23.3594 24.5262 23.0203 24.6667 22.6667 24.6667H4C3.64638 24.6667 3.30724 24.5262 3.05719 24.2762C2.80714 24.0261 2.66667 23.687 2.66667 23.3334V10.5467L10.5067 18.4C11.2567 19.1491 12.2733 19.5698 13.3333 19.5698C14.3933 19.5698 15.41 19.1491 16.16 18.4L18.3467 16.2134C18.5977 15.9623 18.7388 15.6218 18.7388 15.2667C18.7388 14.9116 18.5977 14.5711 18.3467 14.32C18.0956 14.069 17.7551 13.9279 17.4 13.9279C17.0449 13.9279 16.7044 14.069 16.4533 14.32L14.2667 16.5067C14.0174 16.751 13.6823 16.8878 13.3333 16.8878C12.9843 16.8878 12.6492 16.751 12.4 16.5067L4.54667 8.66669H13.3333C13.687 8.66669 14.0261 8.52622 14.2761 8.27617C14.5262 8.02612 14.6667 7.68698 14.6667 7.33336C14.6667 6.97974 14.5262 6.6406 14.2761 6.39055C14.0261 6.1405 13.687 6.00002 13.3333 6.00002H4C2.93913 6.00002 1.92172 6.42145 1.17157 7.1716C0.421427 7.92174 0 8.93916 0 10V23.3334C0 24.3942 0.421427 25.4116 1.17157 26.1618C1.92172 26.9119 2.93913 27.3334 4 27.3334H22.6667C23.7275 27.3334 24.7449 26.9119 25.4951 26.1618C26.2452 25.4116 26.6667 24.3942 26.6667 23.3334V18C26.6667 17.6464 26.5262 17.3073 26.2761 17.0572C26.0261 16.8072 25.687 16.6667 25.3333 16.6667ZM27.6133 5.05336L23.6133 1.05336C23.4865 0.93197 23.337 0.836817 23.1733 0.773358C22.8487 0.64 22.4846 0.64 22.16 0.773358C21.9963 0.836817 21.8468 0.93197 21.72 1.05336L17.72 5.05336C17.4689 5.30443 17.3279 5.64496 17.3279 6.00002C17.3279 6.35509 17.4689 6.69562 17.72 6.94669C17.9711 7.19776 18.3116 7.33881 18.6667 7.33881C19.0217 7.33881 19.3623 7.19776 19.6133 6.94669L21.3333 5.21336V12.6667C21.3333 13.0203 21.4738 13.3595 21.7239 13.6095C21.9739 13.8595 22.313 14 22.6667 14C23.0203 14 23.3594 13.8595 23.6095 13.6095C23.8595 13.3595 24 13.0203 24 12.6667V5.21336L25.72 6.94669C25.844 7.07166 25.9914 7.17086 26.1539 7.23855C26.3164 7.30624 26.4907 7.34109 26.6667 7.34109C26.8427 7.34109 27.017 7.30624 27.1794 7.23855C27.3419 7.17086 27.4894 7.07166 27.6133 6.94669C27.7383 6.82274 27.8375 6.67527 27.9052 6.51279C27.9729 6.35032 28.0077 6.17604 28.0077 6.00002C28.0077 5.82401 27.9729 5.64973 27.9052 5.48726C27.8375 5.32478 27.7383 5.17731 27.6133 5.05336Z" fill="black"></path></svg>
+              </div>
+              <span class="mb-3 block text-sm text-gray-500" data-config-id="text36">Drop us a line</span> <a class="font-semibold text-black" href="#" data-config-id="text51">info@hirabricks.com</a>
+            </div>
+          </div>
+        </nav>
+      </div>
+      
+    </header>
+    
+    <section class="relative overflow-hidden">
+      <div class="container relative mx-auto px-4">
+        <div class="mx-auto max-w-7xl">
+          <div class="mx-auto max-w-4xl text-center">
+            <h1 class="font-heading xs:text-6xl xl:text-10xl mb-8 text-5xl font-bold text-gray-900 sm:mb-14 lg:text-8xl">
+              <span>Crafting Quality for</span>
+              <span class="font-serif italic">40 Years</span>
+            </h1>
+          </div>
+          <div class="mb-14 max-w-xs sm:max-w-sm lg:flex lg:max-w-none">
+            <div class="mb-6 pt-3 lg:mb-0 lg:mr-8">
+              <svg width="84" height="10" viewbox="0 0 84 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 4.25C0.585786 4.25 0.25 4.58579 0.25 5C0.25 5.41421 0.585786 5.75 1 5.75L1 4.25ZM84 5.00001L76.5 0.669879L76.5 9.33013L84 5.00001ZM1 5.75L77.25 5.75001L77.25 4.25001L1 4.25L1 5.75Z" fill="#1E254C"></path>
+              </svg>
+            </div>
+            <div class="max-w-md">
+              <p class="font-semibold text-gray-900 lg:text-xl">Established for four decades, Hirabricks is a leading name in the brick industry, renowned for its commitment to quality and excellence.</p>
+            </div>
+          </div>
+          <a class="group relative mb-24 inline-block w-full overflow-hidden rounded-md bg-[#b53721] px-6 py-4 font-semibold text-white sm:w-auto" href="#">
+            <div class="group-hover:scale-102 absolute right-full top-0 h-full w-full transform bg-gray-900 transition duration-500 group-hover:translate-x-full"></div>
+            <div class="relative flex items-center justify-center">
+              <span class="mr-4">Meet The Expert</span>
+              <span>
+                <svg width="8" height="12" viewbox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M6.83 5.29L2.59 1.05C2.49704 0.956274 2.38644 0.881879 2.26458 0.83111C2.14272 0.780342 2.01202 0.754204 1.88 0.754204C1.74799 0.754204 1.61729 0.780342 1.49543 0.83111C1.37357 0.881879 1.26297 0.956274 1.17 1.05C0.983753 1.23736 0.879211 1.49082 0.879211 1.755C0.879211 2.01919 0.983753 2.27264 1.17 2.46L4.71 6L1.17 9.54C0.983753 9.72736 0.879211 9.98082 0.879211 10.245C0.879211 10.5092 0.983753 10.7626 1.17 10.95C1.26344 11.0427 1.37426 11.116 1.4961 11.1658C1.61794 11.2155 1.7484 11.2408 1.88 11.24C2.01161 11.2408 2.14207 11.2155 2.26391 11.1658C2.38575 11.116 2.49656 11.0427 2.59 10.95L6.83 6.71C6.92373 6.61704 6.99813 6.50644 7.04889 6.38458C7.09966 6.26272 7.1258 6.13201 7.1258 6C7.1258 5.86799 7.09966 5.73728 7.04889 5.61543C6.99813 5.49357 6.92373 5.38297 6.83 5.29Z" fill="#FFF2EE"></path>
+                </svg>
+              </span>
+            </div>
+          </a>
+          <div class="lg:flex">
+            <div class="mb-20 max-w-2xl lg:mb-0 lg:mr-32">
+              <span class="mb-6 block text-sm font-semibold text-gray-500">TRUSTED BY BIG COMPANIES</span>
+              <div class="-mx-4 flex items-center">
+                <div class="w-1/3 px-4">
+                  <img class="block" src="https://shuffle.dev/saturn-assets/logos/brands/logo-example3.png" alt="" />
+                </div>
+                <div class="w-1/3 px-4">
+                  <img class="block" src="https://shuffle.dev/saturn-assets/logos/brands/logo-example2.png" alt="" />
+                </div>
+                <div class="w-1/3 px-4">
+                  <img class="block" src="https://shuffle.dev/saturn-assets/logos/brands/logo-example1.png" alt="" />
+                </div>
+              </div>
+            </div>
+            <div class="relative w-full max-w-md lg:-mt-20">
+              <img class="absolute left-0 top-0 w-full" src="https://shuffle.dev/saturn-assets/images/headers/bg-folder.svg" alt="" />
+              <div class="relative flex flex-col">
+                <div class="xs:w-100 xs:pl-10 xs:pr-5 z-10 mt-12 max-w-xs pl-5 pr-20">
+                  <h3 class="text-2xl font-semibold text-gray-900">We are building the future together</h3>
+                </div>
+                <div class="xs:w-100 xs:px-10 mt-8 max-w-md rounded-b-3xl bg-orange-50 px-5 pb-12">
+                  <div class="flex items-center">
+                    <div>
+                      <span class="xs:text-5xl text-4xl font-semibold text-gray-900">18k+</span>
+                      <span class="block text-sm text-gray-500">Projects Done</span>
+                    </div>
+                    <div class="mx-auto h-12 w-px bg-orange-200"></div>
+                    <div>
+                      <span class="xs:text-5xl text-3xl font-semibold text-gray-900">20+</span>
+                      <span class="block text-sm text-gray-500">Awards Winning</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    
+
+    </section>
+
+    <section class="py-16 md:py-24">
+      <div class="container mx-auto px-4">
+        <div class="-mx-4 flex flex-wrap">
+          <div class="w-full px-4 md:w-1/3">
+            <div class="h-full rounded-md p-8 text-center transition duration-200 hover:bg-white hover:shadow-xl">
+              <div class="mx-auto mb-7 inline-flex h-16 w-16 items-center justify-center rounded-lg bg-[#b53721] text-white">
+                <svg width="24" height="21" viewbox="0 0 24 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M17 18.63H5C4.20435 18.63 3.44129 18.3139 2.87868 17.7513C2.31607 17.1887 2 16.4257 2 15.63V7.63C2 7.36479 1.89464 7.11043 1.70711 6.9229C1.51957 6.73536 1.26522 6.63 1 6.63C0.734784 6.63 0.48043 6.73536 0.292893 6.9229C0.105357 7.11043 0 7.36479 0 7.63L0 15.63C0 16.9561 0.526784 18.2279 1.46447 19.1655C2.40215 20.1032 3.67392 20.63 5 20.63H17C17.2652 20.63 17.5196 20.5246 17.7071 20.3371C17.8946 20.1496 18 19.8952 18 19.63C18 19.3648 17.8946 19.1104 17.7071 18.9229C17.5196 18.7354 17.2652 18.63 17 18.63ZM21 0.630005H7C6.20435 0.630005 5.44129 0.946075 4.87868 1.50868C4.31607 2.07129 4 2.83436 4 3.63V13.63C4 14.4257 4.31607 15.1887 4.87868 15.7513C5.44129 16.3139 6.20435 16.63 7 16.63H21C21.7956 16.63 22.5587 16.3139 23.1213 15.7513C23.6839 15.1887 24 14.4257 24 13.63V3.63C24 2.83436 23.6839 2.07129 23.1213 1.50868C22.5587 0.946075 21.7956 0.630005 21 0.630005ZM20.59 2.63L14.71 8.51C14.617 8.60373 14.5064 8.67813 14.3846 8.7289C14.2627 8.77966 14.132 8.8058 14 8.8058C13.868 8.8058 13.7373 8.77966 13.6154 8.7289C13.4936 8.67813 13.383 8.60373 13.29 8.51L7.41 2.63H20.59ZM22 13.63C22 13.8952 21.8946 14.1496 21.7071 14.3371C21.5196 14.5246 21.2652 14.63 21 14.63H7C6.73478 14.63 6.48043 14.5246 6.29289 14.3371C6.10536 14.1496 6 13.8952 6 13.63V4L11.88 9.88C12.4425 10.4418 13.205 10.7574 14 10.7574C14.795 10.7574 15.5575 10.4418 16.12 9.88L22 4V13.63Z" fill="currentColor"></path>
+                </svg>
+              </div>
+              <h3 class="mb-3 text-xl font-bold leading-tight md:text-2xl">Measure your performance</h3>
+              <p class="font-medium text-gray-500">Stay connected with your team and make quick decisions wherever you are.</p>
+            </div>
+          </div>
+          <div class="w-full px-4 md:w-1/3">
+            <div class="h-full rounded-md p-8 text-center transition duration-200 hover:bg-white hover:shadow-xl">
+              <div class="mx-auto mb-7 inline-flex h-16 w-16 items-center justify-center rounded-lg bg-[#b53721] text-white">
+                <svg width="22" height="12" viewbox="0 0 22 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M20.71 1.29C20.617 1.19627 20.5064 1.12188 20.3846 1.07111C20.2627 1.02034 20.132 0.994202 20 0.994202C19.868 0.994202 19.7373 1.02034 19.6154 1.07111C19.4936 1.12188 19.383 1.19627 19.29 1.29L13 7.59L8.71 3.29C8.61704 3.19627 8.50644 3.12188 8.38458 3.07111C8.26272 3.02034 8.13201 2.9942 8 2.9942C7.86799 2.9942 7.73728 3.02034 7.61542 3.07111C7.49356 3.12188 7.38296 3.19627 7.29 3.29L1.29 9.29C1.19627 9.38296 1.12188 9.49356 1.07111 9.61542C1.02034 9.73728 0.994202 9.86799 0.994202 10C0.994202 10.132 1.02034 10.2627 1.07111 10.3846C1.12188 10.5064 1.19627 10.617 1.29 10.71C1.38296 10.8037 1.49356 10.8781 1.61542 10.9289C1.73728 10.9797 1.86799 11.0058 2 11.0058C2.13201 11.0058 2.26272 10.9797 2.38458 10.9289C2.50644 10.8781 2.61704 10.8037 2.71 10.71L8 5.41L12.29 9.71C12.383 9.80373 12.4936 9.87812 12.6154 9.92889C12.7373 9.97966 12.868 10.0058 13 10.0058C13.132 10.0058 13.2627 9.97966 13.3846 9.92889C13.5064 9.87812 13.617 9.80373 13.71 9.71L20.71 2.71C20.8037 2.61704 20.8781 2.50644 20.9289 2.38458C20.9797 2.26272 21.0058 2.13201 21.0058 2C21.0058 1.86799 20.9797 1.73728 20.9289 1.61542C20.8781 1.49356 20.8037 1.38296 20.71 1.29Z" fill="currentColor"></path>
+                </svg>
+              </div>
+              <h3 class="mb-3 text-xl font-bold leading-tight md:text-2xl">Custom analytics</h3>
+              <p class="font-medium text-gray-500">Get a complete sales dashboard in the cloud. See activity, revenue and social metrics all in one place.</p>
+            </div>
+          </div>
+          <div class="w-full px-4 md:w-1/3">
+            <div class="h-full rounded-md p-8 text-center transition duration-200 hover:bg-white hover:shadow-xl">
+              <div class="mx-auto mb-7 inline-flex h-16 w-16 items-center justify-center rounded-lg bg-[#b53721] text-white">
+                <svg width="22" height="18" viewbox="0 0 22 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M11.3 9.22C11.8336 8.75813 12.2616 8.18688 12.5549 7.54502C12.8482 6.90316 13 6.20571 13 5.5C13 4.17392 12.4732 2.90215 11.5355 1.96447C10.5979 1.02678 9.32608 0.5 8 0.5C6.67392 0.5 5.40215 1.02678 4.46447 1.96447C3.52678 2.90215 3 4.17392 3 5.5C2.99999 6.20571 3.1518 6.90316 3.44513 7.54502C3.73845 8.18688 4.16642 8.75813 4.7 9.22C3.30014 9.85388 2.11247 10.8775 1.27898 12.1685C0.445495 13.4596 0.00147185 14.9633 0 16.5C0 16.7652 0.105357 17.0196 0.292893 17.2071C0.48043 17.3946 0.734784 17.5 1 17.5C1.26522 17.5 1.51957 17.3946 1.70711 17.2071C1.89464 17.0196 2 16.7652 2 16.5C2 14.9087 2.63214 13.3826 3.75736 12.2574C4.88258 11.1321 6.4087 10.5 8 10.5C9.5913 10.5 11.1174 11.1321 12.2426 12.2574C13.3679 13.3826 14 14.9087 14 16.5C14 16.7652 14.1054 17.0196 14.2929 17.2071C14.4804 17.3946 14.7348 17.5 15 17.5C15.2652 17.5 15.5196 17.3946 15.7071 17.2071C15.8946 17.0196 16 16.7652 16 16.5C15.9985 14.9633 15.5545 13.4596 14.721 12.1685C13.8875 10.8775 12.6999 9.85388 11.3 9.22ZM8 8.5C7.40666 8.5 6.82664 8.32405 6.33329 7.99441C5.83994 7.66476 5.45542 7.19623 5.22836 6.64805C5.0013 6.09987 4.94189 5.49667 5.05764 4.91473C5.1734 4.33279 5.45912 3.79824 5.87868 3.37868C6.29824 2.95912 6.83279 2.6734 7.41473 2.55764C7.99667 2.44189 8.59987 2.5013 9.14805 2.72836C9.69623 2.95542 10.1648 3.33994 10.4944 3.83329C10.8241 4.32664 11 4.90666 11 5.5C11 6.29565 10.6839 7.05871 10.1213 7.62132C9.55871 8.18393 8.79565 8.5 8 8.5ZM17.74 8.82C18.38 8.09933 18.798 7.20905 18.9438 6.25634C19.0896 5.30362 18.9569 4.32907 18.5618 3.45C18.1666 2.57093 17.5258 1.8248 16.7165 1.30142C15.9071 0.77805 14.9638 0.499742 14 0.5C13.7348 0.5 13.4804 0.605357 13.2929 0.792893C13.1054 0.98043 13 1.23478 13 1.5C13 1.76522 13.1054 2.01957 13.2929 2.20711C13.4804 2.39464 13.7348 2.5 14 2.5C14.7956 2.5 15.5587 2.81607 16.1213 3.37868C16.6839 3.94129 17 4.70435 17 5.5C16.9986 6.02524 16.8593 6.5409 16.5961 6.99542C16.3328 7.44994 15.9549 7.82738 15.5 8.09C15.3517 8.17552 15.2279 8.29766 15.1404 8.44474C15.0528 8.59182 15.0045 8.7589 15 8.93C14.9958 9.09976 15.0349 9.2678 15.1137 9.41826C15.1924 9.56872 15.3081 9.69665 15.45 9.79L15.84 10.05L15.97 10.12C17.1754 10.6917 18.1923 11.596 18.901 12.7263C19.6096 13.8566 19.9805 15.1659 19.97 16.5C19.97 16.7652 20.0754 17.0196 20.2629 17.2071C20.4504 17.3946 20.7048 17.5 20.97 17.5C21.2352 17.5 21.4896 17.3946 21.6771 17.2071C21.8646 17.0196 21.97 16.7652 21.97 16.5C21.9782 14.9654 21.5938 13.4543 20.8535 12.1101C20.1131 10.7659 19.0413 9.63331 17.74 8.82Z" fill="currentColor"></path>
+                </svg>
+              </div>
+              <h3 class="mb-3 text-xl font-bold leading-tight md:text-2xl">Team Management</h3>
+              <p class="font-medium text-gray-500">Our calendar lets you know what is happening with customer and projects so you</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-16 md:py-24">
+      <div class="container mx-auto px-4">
+        <div class="-mx-4 flex flex-wrap items-center">
+          <div class="mb-14 w-full px-4 md:mb-0 md:w-1/2">
+            <div class="max-w-md">
+              <h2 class="font-heading mb-4 text-3xl font-bold md:text-4xl" data-config-id="auto-txt-1-2">The fastest way from idea to live site. Period.</h2>
+              <p class="font-heading text-lg font-medium text-gray-500 md:text-xl" data-config-id="auto-txt-2-2">Flex is a Small SaaS Business. Flex isn’t a traditional company.</p>
+            </div>
+          </div>
+          <div class="w-full px-4 md:w-1/2">
+            <div class="flex flex-wrap items-center md:justify-end">
+              <a class="mb-2 inline-flex h-14 w-full items-center justify-center rounded-md border border-transparent bg-[#b53721] px-7 py-3 text-lg font-medium leading-7 text-white shadow-sm hover:bg-[#8e2812] focus:ring-2 focus:ring-[#b53721] focus:ring-opacity-50 md:mb-0 md:mr-4 md:w-auto" href="#" data-config-id="auto-txt-3-2">Get Started</a>
+
+              <a class="inline-flex h-14 w-full items-center justify-center rounded-md border border-gray-200 bg-white px-7 py-3 text-lg font-medium leading-7 text-gray-800 shadow-sm hover:bg-gray-100 focus:ring-2 focus:ring-gray-200 focus:ring-opacity-50 md:w-auto" href="#" data-config-id="auto-txt-4-2">Learn More</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-white py-24" id="aboutus">
+      <div class="container mx-auto px-4">
+        <div class="-mx-4 mb-16 flex flex-wrap items-center justify-between">
+          <div class="mb-8 w-full px-4 md:mb-0 md:w-1/2">
+            <div class="max-w-md">
+              <span class="rounded-9xl mb-4 inline-block bg-red-100 px-3 py-px text-xs font-medium uppercase leading-5 text-[#b53721]" data-config-id="auto-txt-1-4">Team</span>
+              <h3 class="mb-4 text-4xl font-bold tracking-tighter md:text-5xl" data-config-id="auto-txt-2-4">Meet our team</h3>
+              <p class="text-lg font-medium text-gray-500 md:text-xl" data-config-id="auto-txt-3-4">Highly professional and capable of running your business across all digital channels.</p>
+            </div>
+          </div>
+          <div class="hidden w-full px-4 md:block md:w-auto">
+            <div class="flex flex-wrap justify-center">
+              <div class="w-full py-1 md:w-auto md:py-0">
+                <p class="inline-block w-full rounded-md border border-gray-200 bg-white px-7 py-5 text-center text-base font-medium leading-4 text-gray-800 shadow-sm hover:bg-gray-100 focus:ring-2 focus:ring-gray-200 focus:ring-opacity-50 md:text-lg">About Us</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="-mx-4 flex flex-wrap">
+          <div class="mb-12 w-full px-4 md:w-1/3">
+            <div class="mx-auto max-w-max">
+              <img class="mb-8 block" src="https://shuffle.dev/flex-ui-assets/images/teams/photo-employee1.png" alt="" data-config-id="auto-img-1-4" />
+              <h3 class="mb-2 text-3xl font-semibold leading-tight md:text-4xl" data-config-id="auto-txt-6-4">Macauley Herring</h3>
+              <span class="text-lg font-medium text-[#b53721]" data-config-id="auto-txt-7-4">CEO &amp; Founder</span>
+            </div>
+          </div>
+          <div class="mb-12 w-full px-4 md:w-1/3">
+            <div class="mx-auto max-w-max">
+              <img class="mb-8 block" src="https://shuffle.dev/flex-ui-assets/images/teams/photo-employee6.png" alt="" data-config-id="auto-img-2-4" />
+              <h3 class="mb-2 text-3xl font-semibold leading-tight md:text-4xl" data-config-id="auto-txt-8-4">Ivan Mathews</h3>
+              <span class="text-lg font-medium text-[#b53721]" data-config-id="auto-txt-9-4">CTO</span>
+            </div>
+          </div>
+          <div class="mb-12 w-full px-4 md:w-1/3">
+            <div class="mx-auto max-w-max">
+              <img class="mb-8 block" src="https://shuffle.dev/flex-ui-assets/images/teams/photo-employee5.png" alt="" data-config-id="auto-img-3-4" />
+              <h3 class="mb-2 text-3xl font-semibold leading-tight md:text-4xl" data-config-id="auto-txt-10-4">Elen Benitez</h3>
+              <span class="text-lg font-medium text-[#b53721]" data-config-id="auto-txt-11-4">CPO</span>
+            </div>
+          </div>
+          <div class="mb-12 w-full px-4 md:mb-0 md:w-1/3">
+            <div class="mx-auto max-w-max">
+              <img class="mb-8 block" src="https://shuffle.dev/flex-ui-assets/images/teams/photo-employee4.png" alt="" data-config-id="auto-img-4-4" />
+              <h3 class="mb-2 text-3xl font-semibold leading-tight md:text-4xl" data-config-id="auto-txt-12-4">Macauley Herring</h3>
+              <span class="text-lg font-medium text-[#b53721]" data-config-id="auto-txt-13-4">Customer Success</span>
+            </div>
+          </div>
+          <div class="mb-12 w-full px-4 md:mb-0 md:w-1/3">
+            <div class="mx-auto max-w-max">
+              <img class="mb-8 block" src="https://shuffle.dev/flex-ui-assets/images/teams/photo-employee3.png" alt="" data-config-id="auto-img-5-4" />
+              <h3 class="mb-2 text-3xl font-semibold leading-tight md:text-4xl" data-config-id="auto-txt-14-4">Alya Levine</h3>
+              <span class="text-lg font-medium text-[#b53721]" data-config-id="auto-txt-15-4">Backend Developer</span>
+            </div>
+          </div>
+          <div class="w-full px-4 md:w-1/3">
+            <div class="mx-auto max-w-max">
+              <img class="mb-8 block" src="https://shuffle.dev/flex-ui-assets/images/teams/photo-employee2.png" alt="" data-config-id="auto-img-6-4" />
+              <h3 class="mb-2 text-3xl font-semibold leading-tight md:text-4xl" data-config-id="auto-txt-16-4">Rose Hernandez</h3>
+              <span class="text-lg font-medium text-[#b53721]" data-config-id="auto-txt-17-4">iOS Developer</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="bg-white">
+      <div class="container mx-auto px-4">
+        <div class="-mx-4 flex flex-wrap pb-12 pt-24">
+          <div class="mb-16 w-full px-4 md:mb-0 md:w-6/12">
+            <a class="mb-5 mr-4 block items-center justify-between">
+              <img src="{% static 'image/lightlogo.png' %}" class="mr-3 h-11 w-28 dark:hidden" alt="Hirabricks Light Logo" />
+              <img src="{% static 'image/darklogo.png' %}" class="mr-3 hidden h-11 w-28 dark:block" alt="Hirabricks Dark Logo" />
+            </a>
+            <p class="text-base font-medium text-gray-500 md:w-10/12 md:text-lg" data-config-id="auto-txt-1-2">Decorative bricks that consists of reclaimed brick cladding, hand-made and casted with an innovative bricks</p>
+          </div>
+          <div class="mb-16 w-full px-4 md:mb-0 md:w-2/12">
+            <h3 class="mb-5 text-lg font-bold text-gray-900" data-config-id="auto-txt-2-2">Product</h3>
+            <ul>
+              <li class="mb-4"><a class="inline-block font-medium text-gray-500 hover:text-gray-600" href="#" data-config-id="auto-txt-3-2">About Us</a></li>
+              <li class="mb-4"><a class="inline-block font-medium text-gray-500 hover:text-gray-600" href="#" data-config-id="auto-txt-4-2">Services</a></li>
+              <li class="mb-4"><a class="inline-block font-medium text-gray-500 hover:text-gray-600" href="#" data-config-id="auto-txt-5-2">Products</a></li>
+            </ul>
+          </div>
+          <div class="mb-16 w-full px-4 md:mb-0 md:w-4/12">
+            <h3 class="mb-5 text-lg font-bold text-gray-900" data-config-id="auto-txt-8-2">Contact</h3>
+            <p class="text-base font-medium text-gray-500 md:text-lg" data-config-id="auto-txt-1-2">Head Office</p>
+            <p class="pt-1 text-base font-medium text-gray-500 md:text-lg" data-config-id="auto-txt-1-2">New Baneshwor, kathmandu</p>
+            <ul class="pt-4">
+              <li class="mb-4"><a class="inline-block font-medium text-gray-500 hover:text-gray-600" href="#" data-config-id="auto-txt-9-2">Blog</a></li>
+              <li class="mb-4"><a class="inline-block font-medium text-gray-500 hover:text-gray-600" href="#" data-config-id="auto-txt-10-2">Newsletter</a></li>
+              <li class="mb-4"><a class="inline-block font-medium text-gray-500 hover:text-gray-600" href="#" data-config-id="auto-txt-11-2">Help Centre</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="border-b border-gray-100"></div>
+      <div class="container mx-auto px-4">
+        <div class="flex flex-wrap items-center py-12 md:pb-32">
+          <div class="mb-6 w-full md:mb-0 md:w-1/2">
+            <p class="font-medium text-gray-600">© 2024 Hirabricks. All rights reserved.</p>
+          </div>
+          <div class="w-full md:w-1/2">
+            <div class="-mx-5 flex flex-wrap md:justify-end">
+              <div class="px-5">
+                <a class="inline-block text-gray-400 hover:text-gray-600" href="#">
+                  <svg width="10" height="18" viewbox="0 0 10 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M6.63494 17.7273V9.76602H9.3583L9.76688 6.66246H6.63494V4.68128C6.63494 3.78301 6.88821 3.17085 8.20297 3.17085L9.87712 3.17017V0.394238C9.5876 0.357335 8.59378 0.272728 7.43708 0.272728C5.0217 0.272728 3.3681 1.71881 3.3681 4.37391V6.66246H0.636475V9.76602H3.3681V17.7273H6.63494Z" fill="currentColor"></path>
+                  </svg>
+                </a>
+              </div>
+              <div class="px-5">
+                <a class="inline-block text-gray-400 hover:text-gray-600" href="#">
+                  <svg width="19" height="16" viewbox="0 0 19 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M18.8181 2.14597C18.1356 2.44842 17.4032 2.65355 16.6336 2.74512C17.4194 2.27461 18.0208 1.5283 18.3059 0.641757C17.5689 1.07748 16.7553 1.39388 15.8885 1.56539C15.1943 0.824879 14.2069 0.363636 13.1118 0.363636C11.0108 0.363636 9.30722 2.06718 9.30722 4.16706C9.30722 4.46488 9.34083 4.75576 9.40574 5.03391C6.24434 4.87512 3.44104 3.36048 1.56483 1.05894C1.23686 1.61985 1.05028 2.27342 1.05028 2.97109C1.05028 4.29106 1.72243 5.45573 2.74225 6.13712C2.11877 6.11627 1.53237 5.94476 1.01901 5.65967V5.70718C1.01901 7.54979 2.33086 9.08761 4.07031 9.43761C3.75161 9.52336 3.41555 9.57088 3.06789 9.57088C2.82222 9.57088 2.58464 9.54655 2.35171 9.50018C2.8361 11.0125 4.24067 12.1123 5.90483 12.1424C4.6034 13.1622 2.96243 13.7683 1.1801 13.7683C0.873008 13.7683 0.570523 13.7498 0.272705 13.7162C1.95655 14.7974 3.95561 15.4278 6.10416 15.4278C13.1026 15.4278 16.928 9.63115 16.928 4.60397L16.9153 4.11145C17.6627 3.57833 18.3094 2.90851 18.8181 2.14597Z" fill="currentColor"></path>
+                  </svg>
+                </a>
+              </div>
+              <div class="px-5">
+                <a class="inline-block text-gray-400 hover:text-gray-600" href="#">
+                  <svg width="20" height="20" viewbox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5.6007 0.181818H14.3992C17.3874 0.181818 19.8184 2.61281 19.8182 5.60074V14.3993C19.8182 17.3872 17.3874 19.8182 14.3992 19.8182H5.6007C2.61276 19.8182 0.181885 17.3873 0.181885 14.3993V5.60074C0.181885 2.61281 2.61276 0.181818 5.6007 0.181818ZM14.3993 18.0759C16.4267 18.0759 18.0761 16.4266 18.0761 14.3993H18.076V5.60074C18.076 3.57348 16.4266 1.92405 14.3992 1.92405H5.6007C3.57343 1.92405 1.92412 3.57348 1.92412 5.60074V14.3993C1.92412 16.4266 3.57343 18.0761 5.6007 18.0759H14.3993ZM4.85721 10.0001C4.85721 7.16424 7.16425 4.85714 10.0001 4.85714C12.8359 4.85714 15.1429 7.16424 15.1429 10.0001C15.1429 12.8359 12.8359 15.1429 10.0001 15.1429C7.16425 15.1429 4.85721 12.8359 4.85721 10.0001ZM6.62805 10C6.62805 11.8593 8.14081 13.3719 10.0001 13.3719C11.8593 13.3719 13.3721 11.8593 13.3721 10C13.3721 8.14058 11.8594 6.6279 10.0001 6.6279C8.14069 6.6279 6.62805 8.14058 6.62805 10Z" fill="currentColor"></path>
+                  </svg>
+                </a>
+              </div>
+              <div class="px-5">
+                <a class="inline-block text-gray-400 hover:text-gray-600" href="#">
+                  <svg width="18" height="18" viewbox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 0C4.0275 0 0 4.13211 0 9.22838C0 13.3065 2.5785 16.7648 6.15375 17.9841C6.60375 18.0709 6.76875 17.7853 6.76875 17.5403C6.76875 17.3212 6.76125 16.7405 6.7575 15.9712C4.254 16.5277 3.726 14.7332 3.726 14.7332C3.3165 13.6681 2.72475 13.3832 2.72475 13.3832C1.9095 12.8111 2.78775 12.8229 2.78775 12.8229C3.6915 12.887 4.16625 13.7737 4.16625 13.7737C4.96875 15.1847 6.273 14.777 6.7875 14.5414C6.8685 13.9443 7.10025 13.5381 7.3575 13.3073C5.35875 13.0764 3.258 12.2829 3.258 8.74709C3.258 7.73988 3.60675 6.91659 4.18425 6.27095C4.083 6.03774 3.77925 5.0994 4.263 3.82846C4.263 3.82846 5.01675 3.58116 6.738 4.77462C7.458 4.56958 8.223 4.46785 8.988 4.46315C9.753 4.46785 10.518 4.56958 11.238 4.77462C12.948 3.58116 13.7017 3.82846 13.7017 3.82846C14.1855 5.0994 13.8818 6.03774 13.7917 6.27095C14.3655 6.91659 14.7142 7.73988 14.7142 8.74709C14.7142 12.2923 12.6105 13.0725 10.608 13.2995C10.923 13.5765 11.2155 14.1423 11.2155 15.0071C11.2155 16.242 11.2043 17.2344 11.2043 17.5341C11.2043 17.7759 11.3617 18.0647 11.823 17.9723C15.4237 16.7609 18 13.3002 18 9.22838C18 4.13211 13.9703 0 9 0Z" fill="currentColor"></path>
+                  </svg>
+                </a>
+              </div>
+              <div class="px-5">
+                <a class="inline-block text-gray-400 hover:text-gray-600" href="#">
+                  <svg width="18" height="18" viewbox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16.2 0H1.8C0.81 0 0 0.81 0 1.8V16.2C0 17.19 0.81 18 1.8 18H16.2C17.19 18 18 17.19 18 16.2V1.8C18 0.81 17.19 0 16.2 0ZM5.4 15.3H2.7V7.2H5.4V15.3ZM4.05 5.67C3.15 5.67 2.43 4.95 2.43 4.05C2.43 3.15 3.15 2.43 4.05 2.43C4.95 2.43 5.67 3.15 5.67 4.05C5.67 4.95 4.95 5.67 4.05 5.67ZM15.3 15.3H12.6V10.53C12.6 9.81004 11.97 9.18 11.25 9.18C10.53 9.18 9.9 9.81004 9.9 10.53V15.3H7.2V7.2H9.9V8.28C10.35 7.56 11.34 7.02 12.15 7.02C13.86 7.02 15.3 8.46 15.3 10.17V15.3Z" fill="currentColor"></path>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- flowbite CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+
+    <script src="{% static 'js/script.js' %}"></script>
+  </body>
+</html>
