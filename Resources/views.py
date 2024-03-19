@@ -136,7 +136,7 @@ def soil_mixture(request):
         if formset.is_valid():
             # Extract data from the form
             type = request.POST.get('type')
-            source = request.POST.get('Source')
+            came_from = request.POST.get('Source')
             sand = request.POST.get('sand')
             silt = request.POST.get('silt')
             clay = request.POST.get('clay')
@@ -144,6 +144,10 @@ def soil_mixture(request):
             soilimg = request.FILES.get('soil_img')
             soiltest = request.FILES.get('soil_test_report')
 
+            if came_from == 'other_source':
+                source = request.POST.get('other_source')
+            else:
+                source = came_from
             by = request.user
             # Create a new Mixture instance
             mix = SoilDetails.objects.create(
@@ -155,15 +159,17 @@ def soil_mixture(request):
                 silt=silt,
                 clay=clay,
                 remarks=remarks,
-                soil_img=soilimg.name,  # Save the file name in the database
-                soil_test_report=soiltest.name,  # Save the file name in the database
+                soil_img= soilimg.name if soilimg else "None",  # Save the file name in the database
+                soil_test_report=soiltest.name if soiltest else "None",  # Save the file name in the database
             )
             # Save the Mixture instance
             mix.save()
             
             # Upload soilimg to Supabase storage
-            supabase.storage.from_('image-bucket').upload(soilimg.name, soilimg.read(), {'content-type': 'image/jpeg'})
-            supabase.storage.from_('image-bucket/Reports').upload(soiltest.name, soiltest.read(), {'content-type': 'image/jpeg'})
+            if soilimg:
+                supabase.storage.from_('image-bucket').upload(soilimg.name, soilimg.read(), {'content-type': 'image/jpeg'})
+            if soiltest:
+                supabase.storage.from_('image-bucket/Reports').upload(soiltest.name, soiltest.read(), {'content-type': 'image/jpeg'})
             return redirect('soil_mixture')
         
     else:

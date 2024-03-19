@@ -74,19 +74,20 @@
                   <div class="text-sm text-gray-700 dark:text-white">Dashboard</div>
                 </a>
 
-                <a href="/admin/" class="group block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600">
-                  <i class="ri-admin-line mx-auto mb-1 h-7 w-7 text-xl text-gray-400 group-hover:text-gray-500 dark:text-gray-400 dark:group-hover:text-gray-400" aria-hidden="true"></i>
-                  <div class="text-sm text-gray-700 dark:text-white">admin panel</div>
-                </a>
-
+                
                 <a href="{% url 'profile' %}" class="group block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600">
                   <i class="ri-profile-line mx-auto mb-1 h-7 w-7 text-xl text-gray-400 group-hover:text-gray-500 dark:text-gray-400 dark:group-hover:text-gray-400" aria-hidden="true"></i>
-
+                  
                   <div class="text-sm text-gray-700 dark:text-white">Profile</div>
+                </a>
+                {% if user.is_superuser %}
+                <a href="/admin/" class="group block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600">
+                  <i class="ri-admin-line mx-auto mb-1 h-7 w-7 text-xl text-gray-400 group-hover:text-gray-500 dark:text-gray-400 dark:group-hover:text-gray-400" aria-hidden="true"></i>
+                  <div class="text-sm text-gray-700 dark:text-white">Admin panel</div>
                 </a>
                 <a href="{% url 'change_password' %}" class="group block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600">
                   <i class="ri-loop-right-line mx-auto mb-1 h-7 w-7 text-xl text-gray-400 group-hover:text-gray-500 dark:text-gray-400 dark:group-hover:text-gray-400" aria-hidden="true"></i>
-
+                  
                   <div class="text-sm text-gray-700 dark:text-white">Change password</div>
                 </a>
                 <a href="{% url 'test' %}" class="group block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600">
@@ -94,6 +95,7 @@
 
                   <div class="text-sm text-gray-700 dark:text-white">Test Page</div>
                 </a>
+                {% endif %} 
                 <a href="{% url 'logout' %}" class="group block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600">
                   <i class="ri-logout-box-r-fill mx-auto mb-1 h-7 w-7 text-xl text-gray-400 group-hover:text-gray-500 dark:text-gray-400 dark:group-hover:text-gray-400" aria-hidden="true"></i>
 
@@ -115,9 +117,11 @@
                 <li>
                   <a href="{% url 'profile' %}" class="block px-4 py-2 text-sm hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white">My profile</a>
                 </li>
+                {% if user.is_superuser %}
                 <li>
                   <a href="../admin" class="block px-4 py-2 text-sm hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white">Admin</a>
                 </li>
+                {% endif %} 
                 <li>
                   <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white">Account settings</a>
                 </li>
@@ -144,6 +148,7 @@
                 <span class="ml-3">Overview</span>
               </a>
             </li>
+            {% if user.is_superuser %}
             <li>
               <button type="button" class="group flex w-full items-center rounded-lg p-2 font-medium text-gray-700 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="dropdown-pages" data-collapse-toggle="dropdown-pages">
                 <i class="ri-database-fill h-6 w-6 pl-1 text-lg text-gray-500 transition duration-75 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-white"></i>                
@@ -162,6 +167,7 @@
                 </li>
               </ul>
             </li>
+           
             <li>
               <a href="{% url 'analytics' %}" class="group flex items-center rounded-lg p-2 text-base font-medium text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
                 <i class="ri-line-chart-fill h-6 w-6 pl-1 text-lg text-gray-500 transition duration-75 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-white"></i>
@@ -169,6 +175,7 @@
                 <!-- <span class="text-red-800 bg-red-100 dark:bg-red-200 dark:text-red-800 inline-flex h-5 w-5 items-center justify-center rounded-full text-xs font-semibold"> 4 </span> -->
               </a>
             </li>
+            {% endif %} 
             <li>
               <button type="button" class="group flex w-full items-center rounded-lg p-2 font-medium text-gray-700 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="Machine-pages" data-collapse-toggle="Machine-pages">
                 <i class="ri-signpost-fill h-6 w-6 pl-1 text-lg text-gray-500 transition duration-75 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-white"></i>                
@@ -182,9 +189,11 @@
                 <li>
                   <a href="{% url 'machine_runtime' %}" class="group flex w-full items-center rounded-lg p-2 pl-12 text-base font-medium text-gray-700 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Machine Runtime</a>
                 </li>
+                {% if user.is_superuser %}
                 <li>
                   <a href="{% url 'runtime_records' %}" class="group flex w-full items-center rounded-lg p-2 pl-12 text-base font-medium text-gray-700 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">All records</a>
                 </li>
+                {% endif %} 
               </ul>
             </li>
             <li>
@@ -201,12 +210,14 @@
                 <li>
                   <a href="{% url 'resource_form' %}" class="group flex w-full items-center rounded-lg p-2 pl-12 text-base font-medium text-gray-700 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Form</a>
                 </li>
+                {% if user.is_superuser %}
                 <li>
                   <a href="{% url 'todays_record' %}" class="group flex w-full items-center rounded-lg p-2 pl-12 text-base font-medium text-gray-700 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Todays Record</a>
                 </li>
                 <li>
                   <a href="{% url 'resource_reports' %}" class="group flex w-full items-center rounded-lg p-2 pl-12 text-base font-medium text-gray-700 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Report</a>
                 </li>
+                {% endif %} 
               </ul>
             </li>
             <li>
@@ -223,9 +234,11 @@
                 <li>
                   <a href="{% url 'soil_mixture' %}" class="group flex w-full items-center rounded-lg p-2 pl-12 text-base font-medium text-gray-700 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Soil Form</a>
                 </li>
+                {% if user.is_superuser %}
                 <li>
                   <a href="{% url 'soil_report' %}" class="group flex w-full items-center rounded-lg p-2 pl-12 text-base font-medium text-gray-700 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">All Records</a>
-                </li>         
+                </li>  
+                {% endif %}       
               </ul>
             </li>
 
@@ -252,7 +265,7 @@
           <ul class="mt-5 space-y-2 border-t border-gray-200 pt-5 dark:border-gray-700">
             <li>
               <a href="{% url 'docs' %}" class="group mb-6 flex items-center rounded-lg p-2 text-base font-medium text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
-                <i class="ri-line-chart-fill h-6 w-6 pl-1 text-lg text-gray-500 transition duration-75 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-white"></i>
+                <i class="ri-article-line h-6 w-6 pl-1 text-lg text-gray-500 transition duration-75 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-white"></i>
                 <span class="ml-3 flex-1 whitespace-nowrap">Documentations</span>
                 <!-- <span class="text-red-800 bg-red-100 dark:bg-red-200 dark:text-red-800 inline-flex h-5 w-5 items-center justify-center rounded-full text-xs font-semibold"> 4 </span> -->
               </a>
@@ -260,14 +273,14 @@
             <li>
               <span class="ml-3 dark:text-gray-400 text-gray-500">Created by</span>
 
-              <a href="https://shresthaaashutosh.com.np/" class="group flex items-center rounded-lg p-2 text-base font-medium text-gray-700 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" target="_blank_">
+              <a href="https://shresthaaashutosh.com.np/" class="group flex items-center rounded-lg p-2 text-base font-medium text-gray-700 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 mb-6" target="_blank_">
                 <i class="ri-creative-commons-by-fill h-6 w-6 pl-1 text-lg text-gray-500 transition duration-75 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-white"></i>
                 <span class="ml-3">Aashutosh Shrestha</span>
               </a>
             </li>
           </ul>
         </div>
-        <div class="absolute bottom-0 left-0 z-20 hidden w-full justify-center space-x-4 bg-white p-4 lg:flex dark:bg-gray-800">
+        <div class="absolute bottom-0 left-0 z-20 hidden w-full justify-center space-x-4 bg-white lg:flex dark:bg-gray-800">
           <a href="{% url 'logout' %}" class="inline-flex cursor-pointer justify-center rounded p-2 text-gray-500 hover:bg-red-500 hover:text-white dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white">
             <i class="ri-logout-box-r-line h-6 w-6 text-xl font-bold"></i>
           </a>

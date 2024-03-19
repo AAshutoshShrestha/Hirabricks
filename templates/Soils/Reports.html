@@ -36,6 +36,7 @@
 					<th class="px-4 py-2">Remarks</th>
 					<th class="px-4 py-2">Soil Image</th>
 					<th class="px-4 py-2">Soil Test</th>
+					<th class="px-4 py-2">Source</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -49,20 +50,21 @@
 					<td class="border px-4 py-2">{{ soil_detail.clay }}</td>
 					<td class="border px-4 py-2">{{ soil_detail.remarks }}</td>
 					<td class="border px-4 py-2">
-                        <img src="{{ soil_detail.soil_img }}" alt="Soil Image" class="w-20 h-20 object-cover" onclick="showPopup('{{ soil_detail.soil_img }}')">
+						<img src="{{ soil_detail.soil_img }}" alt="Soil Image" class="w-20 h-20 object-cover" onclick="showPopup('{{ soil_detail.soil_img }}')">
                     </td>
 					<td class="border px-4 py-2">
-                        <img src="{{ soil_detail.soil_test_report }}" alt="Soil Test Image" class="w-20 h-20 object-cover" onclick="showPopup('{{ soil_detail.soil_test_report }}')">
+						<img src="{{ soil_detail.soil_test_report }}" alt="Soil Test Image" class="w-20 h-20 object-cover" onclick="showPopup('{{ soil_detail.soil_test_report }}')">
                     </td>
+					<td class="border px-4 py-2">{{ soil_detail.Source }}</td>
 				</tr>
 
 				{% endfor %}
 				
-				<div id="popupContainer" class="fixed top-0 left-0 w-full h-full flex items-center justify-center hidden bg-gray-100 opacity-50">
+				<div id="popupContainer" class="fixed top-0 left-0 w-full h-full flex items-center justify-center hidden bg-gray-100">
 					<!-- Overlay -->
 					<div class="fixed top-0 left-0 w-full h-full bg-black opacity-50"></div>
 					<!-- Popup Content -->
-					<div class="bg-white p-4">
+					<div class="bg-white p-4 z-20">
 						<img id="fullSizeImage" src="" alt="Full Size Image" class="max-w-full max-h-full">
 					</div>
 				</div>
