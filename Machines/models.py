@@ -72,7 +72,7 @@ class MachineRuntime(models.Model):
         return f"MachineRuntime ID: {self.pk}"  
 
     def Machine_name(self):
-        return self.machine_operator.machine.machine_area
+        return self.machine_operator.machine.name
     
     def Worked_hours(self):
         if self.start_time and self.end_time:

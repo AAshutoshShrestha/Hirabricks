@@ -206,7 +206,7 @@ JAZZMIN_SETTINGS ={
     "topmenu_links": [
 
         # Url that gets reversed (Permissions can be added)
-        {"name": "Open Site",  "url": "/", "permissions": ["auth.view_user"]},
+        {"name": "Open Site",  "url": "/Dashboard", "permissions": ["auth.view_user"]},
 
         # Url that gets reversed (Permissions can be added)
         {"name": "Register",  "url": "/register", "permissions": ["auth.view_user"]},
