@@ -6,8 +6,8 @@ from vercel_app.utils import export_csv
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('Conditions', include('conditions.urls')),
-    path('Dashboard', include('example.urls')),
+    path('Conditions/', include('conditions.urls')),
+    path('Dashboard/', include('example.urls')),
     path('Machine/', include('Machines.urls')),
     path('Resources/', include('Resources.urls')),
     path('docs/', include('docs.urls')),
