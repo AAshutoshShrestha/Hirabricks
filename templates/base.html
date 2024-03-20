@@ -10,11 +10,15 @@
     <title>{% block title %} {% endblock %}</title>
 
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/scrollbar.css' %} ">
+
     <!-- RemixIcon CDN -->
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
     
-    <link href="{% static 'image/factoryicon-black.png' %}" rel="shortcut icon" type="image/x-icon" media="(prefers-color-scheme: light)">
-    <link href="{% static 'image/factoryicon-white.png' %}" rel="shortcut icon" type="image/x-icon" media="(prefers-color-scheme: dark)">
+    <link href="{% static 'image/favicon.png' %}" rel="shortcut icon" type="image/x-icon"/>
+
+    <!-- <link href="{% static 'image/factoryicon-black.png' %}" rel="shortcut icon" type="image/x-icon" media="(prefers-color-scheme: light)">
+    <link href="{% static 'image/factoryicon-white.png' %}" rel="shortcut icon" type="image/x-icon" media="(prefers-color-scheme: dark)"> -->
   
     <!-- ALpine.js CDN -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
