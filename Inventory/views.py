@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .forms import BrickProductForm
 from .models import *
@@ -55,3 +56,35 @@ def inventory(request):
         'formset': formset,
     }
     return render(request, 'Inventory/home.html', context)
+
+# Create your views here.
+@login_required(login_url='login')
+def all_items_list(request):    
+    all_items_list =BrickProduct.objects.all()
+    form = BrickProductForm(request.POST)
+
+    for bricks in all_items_list:
+        # Get public URL for soil_img
+        res = supabase.storage.from_('image-bucket/Products/').get_public_url(bricks.product_image)
+        # Update soil_img field with the public URL
+        bricks.product_image = res
+    context = {
+        'all_items': all_items_list,
+        'forms': form,
+    }
+    return render(request, 'Inventory/all_items_list.html', context)
+
+@login_required(login_url='login')
+def product_edit(request, pk):
+    brick_product = get_object_or_404(BrickProduct, pk=pk)
+    if request.method == 'POST':
+        form = BrickProductForm(request.POST, instance=brick_product)
+        if form.is_valid():
+            form.save()
+            return redirect('all_items_list')  # Redirect to the list view after editing
+    else:
+        form = BrickProductForm(instance=brick_product)
+    context = {
+        'forms': form,
+    }
+    return render(request, 'Inventory/edit.html', context)

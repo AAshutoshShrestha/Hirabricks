@@ -182,7 +182,7 @@ JAZZMIN_SETTINGS ={
     "site_logo_classes": "admin-logo",
     "site_logo":"image/factoryicon-white.png",
     
-    "site_icon":"image/factoryicon-black.png",
+    "site_icon":"image/favicon.png",
 
     "copyright": "Aashutosh Shrestha © Hirabricks 2024",
 

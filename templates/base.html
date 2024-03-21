@@ -191,6 +191,27 @@
               </a>
             </li>
             {% endif %} 
+
+            {% if user.is_superuser %}
+            <li>
+              <button type="button" class="group flex w-full items-center rounded-lg p-2 font-medium text-gray-700 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="inventory-dropdown" data-collapse-toggle="inventory-dropdown">
+                <i class="ri-store-2-line h-6 w-6 pl-1 text-lg text-gray-500 transition duration-75 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-white"></i>                
+                <span class="ml-3 flex-1 whitespace-nowrap text-left">Inventory</span>
+                <svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                </svg>
+              </button>
+
+              <ul id="inventory-dropdown" class="hidden space-y-2 py-2">
+                <li>
+                  <a href="{% url 'inventory' %}" class="group flex w-full items-center rounded-lg p-2 pl-12 text-base font-medium text-gray-700 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Add products</a>
+                </li>
+                <li>
+                  <a href="{% url 'all_items_list' %}" class="group flex w-full items-center rounded-lg p-2 pl-12 text-base font-medium text-gray-700 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">All Products</a>
+                </li>
+              </ul>
+            </li>
+            {% endif %} 
             <li>
               <button type="button" class="group flex w-full items-center rounded-lg p-2 font-medium text-gray-700 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="Machine-pages" data-collapse-toggle="Machine-pages">
                 <i class="ri-signpost-fill h-6 w-6 pl-1 text-lg text-gray-500 transition duration-75 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-white"></i>                
