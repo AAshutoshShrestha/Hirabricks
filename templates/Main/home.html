@@ -1,699 +1,383 @@
+{% extends "Main/base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hirabricks | Home Page</title>
+{% block title %} Hirabricks | Home Page {% endblock %}
+{% block content %}
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- RemixIcon CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
+<img class="absolute left-0 top-0 -z-10 w-60 lg:w-auto" src="https://govmngfhcfddnuqorust.supabase.co/storage/v1/object/public/image-bucket/star-background-header.png" alt="" />
+<img class="absolute -top-32 right-0 -z-10 w-60 rotate-90 lg:w-auto" src="https://govmngfhcfddnuqorust.supabase.co/storage/v1/object/public/image-bucket/star-background-header.png" alt="" />
+<!-- <img class="absolute right-0 top-0 mr-10 mt-10" src="https://shuffle.dev/saturn-assets/images/headers/light-orange-blue-1.png" alt="" /> -->
+<!-- <img class="lg:mt-125 lg:mt-88 xl:mt-112 lg:h-88 animate-moveHand absolute right-0 top-0 -mr-10 mt-64 hidden h-32 sm:-mr-0 sm:block lg:h-60" src="https://shuffle.dev/saturn-assets/images/headers/robot-hand-header.png" alt="" /> -->
 
-    <link rel="stylesheet" href="{% static 'css/scrollbar.css' %} ">
+<section class="relative overflow-hidden px-12 py-16 dark:bg-gray-900">
+  <div class="lg:flex">
+    <div class="flex w-full items-center justify-center px-6 py-8 lg:h-[32rem] lg:w-1/2">
+      <div class="mt-32 max-w-xl md:mt-8">
+        <div class="mx-auto text-left">
+          <h1 class="font-heading mb-8 text-7xl font-bold text-gray-900 sm:mb-14">
+            <span>Crafting Quality for</span>
+            <span class="font-serif italic">40 Years</span>
+          </h1>
+        </div>
 
-    <link href="{% static 'image/favicon.png' %}" rel="shortcut icon" type="image/x-icon" />
+        <div class="mb-14 max-w-xs sm:max-w-sm lg:flex lg:max-w-none">
+          <div class="mb-6 pt-3 lg:mb-0 lg:mr-8">
+            <svg width="84" height="10" viewbox="0 0 84 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 4.25C0.585786 4.25 0.25 4.58579 0.25 5C0.25 5.41421 0.585786 5.75 1 5.75L1 4.25ZM84 5.00001L76.5 0.669879L76.5 9.33013L84 5.00001ZM1 5.75L77.25 5.75001L77.25 4.25001L1 4.25L1 5.75Z" fill="#1E254C"></path>
+            </svg>
+          </div>
+          <div class="max-w-md">
+            <p class="font-semibold text-gray-900 lg:text-xl">Established for four decades, Hirabricks is a leading name in the brick industry, renowned for its commitment to quality and excellence.</p>
+          </div>
+        </div>
 
-    <!-- ALpine.js CDN -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+        <a class="group relative mb-24 inline-block w-full overflow-hidden rounded-md bg-[#b53721] px-6 py-4 font-semibold text-white sm:w-auto" href="#">
+          <div class="group-hover:scale-102 absolute right-full top-0 h-full w-full transform bg-gray-900 transition duration-500 group-hover:translate-x-full"></div>
+          <div class="relative flex items-center justify-center">
+            <span class="mr-4">Meet The Expert</span>
+            <span>
+              <i class="ri-arrow-right-s-line text-xl"></i>
+            </span>
+          </div>
+        </a>
+      </div>
+    </div>
 
-    <meta name="description" content="Welcome to the Hirabricks Tunnel-kiln Website." />
-    <meta name="keywords" content="Aashutosh shrestha, Hirabricks, Tunnel Kiln, Tunnel, Kiln" />
-    <meta name="robots" content="index, follow" />
-    <meta name="copyright" content="Aashutosh Shrestha @ 2024" />
-    <meta name="language" content="EN" />
-    <meta name="author" content="Aashutosh Shrestha" />
-    <meta name="distribution" content="global" />
-    <meta name="rating" content="general" />
+    <div class="grid grid-cols-2 gap-4">
+      <img class="w-full rounded-lg opacity-95" src="https://i.pinimg.com/564x/71/f7/d8/71f7d83c9445600bbd2ccc26cfd963eb.jpg" alt="office content 1" />
 
-    <meta property="og:title" content="Hirabricks | Tunnel-Kiln" />
-    <meta property="og:description" content="Tunnel Kiln Car Position and history " />
-    <meta property="og:image" content="{% static 'image/logo.png' %}" loading="eager" />
-    <meta property="og:locale" content="en_US" />
+      <img class="mt-28 w-full rounded-lg lg:mt-10" src="https://i.pinimg.com/564x/f0/c3/b7/f0c3b77b96a2a2af96dae1a2203b1a99.jpg" alt="office content 2" />
+    </div>
+  </div>
+</section>
 
-    <link rel="canonical" href="https://car-records.vercel.app/" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+<section class="relative overflow-hidden">
+  <div class="container mx-auto px-5 py-6">
+    <div class="-m-4 flex flex-wrap text-center">
+      <div class="w-1/2 p-4 sm:w-1/4">
+        <h2 class="title-font text-4xl font-semibold text-gray-900 sm:text-5xl">20K +</h2>
+        <p class="pt-2 leading-relaxed">Client base</p>
+      </div>
+      <div class="w-1/2 p-4 sm:w-1/4">
+        <h2 class="title-font text-3xl font-semibold text-gray-900 sm:text-5xl">5K+</h2>
+        <p class="pt-2 leading-relaxed">Product types</p>
+      </div>
+      <div class="w-1/2 p-4 sm:w-1/4">
+        <h2 class="title-font text-3xl font-semibold text-gray-900 sm:text-5xl">35+ Countries</h2>
+        <p class="pt-2 leading-relaxed">Exported to</p>
+      </div>
+      <div class="w-1/2 p-4 sm:w-1/4">
+        <h2 class="title-font text-3xl font-semibold text-gray-900 sm:text-5xl">4</h2>
+        <p class="pt-2 leading-relaxed">Factory location</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-    
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            animation: {
-              'spin-slow': 'spin 8s linear infinite',
-            }
-          }
-        }
-      }
-    </script>
-    <style type="text/tailwindcss">
-      @layer keyframes {
-        @keyframes moveHand {
-          0% {
-            /* Define the starting position */
-            transform: translateX(0);
-          }
-          30% {
-            transform: translateY(60%);
-          }
-          70% {
-            /* Define the ending position */
-            transform: translateX(60%);
-          }
-          100% {
-            /* Define the ending position */
-            transform: translateX(0%);
-          }
-        }
-      }
-
-      @layer utilities {
-        .animate-moveHand {
-          animation: moveHand 10s linear infinite 1s;
-          animation-duration: 10s;
-          animation-timing-function: linear;
-          animation-delay: 1s;
-          animation-iteration-count: infinite;
-          animation-direction: normal;
-          animation-fill-mode: none;
-          animation-play-state: running;
-          animation-name: moveHand;
-        }
-      }
-    </style>
-
-    
-  </head>
-  <body class="overflow-x-hidden">
-    <header >
-      <img class="absolute right-0 top-0 w-52 lg:w-auto" src="https://govmngfhcfddnuqorust.supabase.co/storage/v1/object/public/image-bucket/star-background-header.png" alt="" />
-      <!-- <img class="absolute right-0 top-0 mr-10 mt-10" src="https://shuffle.dev/saturn-assets/images/headers/light-orange-blue-1.png" alt="" /> -->
-      <img class="lg:mt-125 lg:mt-88 xl:mt-112 lg:h-88 animate-moveHand absolute right-0 top-0 -mr-10 mt-64 hidden h-32 sm:-mr-0 sm:block lg:h-60" src="https://shuffle.dev/saturn-assets/images/headers/robot-hand-header.png" alt="" />
-
-      <nav class="relative mb-12 bg-transparent py-6 lg:mb-20">
-        <div class="container mx-auto px-4">
-          <div class="flex items-center">
-            <a href="{% url 'homepage' %}" class="mr-4 inline-block items-center justify-between">
-              <img src="{% static 'image/lightlogo.png' %}" class="mr-3 h-11 w-28" alt="Hirabricks Light Logo" />
-            </a>
-
-            <div class="ml-auto lg:hidden">
-              <button class="navbar-burger flex h-12 w-12 items-center justify-center rounded-md bg-gray-100 transition duration-200 hover:bg-gray-200 lg:order-2" data-collapse-toggle="mobile-menu-2" type="button" aria-controls="mobile-menu-2" aria-expanded="false">
-                <svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M3 12H21" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                  <path d="M3 6H21" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                  <path d="M3 18H21" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                </svg>
-              </button>
-            </div>
-
-            <ul class="ml-14 hidden lg:flex lg:w-auto lg:space-x-12">
-              <li><a class="inline-block text-sm font-medium text-gray-900 hover:text-[#b53721]" href="#">Home</a></li>
-              <li class="group relative">
-                <a class="inline-block text-sm font-medium text-gray-900 hover:text-[#b53721]" href="#">About</a>
-                <div class="absolute left-0 top-full z-30 hidden min-w-max max-w-xs p-4 group-hover:block">
-                  <div class="-mb-2 ml-8 h-4 w-4 rotate-45 transform rounded-sm border-l border-t border-gray-200 bg-white"></div>
-                  <div class="w-full max-w-xs rounded-3xl border border-gray-100 bg-white px-4 pb-4 pt-4">
-                    <div class="mb-3 border-b border-gray-100 pb-3"><a class="block rounded-lg px-4 py-3 text-sm text-gray-900 hover:bg-orange-50" href="#aboutus">About Us</a><a class="block rounded-lg px-4 py-3 text-sm text-gray-900 hover:bg-orange-50" href="#">Products</a></div>
-                    <div class="mb-3 border-b border-gray-100 pb-3">
-                      <a class="mb-2 flex items-center rounded-lg px-4 py-3 text-sm text-gray-900 hover:bg-orange-50" href="#">
-                        <img src="https://shuffle.dev/saturn-assets/images/headers/icon-download.svg" alt="" />
-                        <span class="ml-3">Architecture Designs</span>
-                      </a>
-                      <a class="mb-2 flex items-center rounded-lg px-4 py-3 text-sm text-gray-900 hover:bg-orange-50" href="{% url 'docs' %}">
-                        <img src="https://shuffle.dev/saturn-assets/images/headers/icon-slack.svg" alt="" />
-                        <span class="ml-3">Documentation</span>
-                      </a>
-                      <a class="mb-2 flex items-center rounded-lg px-4 py-3 text-sm text-gray-900 hover:bg-orange-50" href="#contact-us">
-                        <img src="https://shuffle.dev/saturn-assets/images/headers/icon-help.svg" alt="" />
-                        <span class="ml-3">Contact</span>
-                      </a>
-                    </div>
-                    <div class="flex items-center">
-                      <div class="flex h-10 w-10 items-center justify-center rounded-full bg-orange-50">
-                        <img src="https://shuffle.dev/saturn-assets/images/headers/icon-email-me.svg" alt="" />
-                      </div>
-                      <div class="ml-3">
-                        <span class="block text-xs text-gray-500">Drop us a line</span>
-                        <a class="text-sm font-semibold text-black hover:text-[#b53721]" href="#">info@hirabricks.com</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </li>
-              <li><a class="inline-block text-sm font-medium text-gray-900 hover:text-[#b53721]" href="#">Products</a></li>
-              <li><a class="inline-block text-sm font-medium text-gray-900 hover:text-[#b53721]" href="#">Gallery</a></li>
-            </ul>
-            <div class="ml-auto hidden lg:block">
-              <div class="flex items-center">
-                {% if user.is_authenticated %}
-                <a class="group relative inline-block overflow-hidden rounded-md border border-gray-200 px-4 py-3 text-sm font-semibold text-[#b53721] transition duration-300 hover:text-white" href="{% url 'index' %}">
-                  <div class="group-hover:scale-102 absolute right-full top-0 h-full w-full transform bg-[#b53721] transition duration-500 group-hover:translate-x-full"></div>
-                  <span class="relative">Dashboard</span>
-                </a>
-                {% else %}
-                <a class="mr-9 inline-block text-sm font-semibold text-[#b53721] hover:text-gray-900" href="{% url 'index' %}">Sign In</a>
-                <svg width="20" height="10" viewbox="0 0 84 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M1 4.25C0.585786 4.25 0.25 4.58579 0.25 5C0.25 5.41421 0.585786 5.75 1 5.75L1 4.25ZM84 5.00001L76.5 0.669879L76.5 9.33013L84 5.00001ZM1 5.75L77.25 5.75001L77.25 4.25001L1 4.25L1 5.75Z" fill="#1E254C"></path>
-                </svg>
-                {% endif %}
+<section class="relative overflow-hidden py-12 text-gray-800" id="aboutus">
+  <div class="container mx-auto max-w-xl space-y-24 px-12 py-12 lg:max-w-7xl lg:px-24">
+    <div>
+      <p class="text-md mx-auto mt-4 max-w-3xl pb-3 text-center text-gray-500">FOCUSED AND FUTURE READY</p>
+      <h2 class="text-center text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Right People to Deliver Unique Construction Materials</h2>
+    </div>
+    <div class="grid lg:grid-cols-2 lg:items-center lg:gap-8">
+      <div>
+        <h3 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Our Goal is to Be Better</h3>
+        <p class="mt-3 text-lg text-gray-500">We successfully cope with tasks of varying complexity, provide long-term guarantees and regularly master new technologies. Our portfolio includes dozens of successfully completed projects of houses of different storeys, with high–quality finishes and good repairs. Building houses is our vocation!</p>
+        <div class="mt-12 space-y-12">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <div class="flex h-12 w-12 items-center justify-center rounded-md bg-[#b53721] text-gray-50">
+                <i class="ri-quill-pen-line text-2xl"></i>
               </div>
+            </div>
+            <div class="ml-4">
+              <h4 class="text-lg font-medium leading-6 text-gray-900">Geographical diversity, project complexity</h4>
+              <p class="mt-2 text-gray-500">Geographical diversity, project complexity</p>
+            </div>
+          </div>
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <div class="flex h-12 w-12 items-center justify-center rounded-md bg-[#b53721] text-gray-50">
+                <i class="ri-quill-pen-line text-2xl"></i>
+              </div>
+            </div>
+            <div class="ml-4">
+              <h4 class="text-lg font-medium leading-6 text-gray-900">Whether building on land or over water</h4>
+              <p class="mt-2 text-gray-500">Whether building on land or over water</p>
+            </div>
+          </div>
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <div class="flex h-12 w-12 items-center justify-center rounded-md bg-[#b53721] text-gray-50">
+                <i class="ri-quill-pen-line text-2xl"></i>
+              </div>
+            </div>
+            <div class="ml-4">
+              <h4 class="text-lg font-medium leading-6 text-gray-900">Construction companies respond to the unique needs</h4>
+              <p class="mt-2 text-gray-500">Construction companies respond to the unique needs</p>
             </div>
           </div>
         </div>
-      </nav>
+      </div>
 
-      <div class="navbar-menu fixed bottom-0 left-0 top-0 z-50 block hidden w-5/6 max-w-md lg:order-1 lg:w-auto" id="mobile-menu-2">
-        <div class="fixed inset-0 bg-gray-800 opacity-25"></div>
-        <nav class="relative flex h-full w-full flex-col overflow-y-auto border-r bg-white px-10 py-6">
-          <div class="mb-16 flex items-center">
-            <a href="{% url 'homepage' %}" class="mr-auto inline-block items-center justify-between text-2xl font-medium leading-none">
-              <img src="{% static 'image/lightlogo.png' %}" class="mr-3 h-11 w-28 dark:hidden" alt="Hirabricks Light Logo" />
-              <img src="{% static 'image/darklogo.png' %}" class="mr-3 hidden h-11 w-28 dark:block" alt="Hirabricks Dark Logo" />
-            </a>
-            <div data-collapse-toggle="mobile-menu-2" type="button" aria-controls="mobile-menu-2" aria-expanded="false">
-              <button class="navbar-burger flex h-12 w-12 items-center justify-center rounded-md bg-gray-100 transition duration-200 hover:bg-gray-200 lg:order-2">
-                <svg class="h-6 w-6 cursor-pointer text-gray-500 hover:text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-config-id="svg-inline17"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-              </button>
-            </div>
+      <div class="justify-center">
+        <div class="absolute items-center justify-center">
+          <figure class="h-24 w-24">
+            <img class="animate-spin-slow relative inset-0 mx-auto" src="https://govmngfhcfddnuqorust.supabase.co/storage/v1/object/public/image-bucket/EXP_TAG.png" />
+          </figure>
+        </div>
+
+        <img src="https://images.pexels.com/photos/16468070/pexels-photo-16468070/free-photo-of-two-male-brick-makers-at-work.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" class="mx-auto rounded-lg bg-gray-500 shadow-xl" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="relative bg-black" id="Services">
+  <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://builty.bslthemes.com/wp-content/uploads/2022/09/pattren-5.png');"></div>
+
+  <div class="container mx-auto max-w-7xl space-y-20 px-6 py-20 lg:max-w-7xl lg:px-24">
+    <div>
+      <p class="text-md mx-auto mt-4 max-w-3xl pb-3 text-center text-gray-400">WHAT WE PROVIDE</p>
+      <h2 class="text-center text-4xl font-bold tracking-tight text-gray-200 sm:text-6xl">Exclusive Services</h2>
+    </div>
+
+    <div class="mt-8 grid grid-cols-1 gap-8 px-8 md:grid-cols-3 md:gap-16 xl:mt-12">
+      <div class="space-y-3">
+        <span class="inline-block rounded-full bg-red-100 p-3 text-[#b53721] dark:bg-[#b53721] dark:text-white">
+          <i class="ri-ancient-gate-line text-2xl"></i>
+        </span>
+
+        <h1 class="mb-3 text-lg font-semibold text-gray-400 dark:text-white">Innovative Building Solutions</h1>
+
+        <p class="text-base leading-relaxed text-gray-100">Elevate your construction projects with our premium-quality materials. From traditional terracotta bricks to modern building supplies, we ensure durability, reliability, and aesthetic appeal in every component.</p>
+
+        <a href="#" class="-mx-1 inline-flex transform items-center text-sm capitalize text-[#b53721] transition-colors duration-300 hover:text-red-600 hover:underline dark:text-red-400 dark:hover:text-[#b53721]">
+          <span class="mx-1">read more</span>
+          <i class="ri-more-fill text-2xl"></i>
+        </a>
+      </div>
+
+      <div class="space-y-3">
+        <span class="inline-block rounded-full bg-red-100 p-3 text-[#b53721] dark:bg-[#b53721] dark:text-white">
+          <i class="ri-shape-fill text-2xl"></i>
+        </span>
+
+        <h1 class="mb-3 text-lg font-semibold text-gray-400 dark:text-white">Interior Design</h1>
+
+        <p class="text-base leading-relaxed text-gray-100">Transform your spaces into captivating environments with our expert interior design solutions. Whether it's residential or commercial, our team brings creativity, functionality, and elegance to every interior, reflecting your unique style and vision.</p>
+
+        <a href="#" class="-mx-1 inline-flex transform items-center text-sm capitalize text-[#b53721] transition-colors duration-300 hover:text-red-600 hover:underline dark:text-red-400 dark:hover:text-[#b53721]">
+          <span class="mx-1">read more</span>
+          <i class="ri-more-fill text-2xl"></i>
+        </a>
+      </div>
+
+      <div class="space-y-3">
+        <span class="inline-block rounded-full bg-red-100 p-3 text-[#b53721] dark:bg-[#b53721] dark:text-white">
+          <i class="ri-drag-drop-line text-2xl"></i>
+        </span>
+
+        <h1 class="mb-3 text-lg font-semibold text-gray-400 dark:text-white">AutoCAD Design</h1>
+
+        <p class="text-base leading-relaxed text-gray-100">Harness the power of cutting-edge technology with our AutoCAD design services. Our skilled professionals use advanced software to meticulously plan and execute your projects, ensuring precision, efficiency, and seamless integration of architectural elements.</p>
+
+        <a href="#" class="-mx-1 inline-flex transform items-center text-sm capitalize text-[#b53721] transition-colors duration-300 hover:text-red-600 hover:underline dark:text-red-400 dark:hover:text-[#b53721]">
+          <span class="mx-1">read more</span>
+
+          <i class="ri-more-fill text-2xl"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="relative overflow-hidden bg-white py-24">
+  <div class="container mx-auto px-12">
+    <div class="-mx-4 mb-16 flex flex-wrap items-center justify-between">
+      <div class="mb-8 w-full px-4 md:mb-0 md:w-1/2">
+        <div class="max-w-md">
+          <span class="rounded-9xl mb-4 inline-block bg-red-100 px-3 py-px text-xs font-medium uppercase leading-5 text-[#b53721]">Team</span>
+          <h3 class="mb-4 text-4xl font-bold tracking-tighter md:text-5xl">Meet our team</h3>
+          <p class="text-lg font-medium text-gray-500 md:text-xl">Proficient and adept at managing industry business with professionalism.</p>
+        </div>
+      </div>
+      <div class="hidden w-full px-4 md:block md:w-auto">
+        <div class="flex flex-wrap justify-center">
+          <div class="w-full py-1 md:w-auto md:py-0">
+            <p class="inline-block w-full rounded-md border border-gray-200 bg-white px-7 py-5 text-center text-base font-medium leading-4 text-gray-800 shadow-sm hover:bg-gray-100 focus:ring-2 focus:ring-gray-200 focus:ring-opacity-50 md:text-lg">About Us</p>
           </div>
+        </div>
+      </div>
+    </div>
+    <div class="-m-4 flex flex-wrap">
+      {% for Team in TeamMember %}
+      <div class="p-8 md:w-1/2 lg:w-1/3">
+        <img class="mb-8 block h-96 w-full rounded-lg object-cover object-center" src="{{Team.image_url}}" />
+        <div class="w-full">
+          <h2 class="mb-2 text-3xl font-semibold leading-tight md:text-4xl">{{Team.name}}</h2>
+          <h3 class="text-lg font-medium text-[#b53721]">{{Team.position}}</h3>
+        </div>
+      </div>
+
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="relative overflow-hidden" id="Gallery">
+  <div class="container mx-auto flex flex-wrap px-5 py-12">
+    <div class="-m-1 flex flex-wrap md:-m-2">
+      <div class="flex w-1/2 flex-wrap">
+        <div class="w-1/2 p-1 md:p-2">
+          <img alt="gallery" class="block h-full w-full object-cover object-center" src="https://i.pinimg.com/564x/9d/90/45/9d9045042b487edf976837d5d33beae5.jpg" />
+        </div>
+        <div class="w-1/2 p-1 md:p-2">
+          <img alt="gallery" class="block h-full w-full object-cover object-center" src="https://i.pinimg.com/564x/7a/72/4d/7a724ddca209644a479e2623be361021.jpg" />
+        </div>
+        <div class="w-full p-1 md:p-2">
+          <img alt="gallery" class="block h-full w-full object-cover object-center" src="https://i.pinimg.com/564x/53/cd/15/53cd15285938e9135abfaecaa4feab62.jpg" />
+        </div>
+      </div>
+      <div class="flex w-1/2 flex-wrap">
+        <div class="w-full p-1 md:p-2">
+          <img alt="gallery" class="block h-full w-full object-cover object-center" src="https://i.pinimg.com/564x/32/40/a3/3240a371623d3ea1961aa3b4669a9d09.jpg" />
+        </div>
+        <div class="w-1/2 p-1 md:p-2">
+          <img alt="gallery" class="block h-full w-full object-cover object-center" src="https://i.pinimg.com/564x/5b/e3/64/5be3643c2ac3441bff5358b207ee9047.jpg" />
+        </div>
+        <div class="w-1/2 p-1 md:p-2">
+          <img alt="gallery" class="block h-full w-full object-cover object-center" src="https://i.pinimg.com/564x/fb/43/50/fb43502659725113f8989a20978bd90f.jpg" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="relative overflow-hidden bg-white py-6 dark:bg-gray-900">
+  <div class="container mx-auto max-w-4xl px-6 py-10">
+    <h1 class="text-center text-4xl font-semibold text-gray-800 dark:text-white">Frequently asked questions</h1>
+
+    <div class="mt-12 space-y-8">
+      <div class="m-2 space-y-4">
+        <details class="group rounded-lg bg-gray-900 p-6 [&_summary::-webkit-details-marker]:hidden" open>
+          <summary class="flex cursor-pointer items-center justify-between gap-1.5 text-gray-100">
+            <h2 class="font-medium">How i can play for my appoinment ?</h2>
+
+            <span class="relative size-5 shrink-0">
+              <i class="ri-subtract-fill absolute inset-0 text-xl opacity-100 group-open:opacity-0"></i>
+              <i class="ri-add-circle-line absolute inset-0 text-xl opacity-0 group-open:opacity-100"></i>
+            </span>
+          </summary>
+
+          <p class="mt-4 leading-relaxed text-gray-100">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab hic veritatis molestias culpa in, recusandae laboriosam neque aliquid libero nesciunt voluptate dicta quo officiis explicabo consequuntur distinctio corporis earum similique!</p>
+        </details>
+
+        <details class="group rounded-lg bg-gray-900 p-6 [&_summary::-webkit-details-marker]:hidden">
+          <summary class="flex cursor-pointer items-center justify-between gap-1.5 text-gray-100">
+            <h2 class="font-medium">How i can play for my appoinment ?</h2>
+
+            <span class="relative size-5 shrink-0">
+              <i class="ri-subtract-fill absolute inset-0 text-xl opacity-100 group-open:opacity-0"></i>
+              <i class="ri-add-circle-line absolute inset-0 text-xl opacity-0 group-open:opacity-100"></i>
+            </span>
+          </summary>
+
+          <p class="mt-4 leading-relaxed text-gray-100">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab hic veritatis molestias culpa in, recusandae laboriosam neque aliquid libero nesciunt voluptate dicta quo officiis explicabo consequuntur distinctio corporis earum similique!</p>
+        </details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact-us" class="relative overflow-hidden bg-gradient-to-tr from-[#d0543e] to-[#8e2812] py-4 dark:from-gray-700 dark:via-gray-800 dark:to-gray-900">
+  <div class="container mx-auto flex flex-col px-6 py-12">
+    <div class="flex-1 lg:-mx-6 lg:flex lg:items-center">
+      <div class="lg:w-1/26 text-white lg:mx-6">
+        <h1 class="text-3xl font-semibold capitalize lg:text-5xl">Get a quote</h1>
+
+        <p class="mt-6 max-w-xl">Ask us everything and we would love to hear from you</p>
+        <p class="-mx-2 mt-2 flex items-start">
+          <svg xmlns="http://www.w3.org/2000/svg" class="mx-2 h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+
+          <span class="mx-2 w-72 truncate text-white">info@hirabricks.com</span>
+        </p>
+
+        <div class="my-12 grid grid-cols-1 gap-12 sm:grid-cols-2 lg:col-span-2">
+          {% for company in Company_info %}
           <div>
-            <ul class="mb-2">
-              <li><a class="block rounded-lg px-5 py-4 text-gray-900 hover:bg-orange-50" href="#" data-config-id="text44">About Us</a></li>
-              <li><a class="block rounded-lg px-5 py-4 text-gray-900 hover:bg-orange-50" href="#" data-config-id="text45">Products</a></li>
-              <li><a class="block rounded-lg px-5 py-4 text-gray-900 hover:bg-orange-50" href="#contact-us" data-config-id="text47">Contact US</a></li>
-              <li><a class="block rounded-lg px-5 py-4 text-gray-900 hover:bg-orange-50" href="#" data-config-id="text48">Gallery</a></li>
-              <li><a class="block rounded-lg px-5 py-4 text-gray-900 hover:bg-orange-50" href="#" data-config-id="text46">Documentation</a></li>
-            </ul>
-            <div class="mb-16 flex items-center border-b border-t border-gray-200 px-6 py-8">
-              {% if user.is_authenticated %}
-              <a class="group relative inline-block overflow-hidden rounded-md border border-gray-200 px-4 py-3 text-sm font-semibold text-[#b53721] transition duration-300 hover:text-white" href="{% url 'index' %}">
-                <div class="group-hover:scale-102 absolute right-full top-0 h-full w-full transform bg-[#b53721] transition duration-500 group-hover:translate-x-full"></div>
-                <span class="relative">Dashboard</span>
-              </a>
-              {% else %}
-              <a class="mr-9 inline-block text-sm font-semibold text-[#b53721] hover:text-gray-900" href="{% url 'index' %}">Sign In</a>
-              {% endif %}
-            </div>
-            <div>
-              <div class="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-orange-50">
-                <svg width="29" height="28" viewBox="0 0 29 28" fill="none" xmlns="http://www.w3.org/2000/svg" data-config-id="svg-inline19"><path d="M25.3333 16.6667C24.9797 16.6667 24.6406 16.8072 24.3905 17.0572C24.1405 17.3073 24 17.6464 24 18V23.3334C24 23.687 23.8595 24.0261 23.6095 24.2762C23.3594 24.5262 23.0203 24.6667 22.6667 24.6667H4C3.64638 24.6667 3.30724 24.5262 3.05719 24.2762C2.80714 24.0261 2.66667 23.687 2.66667 23.3334V10.5467L10.5067 18.4C11.2567 19.1491 12.2733 19.5698 13.3333 19.5698C14.3933 19.5698 15.41 19.1491 16.16 18.4L18.3467 16.2134C18.5977 15.9623 18.7388 15.6218 18.7388 15.2667C18.7388 14.9116 18.5977 14.5711 18.3467 14.32C18.0956 14.069 17.7551 13.9279 17.4 13.9279C17.0449 13.9279 16.7044 14.069 16.4533 14.32L14.2667 16.5067C14.0174 16.751 13.6823 16.8878 13.3333 16.8878C12.9843 16.8878 12.6492 16.751 12.4 16.5067L4.54667 8.66669H13.3333C13.687 8.66669 14.0261 8.52622 14.2761 8.27617C14.5262 8.02612 14.6667 7.68698 14.6667 7.33336C14.6667 6.97974 14.5262 6.6406 14.2761 6.39055C14.0261 6.1405 13.687 6.00002 13.3333 6.00002H4C2.93913 6.00002 1.92172 6.42145 1.17157 7.1716C0.421427 7.92174 0 8.93916 0 10V23.3334C0 24.3942 0.421427 25.4116 1.17157 26.1618C1.92172 26.9119 2.93913 27.3334 4 27.3334H22.6667C23.7275 27.3334 24.7449 26.9119 25.4951 26.1618C26.2452 25.4116 26.6667 24.3942 26.6667 23.3334V18C26.6667 17.6464 26.5262 17.3073 26.2761 17.0572C26.0261 16.8072 25.687 16.6667 25.3333 16.6667ZM27.6133 5.05336L23.6133 1.05336C23.4865 0.93197 23.337 0.836817 23.1733 0.773358C22.8487 0.64 22.4846 0.64 22.16 0.773358C21.9963 0.836817 21.8468 0.93197 21.72 1.05336L17.72 5.05336C17.4689 5.30443 17.3279 5.64496 17.3279 6.00002C17.3279 6.35509 17.4689 6.69562 17.72 6.94669C17.9711 7.19776 18.3116 7.33881 18.6667 7.33881C19.0217 7.33881 19.3623 7.19776 19.6133 6.94669L21.3333 5.21336V12.6667C21.3333 13.0203 21.4738 13.3595 21.7239 13.6095C21.9739 13.8595 22.313 14 22.6667 14C23.0203 14 23.3594 13.8595 23.6095 13.6095C23.8595 13.3595 24 13.0203 24 12.6667V5.21336L25.72 6.94669C25.844 7.07166 25.9914 7.17086 26.1539 7.23855C26.3164 7.30624 26.4907 7.34109 26.6667 7.34109C26.8427 7.34109 27.017 7.30624 27.1794 7.23855C27.3419 7.17086 27.4894 7.07166 27.6133 6.94669C27.7383 6.82274 27.8375 6.67527 27.9052 6.51279C27.9729 6.35032 28.0077 6.17604 28.0077 6.00002C28.0077 5.82401 27.9729 5.64973 27.9052 5.48726C27.8375 5.32478 27.7383 5.17731 27.6133 5.05336Z" fill="black"></path></svg>
-              </div>
-              <span class="mb-3 block text-sm text-gray-500" data-config-id="text36">Drop us a line</span> <a class="font-semibold text-black" href="#" data-config-id="text51">info@hirabricks.com</a>
-            </div>
+            <h2 class="font-medium text-white">{{company.name}}</h2>
+            <p class="mt-2 text-white">
+              <i class="ri-map-pin-line text-xl"></i>
+              <span class="mx-2 w-72 truncate text-white">{{company.address}}</span>
+            </p>
+            <p class="mt-2 text-white">
+              <i class="ri-phone-line text-xl"></i>
+              <span class="mx-2 w-72 truncate text-white"><a href="tel:{{company.phone_number}}">{{company.phone_number}}</a></span>
+            </p>
+            <p class="mt-2 text-white">
+              <i class="ri-mail-send-line text-xl"></i>
+              <span class="mx-2 w-72 truncate text-white"><a href="mailto:{{company.email}}">{{company.email}}</a></span>
+            </p>
           </div>
-        </nav>
+          {% endfor %}
+        </div>
+
+        <div class="overflow-hidden rounded-xl p-8 lg:col-span-2">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1766.4626429411187!2d85.33257!3d27.688704!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb1995e36f0c83%3A0xf254b9008a4e196e!2sHira%20Bricks!5e0!3m2!1sen!2snp!4v1710937397822!5m2!1sen!2snp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
       </div>
-    </header>
 
-    <section class="relative overflow-hidden">
-      <div class="container mx-auto px-4">
-        <div class="mx-auto max-w-7xl">
-          <div class="mx-auto max-w-4xl text-center">
-            <h1 class="font-heading xs:text-6xl xl:text-10xl mb-8 text-5xl font-bold text-gray-900 sm:mb-14 lg:text-8xl">
-              <span>Crafting Quality for</span>
-              <span class="font-serif italic">40 Years</span>
-            </h1>
-          </div>
-          <div class="mb-14 max-w-xs sm:max-w-sm lg:flex lg:max-w-none">
-            <div class="mb-6 pt-3 lg:mb-0 lg:mr-8">
-              <svg width="84" height="10" viewbox="0 0 84 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M1 4.25C0.585786 4.25 0.25 4.58579 0.25 5C0.25 5.41421 0.585786 5.75 1 5.75L1 4.25ZM84 5.00001L76.5 0.669879L76.5 9.33013L84 5.00001ZM1 5.75L77.25 5.75001L77.25 4.25001L1 4.25L1 5.75Z" fill="#1E254C"></path>
-              </svg>
-            </div>
-            <div class="max-w-md">
-              <p class="font-semibold text-gray-900 lg:text-xl">Established for four decades, Hirabricks is a leading name in the brick industry, renowned for its commitment to quality and excellence.</p>
-            </div>
-          </div>
-          <a class="group relative mb-24 inline-block w-full overflow-hidden rounded-md bg-[#b53721] px-6 py-4 font-semibold text-white sm:w-auto" href="#">
-            <div class="group-hover:scale-102 absolute right-full top-0 h-full w-full transform bg-gray-900 transition duration-500 group-hover:translate-x-full"></div>
-            <div class="relative flex items-center justify-center">
-              <span class="mr-4">Meet The Expert</span>
-              <span>
-                <svg width="8" height="12" viewbox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M6.83 5.29L2.59 1.05C2.49704 0.956274 2.38644 0.881879 2.26458 0.83111C2.14272 0.780342 2.01202 0.754204 1.88 0.754204C1.74799 0.754204 1.61729 0.780342 1.49543 0.83111C1.37357 0.881879 1.26297 0.956274 1.17 1.05C0.983753 1.23736 0.879211 1.49082 0.879211 1.755C0.879211 2.01919 0.983753 2.27264 1.17 2.46L4.71 6L1.17 9.54C0.983753 9.72736 0.879211 9.98082 0.879211 10.245C0.879211 10.5092 0.983753 10.7626 1.17 10.95C1.26344 11.0427 1.37426 11.116 1.4961 11.1658C1.61794 11.2155 1.7484 11.2408 1.88 11.24C2.01161 11.2408 2.14207 11.2155 2.26391 11.1658C2.38575 11.116 2.49656 11.0427 2.59 10.95L6.83 6.71C6.92373 6.61704 6.99813 6.50644 7.04889 6.38458C7.09966 6.26272 7.1258 6.13201 7.1258 6C7.1258 5.86799 7.09966 5.73728 7.04889 5.61543C6.99813 5.49357 6.92373 5.38297 6.83 5.29Z" fill="#FFF2EE"></path>
-                </svg>
-              </span>
-            </div>
-          </a>
-          <div class="lg:flex">
-            <div class="mb-20 max-w-2xl lg:mb-0 lg:mr-32">
-              <span class="mb-6 block text-sm font-semibold text-gray-500">TRUSTED BY BIG COMPANIES</span>
-              <div class="-mx-4 flex items-center">
-                <div class="w-1/3 px-4">
-                  <img class="block" src="https://shuffle.dev/saturn-assets/logos/brands/logo-example3.png" alt="" />
-                </div>
-                <div class="w-1/3 px-4">
-                  <img class="block" src="https://shuffle.dev/saturn-assets/logos/brands/logo-example2.png" alt="" />
-                </div>
-                <div class="w-1/3 px-4">
-                  <img class="block" src="https://shuffle.dev/saturn-assets/logos/brands/logo-example1.png" alt="" />
-                </div>
-              </div>
-            </div>
-            <div class="relative w-full max-w-md lg:-mt-20">
-              <img class="absolute left-0 top-0 w-full" src="https://shuffle.dev/saturn-assets/images/headers/bg-folder.svg" alt="" />
-              <div class="relative flex flex-col">
-                <div class="xs:w-100 xs:pl-10 xs:pr-5 z-10 mt-12 max-w-xs pl-5 pr-20">
-                  <h3 class="text-2xl font-semibold text-gray-900">We are building the future together</h3>
-                </div>
+      <div class="mt-8 lg:mx-6 lg:w-1/2">
+        <div class="mx-auto w-full overflow-hidden rounded-xl bg-white px-8 py-10 shadow-2xl lg:max-w-xl dark:bg-gray-900">
+          <h1 class="text-2xl font-medium text-gray-700 dark:text-gray-200">Contact form</h1>
 
-                <div class="mt-8 max-w-md rounded-b-3xl bg-[#fff2ee] px-10 pb-12">
-                  <div class="flex items-center">
-                    <div>
-                      <span class="xs:text-5xl text-4xl font-semibold text-gray-900">18k+</span>
-                      <span class="block text-sm text-gray-500">Projects Done</span>
-                    </div>
-                    <div class="mx-auto h-12 w-px bg-[#fff2ee]"></div>
-                    <div>
-                      <span class="xs:text-5xl text-3xl font-semibold text-gray-900">20+</span>
-                      <span class="block text-sm text-gray-500">Awards Winning</span>
-                    </div>
+          <form method="post" class="mt-6">
+            {% csrf_token %} {% for message in messages %}
+            <div class="pt-4" x-data="{ isOpen: true }">
+              <div class="border-stroke dark:border-dark-3 dark:bg-dark-2 mb-11 flex items-center rounded-md border border-l-[8px] border-l-[#00B078] bg-white p-5 pl-8" x-show="isOpen">
+                <div class="mr-5 flex h-[36px] w-full max-w-[36px] items-center justify-center rounded-full bg-[#00B078]">
+                  <i class="ri-check-fill"></i>
+                </div>
+                <div class="flex w-full items-center justify-between">
+                  <div>
+                    <h3 class="text-dark mb-1 text-lg font-medium dark:text-white">{{message}}</h3>
+                  </div>
+                  <div>
+                    <button class="hover:text-danger text-[#ACACB0]" @click="isOpen = false">
+                      <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6 18L18 6M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+            {% endfor %}
+
+            <div class="flex-1">
+              <label class="mb-2 block text-sm text-gray-600 dark:text-gray-200">Full Name</label>
+              <input type="text" placeholder="John Doe" name="name" class="mt-2 block w-full rounded-md border border-gray-200 bg-white px-5 py-3 text-gray-700 focus:border-red-400 focus:outline-none focus:ring focus:ring-red-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-red-300" />
+            </div>
+
+            <div class="mt-6 flex-1">
+              <label class="mb-2 block text-sm text-gray-600 dark:text-gray-200">Email address</label>
+              <input type="email" name="email" placeholder="johndoe@example.com" class="mt-2 block w-full rounded-md border border-gray-200 bg-white px-5 py-3 text-gray-700 focus:border-red-400 focus:outline-none focus:ring focus:ring-red-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-red-300" />
+            </div>
+
+            <div class="mt-6 w-full">
+              <label class="mb-2 block text-sm text-gray-600 dark:text-gray-200">Message</label>
+              <textarea class="mt-2 block h-32 w-full rounded-md border border-gray-200 bg-white px-5 py-3 text-gray-700 placeholder-gray-400 focus:border-red-400 focus:outline-none focus:ring focus:ring-red-300 focus:ring-opacity-40 md:h-48 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-red-300" placeholder="Message" name="message"></textarea>
+            </div>
+
+            <button class="mt-6 w-full transform rounded-md bg-gray-700 px-6 py-3 text-sm font-medium capitalize tracking-wide text-white transition-colors duration-300 hover:bg-gray-600 focus:outline-none focus:ring focus:ring-gray-400 focus:ring-opacity-50">Submit</button>
+          </form>
         </div>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
-    <section class="relative overflow-hidden py-16 text-gray-800">
-      <div class="container mx-auto max-w-xl space-y-24 px-12 py-12 lg:max-w-7xl lg:px-24">
-        <div>
-          <p class="text-md mx-auto mt-4 max-w-3xl pb-3 text-center text-gray-500">FOCUSED AND FUTURE READY</p>
-          <h2 class="text-center text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Right People to Deliver Unique Construction Materials</h2>
-        </div>
-        <div class="grid lg:grid-cols-2 lg:items-center lg:gap-8">
-          <div>
-            <h3 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Our Goal is to Be Better</h3>
-            <p class="mt-3 text-lg text-gray-500">We successfully cope with tasks of varying complexity, provide long-term guarantees and regularly master new technologies. Our portfolio includes dozens of successfully completed projects of houses of different storeys, with high–quality finishes and good repairs. Building houses is our vocation!</p>
-            <div class="mt-12 space-y-12">
-              <div class="flex">
-                <div class="flex-shrink-0">
-                  <div class="flex h-12 w-12 items-center justify-center rounded-md bg-[#b53721] text-gray-50">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-7 w-7">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                  </div>
-                </div>
-                <div class="ml-4">
-                  <h4 class="text-lg font-medium leading-6 text-gray-900">Geographical diversity, project complexity</h4>
-                  <p class="mt-2 text-gray-500">Geographical diversity, project complexity</p>
-                </div>
-              </div>
-              <div class="flex">
-                <div class="flex-shrink-0">
-                  <div class="flex h-12 w-12 items-center justify-center rounded-md bg-[#b53721] text-gray-50">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-7 w-7">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                  </div>
-                </div>
-                <div class="ml-4">
-                  <h4 class="text-lg font-medium leading-6 text-gray-900">Whether building on land or over water</h4>
-                  <p class="mt-2 text-gray-500">Whether building on land or over water</p>
-                </div>
-              </div>
-              <div class="flex">
-                <div class="flex-shrink-0">
-                  <div class="flex h-12 w-12 items-center justify-center rounded-md bg-[#b53721] text-gray-50">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-7 w-7">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                  </div>
-                </div>
-                <div class="ml-4">
-                  <h4 class="text-lg font-medium leading-6 text-gray-900">Construction companies respond to the unique needs</h4>
-                  <p class="mt-2 text-gray-500">Construction companies respond to the unique needs</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="justify-center">
-            <div class="absolute items-center justify-center">
-              <figure class=" h-24 w-24">
-                <img class="relative inset-0 mx-auto animate-spin-slow" src="https://govmngfhcfddnuqorust.supabase.co/storage/v1/object/public/image-bucket/EXP_TAG.png" />
-              </figure>
-            </div>
-
-            <img src="https://images.pexels.com/photos/16468070/pexels-photo-16468070/free-photo-of-two-male-brick-makers-at-work.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" class="mx-auto rounded-lg bg-gray-500 shadow-xl" />
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="relative bg-black">
-      <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://builty.bslthemes.com/wp-content/uploads/2022/09/pattren-5.png');"></div>
-
-      <div class="container mx-auto max-w-7xl space-y-20 px-6 py-20 lg:max-w-7xl lg:px-24">
-        <div class="">
-          <p class="text-md mx-auto mt-4 max-w-3xl pb-3 text-center text-gray-400">WHAT WE PROVIDE</p>
-          <h2 class="text-center text-4xl font-bold tracking-tight text-gray-200 sm:text-6xl">Exclusive Services</h2>
-        </div>
-
-        <div class="flex flex-wrap space-y-4">
-          <div class="flex flex-col items-center p-4 text-center md:w-1/3">
-            <div class="mb-5 inline-flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-full bg-red-100 text-[#b53721]">
-              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="h-10 w-10" viewBox="0 0 24 24">
-                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
-              </svg>
-            </div>
-            <div class="flex-grow">
-              <h2 class="title-font mb-3 text-lg font-medium text-white">Quality Materials</h2>
-              <p class="text-base leading-relaxed text-gray-100">Blue bottle crucifix vinyl post-ironic four dollar toast vegan taxidermy. Gastropub indxgo juice poutine, ramps microdosing banh mi pug VHS try-hard.</p>
-              <a class="mt-3 inline-flex items-center text-red-400"
-                >Learn More
-                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="ml-2 h-4 w-4" viewBox="0 0 24 24">
-                  <path d="M5 12h14M12 5l7 7-7 7"></path>
-                </svg>
-              </a>
-            </div>
-          </div>
-          <div class="flex flex-col items-center p-4 text-center md:w-1/3">
-            <div class="mb-5 inline-flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-full bg-red-100 text-[#b53721]">
-              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="h-10 w-10" viewBox="0 0 24 24">
-                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
-              </svg>
-            </div>
-            <div class="flex-grow">
-              <h2 class="title-font mb-3 text-lg font-medium text-white">Quality Materials</h2>
-              <p class="text-base leading-relaxed text-gray-100">Blue bottle crucifix vinyl post-ironic four dollar toast vegan taxidermy. Gastropub indxgo juice poutine, ramps microdosing banh mi pug VHS try-hard.</p>
-              <a class="mt-3 inline-flex items-center text-red-400"
-                >Learn More
-                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="ml-2 h-4 w-4" viewBox="0 0 24 24">
-                  <path d="M5 12h14M12 5l7 7-7 7"></path>
-                </svg>
-              </a>
-            </div>
-          </div>
-          <div class="flex flex-col items-center p-4 text-center md:w-1/3">
-            <div class="mb-5 inline-flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-full bg-red-100 text-[#b53721]">
-              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="h-10 w-10" viewBox="0 0 24 24">
-                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
-              </svg>
-            </div>
-            <div class="flex-grow">
-              <h2 class="title-font mb-3 text-lg font-medium text-white">Quality Materials</h2>
-              <p class="text-base leading-relaxed text-gray-100">Blue bottle crucifix vinyl post-ironic four dollar toast vegan taxidermy. Gastropub indxgo juice poutine, ramps microdosing banh mi pug VHS try-hard.</p>
-              <a class="mt-3 inline-flex items-center text-red-400"
-                >Learn More
-                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="ml-2 h-4 w-4" viewBox="0 0 24 24">
-                  <path d="M5 12h14M12 5l7 7-7 7"></path>
-                </svg>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="relative overflow-hidden bg-white py-16 md:py-24" id="aboutus">
-      <div class="container mx-auto px-4">
-        <div class="-mx-4 mb-16 flex flex-wrap items-center justify-between">
-          <div class="mb-8 w-full px-4 md:mb-0 md:w-1/2">
-            <div class="max-w-md">
-              <span class="rounded-9xl mb-4 inline-block bg-red-100 px-3 py-px text-xs font-medium uppercase leading-5 text-[#b53721]" data-config-id="auto-txt-1-4">Team</span>
-              <h3 class="mb-4 text-4xl font-bold tracking-tighter md:text-5xl" data-config-id="auto-txt-2-4">Meet our team</h3>
-              <p class="text-lg font-medium text-gray-500 md:text-xl" data-config-id="auto-txt-3-4">Highly professional and capable of running your business across all digital channels.</p>
-            </div>
-          </div>
-          <div class="hidden w-full px-4 md:block md:w-auto">
-            <div class="flex flex-wrap justify-center">
-              <div class="w-full py-1 md:w-auto md:py-0">
-                <p class="inline-block w-full rounded-md border border-gray-200 bg-white px-7 py-5 text-center text-base font-medium leading-4 text-gray-800 shadow-sm hover:bg-gray-100 focus:ring-2 focus:ring-gray-200 focus:ring-opacity-50 md:text-lg">About Us</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="-mx-4 flex flex-wrap">
-          <div class="mb-12 w-full px-4 md:w-1/3">
-            <div class="mx-auto max-w-max">
-              <img class="mb-8 block" src="https://shuffle.dev/flex-ui-assets/images/teams/photo-employee1.png" alt="" data-config-id="auto-img-1-4" />
-              <h3 class="mb-2 text-3xl font-semibold leading-tight md:text-4xl" data-config-id="auto-txt-6-4">Macauley Herring</h3>
-              <span class="text-lg font-medium text-[#b53721]" data-config-id="auto-txt-7-4">CEO &amp; Founder</span>
-            </div>
-          </div>
-          <div class="mb-12 w-full px-4 md:w-1/3">
-            <div class="mx-auto max-w-max">
-              <img class="mb-8 block" src="https://shuffle.dev/flex-ui-assets/images/teams/photo-employee6.png" alt="" data-config-id="auto-img-2-4" />
-              <h3 class="mb-2 text-3xl font-semibold leading-tight md:text-4xl" data-config-id="auto-txt-8-4">Ivan Mathews</h3>
-              <span class="text-lg font-medium text-[#b53721]" data-config-id="auto-txt-9-4">CTO</span>
-            </div>
-          </div>
-          <div class="mb-12 w-full px-4 md:w-1/3">
-            <div class="mx-auto max-w-max">
-              <img class="mb-8 block" src="https://shuffle.dev/flex-ui-assets/images/teams/photo-employee5.png" alt="" data-config-id="auto-img-3-4" />
-              <h3 class="mb-2 text-3xl font-semibold leading-tight md:text-4xl" data-config-id="auto-txt-10-4">Elen Benitez</h3>
-              <span class="text-lg font-medium text-[#b53721]" data-config-id="auto-txt-11-4">CPO</span>
-            </div>
-          </div>
-          <div class="mb-12 w-full px-4 md:mb-0 md:w-1/3">
-            <div class="mx-auto max-w-max">
-              <img class="mb-8 block" src="https://shuffle.dev/flex-ui-assets/images/teams/photo-employee4.png" alt="" data-config-id="auto-img-4-4" />
-              <h3 class="mb-2 text-3xl font-semibold leading-tight md:text-4xl" data-config-id="auto-txt-12-4">Macauley Herring</h3>
-              <span class="text-lg font-medium text-[#b53721]" data-config-id="auto-txt-13-4">Customer Success</span>
-            </div>
-          </div>
-          <div class="mb-12 w-full px-4 md:mb-0 md:w-1/3">
-            <div class="mx-auto max-w-max">
-              <img class="mb-8 block" src="https://shuffle.dev/flex-ui-assets/images/teams/photo-employee3.png" alt="" data-config-id="auto-img-5-4" />
-              <h3 class="mb-2 text-3xl font-semibold leading-tight md:text-4xl" data-config-id="auto-txt-14-4">Alya Levine</h3>
-              <span class="text-lg font-medium text-[#b53721]" data-config-id="auto-txt-15-4">Backend Developer</span>
-            </div>
-          </div>
-          <div class="w-full px-4 md:w-1/3">
-            <div class="mx-auto max-w-max">
-              <img class="mb-8 block" src="https://shuffle.dev/flex-ui-assets/images/teams/photo-employee2.png" alt="" data-config-id="auto-img-6-4" />
-              <h3 class="mb-2 text-3xl font-semibold leading-tight md:text-4xl" data-config-id="auto-txt-16-4">Rose Hernandez</h3>
-              <span class="text-lg font-medium text-[#b53721]" data-config-id="auto-txt-17-4">iOS Developer</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="relative overflow-hidden bg-white py-16 md:py-24 dark:bg-gray-900">
-      <div class="container mx-auto max-w-4xl px-6 py-10">
-        <h1 class="text-center text-4xl font-semibold text-gray-800 dark:text-white">Frequently asked questions</h1>
-
-        <div class="mt-12 space-y-8">
-          <div class="m-2 space-y-2">
-            <div class="group flex flex-col gap-2 rounded-lg bg-black p-5 text-white" tabindex="1">
-              <div class="flex cursor-pointer items-center justify-between">
-                <span> How i can play for my appoinment ?</span>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/9/96/Chevron-icon-drop-down-menu-WHITE.png" class="h-2 w-3 transition-all duration-500 group-focus:-rotate-180" />
-              </div>
-              <div class="invisible h-auto max-h-0 items-center opacity-0 transition-all group-focus:visible group-focus:max-h-screen group-focus:opacity-100 group-focus:duration-1000">
-                <hr class="border-gray-200 dark:border-gray-700" />
-
-                <p class="p-8 text-sm">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptas eaque nobis, fugit odit omnis fugiat deleniti animi ab maxime cum laboriosam recusandae facere dolorum veniam quia pariatur obcaecati illo ducimus? Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-              </div>
-            </div>
-
-            <div class="group flex flex-col gap-2 rounded-lg bg-black p-5 text-white" tabindex="2">
-              <div class="flex cursor-pointer items-center justify-between">
-                <span> How i can play for my appoinment ?</span>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/9/96/Chevron-icon-drop-down-menu-WHITE.png" class="h-2 w-3 transition-all duration-500 group-focus:-rotate-180" />
-              </div>
-              <div class="invisible h-auto max-h-0 items-center opacity-0 transition-all group-focus:visible group-focus:max-h-screen group-focus:opacity-100 group-focus:duration-1000">
-                <hr class="border-gray-200 dark:border-gray-700" />
-
-                <p class="p-8 text-sm">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptas eaque nobis, fugit odit omnis fugiat deleniti animi ab maxime cum laboriosam recusandae facere dolorum veniam quia pariatur obcaecati illo ducimus? Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-              </div>
-            </div>
-
-            <div class="group flex flex-col gap-2 rounded-lg bg-black p-5 text-white" tabindex="3">
-              <div class="flex cursor-pointer items-center justify-between">
-                <span> How i can play for my appoinment ?</span>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/9/96/Chevron-icon-drop-down-menu-WHITE.png" class="h-2 w-3 transition-all duration-500 group-focus:-rotate-180" />
-              </div>
-              <div class="invisible h-auto max-h-0 items-center opacity-0 transition-all group-focus:visible group-focus:max-h-screen group-focus:opacity-100 group-focus:duration-1000">
-                <hr class="border-gray-200 dark:border-gray-700" />
-
-                <p class="p-8 text-sm">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptas eaque nobis, fugit odit omnis fugiat deleniti animi ab maxime cum laboriosam recusandae facere dolorum veniam quia pariatur obcaecati illo ducimus? Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="contact-us" class="relative overflow-hidden bg-gradient-to-tr from-[#d0543e] to-[#8e2812] py-4 dark:from-gray-700 dark:via-gray-800 dark:to-gray-900">
-      <div class="container mx-auto flex flex-col px-6 py-12">
-        <div class="flex-1 lg:-mx-6 lg:flex lg:items-center">
-          <div class="text-white lg:mx-6 lg:w-1/2">
-            <h1 class="text-3xl font-semibold capitalize lg:text-5xl">Get a quote</h1>
-
-            <p class="mt-6 max-w-xl">Ask us everything and we would love to hear from you</p>
-
-            <div class="mt-6 space-y-8 md:mt-8">
-              <p class="-mx-2 flex items-start">
-                <svg xmlns="http://www.w3.org/2000/svg" class="mx-2 h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-
-                <span class="mx-2 w-72 truncate text-white"> New Baneshwor, kathmandu</span>
-              </p>
-
-              <p class="-mx-2 flex items-start">
-                <svg xmlns="http://www.w3.org/2000/svg" class="mx-2 h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                </svg>
-
-                <span class="mx-2 w-72 truncate text-white">01-4780969</span>
-                <span class="mx-2 w-72 truncate text-white">01-4780986</span>
-                <span class="mx-2 w-72 truncate text-white">01-4781865</span>
-              </p>
-
-              <p class="-mx-2 flex items-start">
-                <svg xmlns="http://www.w3.org/2000/svg" class="mx-2 h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-
-                <span class="mx-2 w-72 truncate text-white">info@hirabricks.com</span>
-              </p>
-              
-            </div>
-
-            <div class=" rounded-lg lg:col-span-2 h-96 mt-8">
-              <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1766.4626429411187!2d85.33257!3d27.688704!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb1995e36f0c83%3A0xf254b9008a4e196e!2sHira%20Bricks!5e0!3m2!1sen!2snp!4v1710937397822!5m2!1sen!2snp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-          </div>
-          </div>
-
-          <div class="mt-8 lg:mx-6 lg:w-1/2">
-            <div class="mx-auto w-full overflow-hidden rounded-xl bg-white px-8 py-10 shadow-2xl lg:max-w-xl dark:bg-gray-900">
-              <h1 class="text-2xl font-medium text-gray-700 dark:text-gray-200">Contact form</h1>
-
-              <form method="post" class="mt-6">
-                {% csrf_token %} 
-                {% for message in messages %}
-                <div class="pt-4" x-data="{ isOpen: true }">
-                  <div class="border-stroke dark:border-dark-3 dark:bg-dark-2 mb-11 flex items-center rounded-md border border-l-[8px] border-l-[#00B078] bg-white p-5 pl-8" x-show="isOpen">
-                    <div class="mr-5 flex h-[36px] w-full max-w-[36px] items-center justify-center rounded-full bg-[#00B078]">
-                      <i class="ri-check-fill"></i>
-                    </div>
-                    <div class="flex w-full items-center justify-between">
-                      <div>
-                        <h3 class="text-dark mb-1 text-lg font-medium dark:text-white">{{message}}</h3>
-                      </div>
-                      <div>
-                        <button class="hover:text-danger text-[#ACACB0]" @click="isOpen = false">
-                          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M6 18L18 6M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                          </svg>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                {% endfor %}
-              
-                <div class="flex-1">
-                  <label class="mb-2 block text-sm text-gray-600 dark:text-gray-200">Full Name</label>
-                  <input type="text" placeholder="John Doe" name="name" class="mt-2 block w-full rounded-md border border-gray-200 bg-white px-5 py-3 text-gray-700 focus:border-red-400 focus:outline-none focus:ring focus:ring-red-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-red-300" />
-                </div>
-              
-                <div class="mt-6 flex-1">
-                  <label class="mb-2 block text-sm text-gray-600 dark:text-gray-200">Email address</label>
-                  <input type="email" name="email" placeholder="johndoe@example.com" class="mt-2 block w-full rounded-md border border-gray-200 bg-white px-5 py-3 text-gray-700 focus:border-red-400 focus:outline-none focus:ring focus:ring-red-300 focus:ring-opacity-40 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-red-300" />
-                </div>
-              
-                <div class="mt-6 w-full">
-                  <label class="mb-2 block text-sm text-gray-600 dark:text-gray-200">Message</label>
-                  <textarea class="mt-2 block h-32 w-full rounded-md border border-gray-200 bg-white px-5 py-3 text-gray-700 placeholder-gray-400 focus:border-red-400 focus:outline-none focus:ring focus:ring-red-300 focus:ring-opacity-40 md:h-48 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-red-300" placeholder="Message" name="message"></textarea>
-                </div>
-              
-                <button class="mt-6 w-full transform rounded-md bg-gray-700 px-6 py-3 text-sm font-medium capitalize tracking-wide text-white transition-colors duration-300 hover:bg-gray-600 focus:outline-none focus:ring focus:ring-gray-400 focus:ring-opacity-50">Submit</button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <footer class="bg-white">
-      <div class="container mx-auto px-4">
-        <div class="-mx-4 flex flex-wrap pb-12 pt-24">
-          <div class="mb-16 w-full px-4 md:mb-0 md:w-6/12">
-            <a href="{% url 'homepage' %}" class="mr-4 inline-block items-center justify-between">
-              <img src="{% static 'image/lightlogo.png' %}" class="mr-3 h-11 w-28" alt="Hirabricks Light Logo" />
-            </a>
-            <p class="text-base font-medium text-gray-500 md:w-10/12 md:text-lg" data-config-id="auto-txt-1-2">Decorative bricks that consists of reclaimed brick cladding, hand-made and casted with an innovative bricks</p>
-          </div>
-          <div class="mb-16 w-full px-4 md:mb-0 md:w-2/12">
-            <h3 class="mb-5 text-lg font-bold text-gray-900" data-config-id="auto-txt-2-2">Product</h3>
-            <ul>
-              <li class="mb-4"><a class="inline-block font-medium text-gray-500 hover:text-gray-600" href="#" data-config-id="auto-txt-3-2">About Us</a></li>
-              <li class="mb-4"><a class="inline-block font-medium text-gray-500 hover:text-gray-600" href="#" data-config-id="auto-txt-4-2">Services</a></li>
-              <li class="mb-4"><a class="inline-block font-medium text-gray-500 hover:text-gray-600" href="#" data-config-id="auto-txt-5-2">Products</a></li>
-            </ul>
-          </div>
-          <div class="mb-16 w-full px-4 md:mb-0 md:w-4/12">
-            <h3 class="mb-5 text-lg font-bold text-gray-900" data-config-id="auto-txt-8-2">Contact</h3>
-            <p class="text-base font-medium text-gray-500 md:text-lg" data-config-id="auto-txt-1-2">Head Office</p>
-            <p class="pt-1 text-base font-medium text-gray-500 md:text-lg" data-config-id="auto-txt-1-2">New Baneshwor, kathmandu</p>
-            <ul class="pt-4">
-              <li class="mb-4 inline-block font-medium text-gray-500 hover:text-gray-600">Mobile: <a href="tel:01-4780969" class="pl-2">01-4780969</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="border-b border-gray-100"></div>
-      <div class="container mx-auto px-4">
-        <div class="flex flex-wrap items-center py-12 md:pb-32">
-          <div class="mb-6 w-full md:mb-0 md:w-1/2">
-            <p class="font-medium text-gray-600">© 2024 Hirabricks. All rights reserved.</p>
-          </div>
-          <div class="w-full md:w-1/2">
-            <div class="-mx-5 flex flex-wrap md:justify-end">
-              <div class="px-5">
-                <a class="inline-block text-gray-400 hover:text-gray-600" href="https://www.facebook.com/hirabricks/" target="_blank_">
-                  <svg width="10" height="18" viewbox="0 0 10 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M6.63494 17.7273V9.76602H9.3583L9.76688 6.66246H6.63494V4.68128C6.63494 3.78301 6.88821 3.17085 8.20297 3.17085L9.87712 3.17017V0.394238C9.5876 0.357335 8.59378 0.272728 7.43708 0.272728C5.0217 0.272728 3.3681 1.71881 3.3681 4.37391V6.66246H0.636475V9.76602H3.3681V17.7273H6.63494Z" fill="currentColor"></path>
-                  </svg>
-                </a>
-              </div>
-              <div class="px-5">
-                <a class="inline-block text-gray-400 hover:text-gray-600" href="#" target="_blank_">
-                  <svg width="19" height="16" viewbox="0 0 19 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M18.8181 2.14597C18.1356 2.44842 17.4032 2.65355 16.6336 2.74512C17.4194 2.27461 18.0208 1.5283 18.3059 0.641757C17.5689 1.07748 16.7553 1.39388 15.8885 1.56539C15.1943 0.824879 14.2069 0.363636 13.1118 0.363636C11.0108 0.363636 9.30722 2.06718 9.30722 4.16706C9.30722 4.46488 9.34083 4.75576 9.40574 5.03391C6.24434 4.87512 3.44104 3.36048 1.56483 1.05894C1.23686 1.61985 1.05028 2.27342 1.05028 2.97109C1.05028 4.29106 1.72243 5.45573 2.74225 6.13712C2.11877 6.11627 1.53237 5.94476 1.01901 5.65967V5.70718C1.01901 7.54979 2.33086 9.08761 4.07031 9.43761C3.75161 9.52336 3.41555 9.57088 3.06789 9.57088C2.82222 9.57088 2.58464 9.54655 2.35171 9.50018C2.8361 11.0125 4.24067 12.1123 5.90483 12.1424C4.6034 13.1622 2.96243 13.7683 1.1801 13.7683C0.873008 13.7683 0.570523 13.7498 0.272705 13.7162C1.95655 14.7974 3.95561 15.4278 6.10416 15.4278C13.1026 15.4278 16.928 9.63115 16.928 4.60397L16.9153 4.11145C17.6627 3.57833 18.3094 2.90851 18.8181 2.14597Z" fill="currentColor"></path>
-                  </svg>
-                </a>
-              </div>
-              <div class="px-5">
-                <a class="inline-block text-gray-400 hover:text-gray-600" href="#">
-                  <svg width="20" height="20" viewbox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5.6007 0.181818H14.3992C17.3874 0.181818 19.8184 2.61281 19.8182 5.60074V14.3993C19.8182 17.3872 17.3874 19.8182 14.3992 19.8182H5.6007C2.61276 19.8182 0.181885 17.3873 0.181885 14.3993V5.60074C0.181885 2.61281 2.61276 0.181818 5.6007 0.181818ZM14.3993 18.0759C16.4267 18.0759 18.0761 16.4266 18.0761 14.3993H18.076V5.60074C18.076 3.57348 16.4266 1.92405 14.3992 1.92405H5.6007C3.57343 1.92405 1.92412 3.57348 1.92412 5.60074V14.3993C1.92412 16.4266 3.57343 18.0761 5.6007 18.0759H14.3993ZM4.85721 10.0001C4.85721 7.16424 7.16425 4.85714 10.0001 4.85714C12.8359 4.85714 15.1429 7.16424 15.1429 10.0001C15.1429 12.8359 12.8359 15.1429 10.0001 15.1429C7.16425 15.1429 4.85721 12.8359 4.85721 10.0001ZM6.62805 10C6.62805 11.8593 8.14081 13.3719 10.0001 13.3719C11.8593 13.3719 13.3721 11.8593 13.3721 10C13.3721 8.14058 11.8594 6.6279 10.0001 6.6279C8.14069 6.6279 6.62805 8.14058 6.62805 10Z" fill="currentColor"></path>
-                  </svg>
-                </a>
-              </div>
-              <div class="px-5">
-                <a class="inline-block text-gray-400 hover:text-gray-600" href="#">
-                  <svg width="18" height="18" viewbox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M9 0C4.0275 0 0 4.13211 0 9.22838C0 13.3065 2.5785 16.7648 6.15375 17.9841C6.60375 18.0709 6.76875 17.7853 6.76875 17.5403C6.76875 17.3212 6.76125 16.7405 6.7575 15.9712C4.254 16.5277 3.726 14.7332 3.726 14.7332C3.3165 13.6681 2.72475 13.3832 2.72475 13.3832C1.9095 12.8111 2.78775 12.8229 2.78775 12.8229C3.6915 12.887 4.16625 13.7737 4.16625 13.7737C4.96875 15.1847 6.273 14.777 6.7875 14.5414C6.8685 13.9443 7.10025 13.5381 7.3575 13.3073C5.35875 13.0764 3.258 12.2829 3.258 8.74709C3.258 7.73988 3.60675 6.91659 4.18425 6.27095C4.083 6.03774 3.77925 5.0994 4.263 3.82846C4.263 3.82846 5.01675 3.58116 6.738 4.77462C7.458 4.56958 8.223 4.46785 8.988 4.46315C9.753 4.46785 10.518 4.56958 11.238 4.77462C12.948 3.58116 13.7017 3.82846 13.7017 3.82846C14.1855 5.0994 13.8818 6.03774 13.7917 6.27095C14.3655 6.91659 14.7142 7.73988 14.7142 8.74709C14.7142 12.2923 12.6105 13.0725 10.608 13.2995C10.923 13.5765 11.2155 14.1423 11.2155 15.0071C11.2155 16.242 11.2043 17.2344 11.2043 17.5341C11.2043 17.7759 11.3617 18.0647 11.823 17.9723C15.4237 16.7609 18 13.3002 18 9.22838C18 4.13211 13.9703 0 9 0Z" fill="currentColor"></path>
-                  </svg>
-                </a>
-              </div>
-              <div class="px-5">
-                <a class="inline-block text-gray-400 hover:text-gray-600" href="#">
-                  <svg width="18" height="18" viewbox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M16.2 0H1.8C0.81 0 0 0.81 0 1.8V16.2C0 17.19 0.81 18 1.8 18H16.2C17.19 18 18 17.19 18 16.2V1.8C18 0.81 17.19 0 16.2 0ZM5.4 15.3H2.7V7.2H5.4V15.3ZM4.05 5.67C3.15 5.67 2.43 4.95 2.43 4.05C2.43 3.15 3.15 2.43 4.05 2.43C4.95 2.43 5.67 3.15 5.67 4.05C5.67 4.95 4.95 5.67 4.05 5.67ZM15.3 15.3H12.6V10.53C12.6 9.81004 11.97 9.18 11.25 9.18C10.53 9.18 9.9 9.81004 9.9 10.53V15.3H7.2V7.2H9.9V8.28C10.35 7.56 11.34 7.02 12.15 7.02C13.86 7.02 15.3 8.46 15.3 10.17V15.3Z" fill="currentColor"></path>
-                  </svg>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
-
-    <!-- flowbite CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
-
-    <script src="{% static 'js/script.js' %}"></script>
-  </body>
-</html>
+{% endblock content %}
