@@ -85,7 +85,7 @@ def all_products(request):
 
 def By_category(request, slug):
     category = get_object_or_404(BrickCategory, slug=slug)
-    category_slug=category.slug
+    category_name=category
 
     product_by_category = BrickProduct.objects.filter(category=category).order_by('id')
     paginator = Paginator(product_by_category, 12)  # 12 products per page
@@ -111,7 +111,7 @@ def By_category(request, slug):
     context = {
         'products': products,
         'category_empty': category_empty,
-        'category': category_slug,
+        'category': category_name,
     }
 
     return render(request, 'Main/category.html', context)

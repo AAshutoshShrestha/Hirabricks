@@ -208,6 +208,7 @@ JAZZMIN_SETTINGS ={
 
         # Url that gets reversed (Permissions can be added)
         {"name": "Open Site",  "url": "/Dashboard", "permissions": ["auth.view_user"]},
+        {"name": "Home page",  "url": "/", "permissions": ["auth.view_user"]},
 
         # Url that gets reversed (Permissions can be added)
         {"name": "Register",  "url": "/register", "permissions": ["auth.view_user"]},

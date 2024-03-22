@@ -15,12 +15,12 @@
     </li>
     <li class="group flex items-center">
       <i class="ri-arrow-right-s-line me-2.5 w-3 text-xl font-bold group-hover:text-red-600"></i>
-      <a href="{% url 'By_category' slug=category %}" class="inline-flex items-center justify-center text-sm font-medium text-gray-700 group-hover:text-red-600 dark:text-gray-400 dark:hover:text-white"> {{category }} </a>
+      <a href="{% url 'By_category' slug=category.slug %}" class="inline-flex items-center justify-center text-sm font-medium text-gray-700 group-hover:text-red-600 dark:text-gray-400 dark:hover:text-white"> {{category.name }} </a>
     </li>
     
   </ol>
 </nav>
-  <h3 class="z-50 mb-8 px-3 py-2 text-3xl font-bold tracking-tighter md:text-5xl">All {{category}} Products</h3>
+  <h3 class="z-50 mb-8 px-3 py-2 text-3xl font-bold tracking-tighter md:text-5xl">All {{category}} products</h3>
   <div class="m-4 flex flex-wrap">
     {% for product in products %}
 

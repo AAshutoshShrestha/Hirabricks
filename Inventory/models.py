@@ -99,3 +99,24 @@ class Sale(models.Model):
     @classmethod
     def bulk_create_from_import(cls, data):
         cls.objects.bulk_create([cls(**item) for item in data])
+
+
+class BrickStock(models.Model):
+    product = models.ForeignKey(BrickProduct, on_delete=models.CASCADE)
+    quantity_added = models.PositiveIntegerField()
+    stock_in_date = models.DateField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.product.stock += self.quantity_added
+        self.product.save()
+
+    def __str__(self):
+        return f"{self.quantity_added} units of {self.product.name} added on {self.stock_in_date}"
+    
+    class Meta:
+        ordering = ['id']
+
+    @classmethod
+    def bulk_create_from_import(cls, data):
+        cls.objects.bulk_create([cls(**item) for item in data])

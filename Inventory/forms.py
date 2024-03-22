@@ -14,3 +14,8 @@ class SalesForm(forms.ModelForm):
     class Meta:
         model = Sale
         fields = '__all__'
+
+class add_inventoryForm(forms.ModelForm):    
+    class Meta:
+        model = BrickStock
+        fields = '__all__'

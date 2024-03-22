@@ -30,3 +30,10 @@ class SaleAdmin(ImportExportModelAdmin,admin.ModelAdmin):
     list_filter = ('id','product',)
     search_fields = ('id','product',)
     list_per_page = 15
+
+@admin.register(BrickStock)
+class BrickStockAdmin(ImportExportModelAdmin,admin.ModelAdmin):
+    list_display = ('id','product','quantity_added','stock_in_date')
+    list_filter = ('id','product',)
+    search_fields = ('id','product',)
+    list_per_page = 15
