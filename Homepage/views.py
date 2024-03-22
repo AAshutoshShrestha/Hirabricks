@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404
 from django.contrib import messages
 from django.utils import timezone
 
 from .forms import ContactForm
 from .models import *
 
-from Inventory.models import BrickProduct
+from Inventory.models import BrickProduct,BrickCategory
 
 import os
 from supabase import create_client
@@ -68,8 +69,8 @@ def products(request):
     }
     return render(request, 'Main/all_products.html', context)
 
-def product_detail(request, product_id):
-    product = BrickProduct.objects.filter(id=product_id)
+def product_detail(request, slug):
+    product = BrickProduct.objects.filter(slug=slug)
     for i in product:
         # Get public URL for soil_img
         res = supabase.storage.from_('image-bucket/Products/').get_public_url(i.product_image)
@@ -77,8 +78,29 @@ def product_detail(request, product_id):
         i.product_image = res
 
     context = {
-        'products': product
+        'products': product,
+
     }
 
     return render(request, 'Main/product_details.html', context)
+
+def By_category(request, category_id):
+    category = get_object_or_404(BrickCategory, name=category_id)
+    category_name=category_id
+
+    product = BrickProduct.objects.filter(category=category).order_by('id')
+    category_empty = not product.exists()
+    for i in product:
+        # Get public URL for soil_img
+        res = supabase.storage.from_('image-bucket/Products/').get_public_url(i.product_image)
+        # Update soil_img field with the public URL
+        i.product_image = res
+
+    context = {
+        'products': product,
+        'category_empty': category_empty,
+        'category': category_name,
+    }
+
+    return render(request, 'Main/category.html', context)
 

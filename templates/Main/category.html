@@ -1,0 +1,65 @@
+{% extends "Main/base.html" %}
+{% load static %}
+
+{% block title %} By category | Hirabricks {% endblock %}
+{% block content %}
+
+
+<div class="container mx-auto px-5 py-4">
+   <!-- Breadcrumbs -->
+ <nav class="flex mb-6" aria-label="Breadcrumb">
+  <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+    <li class="group flex items-center">
+      <i class="ri-home-2-fill me-2.5 ml-2 w-3 font-bold group-hover:text-red-600"></i>
+      <a href="{% url 'products' %}" class="inline-flex items-center justify-center text-sm font-medium text-gray-700 group-hover:text-red-600 dark:text-gray-400 dark:hover:text-white"> All products </a>
+    </li>
+    <li class="group flex items-center">
+      <i class="ri-arrow-right-s-line me-2.5 w-3 text-xl font-bold group-hover:text-red-600"></i>
+      <a href="{% url 'By_category' category_id=category %}" class="inline-flex items-center justify-center text-sm font-medium text-gray-700 group-hover:text-red-600 dark:text-gray-400 dark:hover:text-white"> {{category }} </a>
+    </li>
+    
+  </ol>
+</nav>
+  <h3 class="z-50 mb-8 px-3 py-2 text-3xl font-bold tracking-tighter md:text-5xl">All {{category}} Products</h3>
+  <div class="m-4 flex flex-wrap">
+    {% for product in products %}
+
+    <div class="w-full p-4 md:w-1/2 lg:w-1/4">
+      <a class="relative block h-48 overflow-hidden rounded">
+        <img alt="name" class="block h-full w-full object-cover object-center" src="{{product.product_image}}" />
+      </a>
+      <div class="mt-4">
+      
+        <a href="{% url 'product_detail' slug=product.slug %}">
+          <h1 class="title-font text-lg font-medium text-gray-900">{{product.name}}</h1>
+
+          <p class="mt-1">{{product.dimensions}}</p>
+          <p class="mt-1"><span class="font-medium">Rs. </span> {{product.price}}</p>
+        </a>
+      </div>
+    </div>
+    
+    {% endfor %}
+
+    {% if category_empty %}
+    <div class="container mx-auto flex items-center px-6 py-20">
+  <div>
+    <p class="text-sm font-medium text-[#b53721] dark:text-blue-400">Empty State</p>
+    <h1 class="mt-3 text-2xl font-semibold text-gray-800 md:text-3xl dark:text-white">We can’t find any products for {{category}}</h1>
+    <p class="mt-4 text-gray-500 dark:text-gray-400">Sorry, the category you are looking for isn't available yet.</p>
+
+    <div class="mt-6">
+      <a href="{% url 'products' %}">
+        <button class="w-1/2 shrink-0 rounded-lg bg-[#b53721] px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 hover:bg-[#8e2812] sm:w-auto dark:bg-[#8e2812] dark:hover:bg-[#b53721]">View all products</button>
+      </a>
+    </div>
+  </div>
+</div>
+
+
+    {% endif %} 
+  </div>
+</div>
+  
+    
+{% endblock %}

@@ -24,51 +24,48 @@
               </tr>
             </thead>
             <tbody>
-              {% for items in all_items %}
+              {% for item in all_items %}
               <tr>
                 <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
                   <!-- popup toggle -->
-                  <img src="{{items.product_image}}" alt="{{items.name}}" class="h-36 w-36 rounded-lg object-cover" data-modal-target="popup-modal" data-modal-toggle="popup-modal" />
+                  <img src="{{item.product_image}}" alt="{{item.name}}" class="h-36 w-36 rounded-lg object-cover" data-modal-target="popup-modal" data-modal-toggle="popup-modal" />
 
                   <!-- Main modal -->
-                  <div id="popup-modal" tabindex="-1" class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0">
+                  <div id="popup-modal" tabindex="-1" class="item-center fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full justify-center overflow-y-auto overflow-x-hidden md:inset-0">
                     <div class="relative max-h-full w-full max-w-md p-4">
                       <!-- Modal content -->
                       <div class="relative rounded-lg bg-white shadow dark:bg-gray-700">
-                        <img src="{{items.product_image}}" alt="{{items.name}}" class="max-h-full max-w-full" />
+                        <img src="{{item.product_image}}" alt="{{item.name}}" class="max-h-full max-w-full" />
                       </div>
                     </div>
                   </div>
                 </td>
 
                 <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
-                  <p class="whitespace-no-wrap text-gray-900">{{items.name}}</p>
+                  <p class="whitespace-no-wrap text-gray-900">{{item.name}}</p>
                 </td>
 
                 <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
-                  <p class="whitespace-no-wrap text-gray-900">{{items.category}}</p>
+                  <p class="whitespace-no-wrap text-gray-900">{{item.category}}</p>
                 </td>
                 <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
-                  <p class="whitespace-no-wrap text-gray-900">{{items.dimensions}}</p>
+                  <p class="whitespace-no-wrap text-gray-900">{{item.dimensions}}</p>
                 </td>
                 <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
-                  <p class="whitespace-no-wrap text-gray-900">{{items.stock}}</p>
+                  <p class="whitespace-no-wrap text-gray-900">{{item.stock}}</p>
                 </td>
                 <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
-                  <p class="whitespace-no-wrap text-gray-900">{{items.price}}</p>
+                  <p class="whitespace-no-wrap text-gray-900">{{item.price}}</p>
                 </td>
                 <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
-                  	<a href="{% url 'product_edit' pk=items.id %}"> 
-						<button class="block w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 md:w-auto dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">Edit</button>
-					</a>
+                  <a href="{% url 'product_edit' pk=item.id %}">
+                    <button class="block w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 md:w-auto dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">Edit</button>
+                  </a>
                 </td>
               </tr>
               {% endfor%}
-			  
-			  
-
             </tbody>
-          </table> 
+          </table>
         </div>
       </div>
     </div>

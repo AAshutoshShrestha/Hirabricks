@@ -3,31 +3,34 @@
 
 {% block title %} All Products | Hirabricks {% endblock %}
 {% block content %}
+
 <div class="container mx-auto px-5 py-8">
-    <h3 class="z-50 mb-8 px-3 py-2 text-3xl font-bold tracking-tighter md:text-5xl">All Products</h3>
-    <div class="m-4 flex flex-wrap">
+  <h3 class="z-50 mb-8 px-3 py-2 text-3xl font-bold tracking-tighter md:text-5xl">All {{ category }} Products</h3>
+  <div class="m-4 flex flex-wrap">
+    
       {% for product in products %}
-
-      <div class="w-full p-4 md:w-1/2 lg:w-1/4">
-        <a class="relative block h-48 overflow-hidden rounded">
-          <img alt="name" class="block h-full w-full object-cover object-center" src="{{product.product_image}}" />
-        </a>
-        <div class="mt-4">
-        <a href="{% url 'product_detail' product_id=product.id %}">
-
-            <span class="rounded-9xl mb-4 inline-block bg-red-100 px-3 py-px text-xs font-medium uppercase leading-5 text-[#b53721]">{{product.category}}</span>
-            
-            <h1 class="title-font text-lg font-medium text-gray-900">{{product.name}}</h1>
-            
-            <p class="mt-1">{{product.dimensions}}</p>
-            <p class="mt-1"><span class="font-medium">Rs. </span> {{product.price}}</p>
-        </a>
+        <div class="w-full p-4 md:w-1/2 lg:w-1/4">
+          <a class="relative block h-48 overflow-hidden rounded-md" href="{% url 'product_detail' slug=product.slug %}">
+            <img alt="{{ product.name }}" class="block h-full w-full object-cover object-center" src="{{ product.product_image }}" />
+          </a>
+          <div class="mt-4">
+            <a href="{% url 'By_category' category_id=product.category %}">
+              <span class="mb-4 inline-block rounded-md bg-red-100 px-3 py-1 text-xs font-medium uppercase leading-5 text-[#b53721]">{{ product.category }}</span>
+            </a>
+            <a href="{% url 'product_detail' slug=product.slug %}">
+              <h1 class="title-font text-lg font-medium text-gray-900">{{ product.name }}</h1>
+              <p class="mt-1">{{ product.dimensions }}</p>
+              <p class="mt-1"><span class="font-medium">Rs. </span>{{ product.price }}</p>
+            </a>
+          </div>
         </div>
-      </div>
-
       {% endfor %}
-    </div>
+      {% if category_empty %}
+      <h3 class="z-50 mb-8 px-3 py-2 text-3xl font-bold tracking-tighter md:text-5xl">No {{ category }} Products found</h3>
+      {% endif %}
   </div>
+</div>
+
   
   
     

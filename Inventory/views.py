@@ -77,6 +77,7 @@ def all_items_list(request):
 @login_required(login_url='login')
 def product_edit(request, pk):
     brick_product = get_object_or_404(BrickProduct, pk=pk)
+    
     if request.method == 'POST':
         form = BrickProductForm(request.POST, instance=brick_product)
         if form.is_valid():
@@ -87,4 +88,4 @@ def product_edit(request, pk):
     context = {
         'forms': form,
     }
-    return render(request, 'Inventory/edit.html', context)
+    return render(request, 'Inventory/edit_product.html', context)

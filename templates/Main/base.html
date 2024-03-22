@@ -103,14 +103,14 @@
             </div>
 
             <ul class="ml-14 hidden lg:flex lg:w-auto lg:space-x-12">
-              <li><a class="inline-block text-sm font-medium text-gray-900 hover:text-[#b53721]" href="">Home</a></li>
+              <li><a class="inline-block text-sm font-medium text-gray-900 hover:text-[#b53721]" href="{% url 'homepage' %}">Home</a></li>
               <li class="group relative">
                 <a class="inline-block text-sm font-medium text-gray-900 hover:text-[#b53721]" href="#">About</a>
                 <div class="absolute left-0 top-full z-30 hidden min-w-max max-w-xs p-4 group-hover:block">
                   <div class="-mb-2 ml-8 h-4 w-4 rotate-45 transform rounded-sm border-l border-t border-gray-200 bg-white"></div>
                   <div class="w-full max-w-xs rounded-3xl border border-gray-100 bg-white px-4 pb-4 pt-4">
                     <div class="mb-3 border-b border-gray-100 pb-3">
-                      <a class="block rounded-lg px-4 py-3 text-sm text-gray-900 hover:bg-orange-50" href="#aboutus">About Us</a>
+                      <a class="block rounded-lg px-4 py-3 text-sm text-gray-900 hover:bg-orange-50" href="{% url 'homepage' %}#aboutus">About Us</a>
                       <a class="block rounded-lg px-4 py-3 text-sm text-gray-900 hover:bg-orange-50" href="{% url 'products' %}">Products</a>
 
                       <a class="block rounded-lg px-4 py-3 text-sm text-gray-900 hover:bg-orange-50" href="#Services">Services</a>

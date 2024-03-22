@@ -1,5 +1,6 @@
 import os
 from dotenv import load_dotenv
+from django.utils.text import slugify
 from django.db import models
 from django.utils.html import format_html
 from supabase import create_client, Client, ClientOptions
@@ -30,6 +31,8 @@ class BrickCategory(models.Model):
 
 class BrickProduct(models.Model):
     name = models.CharField(max_length=100)
+    slug = models.SlugField(unique=True, max_length=255)
+
     category = models.ForeignKey(BrickCategory, on_delete=models.CASCADE)
     description = models.TextField()
     dimensions = models.CharField(max_length=100)
@@ -41,6 +44,12 @@ class BrickProduct(models.Model):
         res = supabase.storage.from_('image-bucket/Products').get_public_url(self.product_image)
         return format_html('<img src="{}" width="100" height="100">', res)
     
+    def save(self, *args, **kwargs):
+        # If the slug is not set or the name has changed, generate the slug
+        if not self.slug or self.name != self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.name
 

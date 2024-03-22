@@ -3,13 +3,34 @@
 
 {% block title %} All Products | Hirabricks {% endblock %}
 {% block content %}
+
 <div class="container mx-auto px-5 py-8">
+  <!-- Breadcrumbs -->
+  <nav class="mb-6 flex" aria-label="Breadcrumb">
+    <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+      <li class="group flex items-center">
+        <i class="ri-home-2-fill me-2.5 ml-2 w-3 font-bold group-hover:text-red-600"></i>
+        <a href="{% url 'products' %}" class="inline-flex items-center justify-center text-sm font-medium text-gray-700 group-hover:text-red-600 dark:text-gray-400 dark:hover:text-white"> All products </a>
+      </li>
+      {% for product in products %}
+      <li class="group flex items-center">
+        <i class="ri-arrow-right-s-line me-2.5 w-3 text-xl font-bold group-hover:text-red-600"></i>
+        <a href="{% url 'By_category' category_id=product.category %}" class="inline-flex items-center justify-center text-sm font-medium text-gray-700 group-hover:text-red-600 dark:text-gray-400 dark:hover:text-white"> {{product.category }} </a>
+      </li>
+      <li class="group flex items-center">
+        <i class="ri-arrow-right-s-line me-2.5 w-3 text-xl font-bold group-hover:text-red-600"></i>
+        <p class="inline-flex items-center justify-center text-sm font-medium text-gray-700 group-hover:text-red-600 dark:text-gray-400 dark:hover:text-white">{{product.slug }}</p>
+      </li>
+      {% endfor %}
+    </ol>
+  </nav>
   {% for product in products %}
   <div class="mx-auto flex flex-wrap lg:w-4/5">
-    <img alt="{{product.name}}" class="h-64 w-full rounded object-cover object-center lg:h-auto lg:w-1/2" src="{{product.product_image}}" />
-    <div class="mb-6 mt-12 w-full lg:mb-0 lg:w-1/2 lg:py-6 lg:pl-10">
+    <img alt="{{product.name}}" class="h-64 w-full rounded object-fill object-center lg:h-auto lg:w-1/2" src="{{product.product_image}}" />
+    <div class="mb-6 mt-8 w-full lg:mb-0 lg:w-1/2 lg:py-6 lg:pl-10">
+      <h2 class="title-font mb-1 text-sm tracking-widest text-gray-500">{{product.category}}</h2>
       <h1 class="title-font mb-4 text-3xl font-medium text-gray-900">{{product.name}}</h1>
-      <div class="mb-4 flex">
+      <div class="mb-12 flex">
         <a class="flex-grow border-b-2 border-indigo-500 px-1 py-2 text-lg text-indigo-500">Description</a>
         <a class="flex-grow border-b-2 border-gray-300 px-1 py-2 text-lg">Reviews</a>
         <a class="flex-grow border-b-2 border-gray-300 px-1 py-2 text-lg">Details</a>
@@ -30,13 +51,11 @@
       </div>
       <div class="flex">
         <span class="title-font text-2xl font-medium text-gray-900">{{product.price}}</span>
-      
       </div>
     </div>
   </div>
   {% endfor %}
 </div>
-  
-  
+
     
 {% endblock %}
