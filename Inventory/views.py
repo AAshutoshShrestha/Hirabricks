@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.http import HttpResponseForbidden
 from .forms import BrickProductForm,SalesForm,add_inventoryForm
 from .models import *
+from django.db.models import Q
 
 import os
 from supabase import create_client
@@ -17,76 +18,99 @@ url=os.environ.get('SUPABASE_URL')
 key=os.environ.get('SUPABASE_SERVICE_ROLE_KEY')
 supabase = create_client(url, key)
 
-# Create your views here.
+
 @login_required(login_url='login')
 def inventory(request):
     # Check if the user is a superuser
     if not request.user.is_superuser:
         return HttpResponseForbidden("You don't have     permission to access this page.")
+    
+    categories = BrickCategory.objects.all()
+
+    if request.method == 'POST':
+        formset = BrickProductForm(request.POST, request.FILES)
+        if formset.is_valid():
+            # Extract data from the form
+            f_name = request.POST.get('name')
+            f_category = request.POST.get('category')
+            f_description = request.POST.get('description')
+            f_dimensions = request.POST.get('dimensions')
+            f_price = request.POST.get('price')
+            f_stock = request.POST.get('stock')
+            f_product_image = request.FILES.get('product_image')
+
+            # Retrieve the BrickCategory instance
+            category_instance = BrickCategory.objects.get(pk=f_category)
+
+            # Get the last BrickProduct ID
+            last_product = BrickProduct.objects.last()
+            if last_product:
+                last_id = last_product.id
+                new_id = last_id + 1
+            else:
+                new_id = 1
+
+            # Create a new BrickProduct instance with the new ID
+            new_product = BrickProduct.objects.create(
+                id=new_id,
+                name=f_name,
+                category=category_instance,
+                description=f_description,
+                dimensions=f_dimensions,
+                price=f_price,
+                stock=f_stock,
+                product_image=f_product_image.name,  # Save the file name in the database
+            )
+
+            messages.success(request, f"New product {new_product.name} added successfully")
+
+            # Save the BrickProduct instance
+            new_product.save()
+
+            # Upload product image to Supabase storage
+            supabase.storage.from_('image-bucket/Products').upload(f_product_image.name, f_product_image.read(), {'content-type': 'image/jpeg'})
+
+            return redirect('inventory')
+
     else:
-        categories = BrickCategory.objects.all()
+        formset = BrickProductForm()
 
-        if request.method == 'POST':
-            formset = BrickProductForm(request.POST, request.FILES)
-            if formset.is_valid():
-                # Extract data from the form
-                f_name = request.POST.get('name')
-                f_category = request.POST.get('category')
-                f_description = request.POST.get('description')
-                f_dimensions = request.POST.get('dimensions')
-                f_price = request.POST.get('price')
-                f_stock = request.POST.get('stock')
-                f_product_image = request.FILES.get('product_image')
-
-                # Retrieve the BrickCategory instance
-                category_instance = BrickCategory.objects.get(pk=f_category)
-
-                # Create a new Mixture instance
-                new_product = BrickProduct.objects.create(
-                    name=f_name,
-                    category=category_instance,
-                    description=f_description,
-                    dimensions=f_dimensions,
-                    price=f_price,
-                    stock=f_stock,
-                    product_image= f_product_image.name,  # Save the file name in the database
-                )
-                messages.success(request, f"New product {{new_product.name}} added succesfully")
-                # Save the Mixture instance
-                new_product.save()
-                
-                # Upload soilimg to Supabase storage
-                supabase.storage.from_('image-bucket/Products').upload(f_product_image.name, f_product_image.read(), {'content-type': 'image/jpeg'})
-                return redirect('inventory')
-            
-        else:
-            formset = BrickProductForm()
         context = {
             'formset': formset,
             'categories': categories,
         }
     return render(request, 'Inventory/productForms.html', context)
 
-# Create your views here.
+
 @login_required(login_url='login')
 def all_items_list(request):
     # Check if the user is a superuser
     if not request.user.is_superuser:
         return HttpResponseForbidden("You don't have permission to access this page.")
+    
+    # Handle search query
+    search_query = request.GET.get('search')
+    if search_query:
+        all_items_list = BrickProduct.objects.filter(
+            Q(name__icontains=search_query) |
+            Q(category__name__icontains=search_query)|
+            Q(product_code__icontains=search_query)
+        )
     else:
-        all_items_list =BrickProduct.objects.all()
-        form = BrickProductForm(request.POST)
+        all_items_list = BrickProduct.objects.all()
 
-        for bricks in all_items_list:
-            # Get public URL for soil_img
-            res = supabase.storage.from_('image-bucket/Products/').get_public_url(bricks.product_image)
-            # Update soil_img field with the public URL
-            bricks.product_image = res
-        
-        context = {
-            'all_items': all_items_list,
-            'forms': form,
-        }
+    form = BrickProductForm(request.POST if request.method == 'POST' else None)
+
+    for bricks in all_items_list:
+        # Get public URL for soil_img
+        res = supabase.storage.from_('image-bucket/Products/').get_public_url(bricks.product_image)
+        # Update soil_img field with the public URL
+        bricks.product_image = res
+    
+    context = {
+        'all_items': all_items_list,
+        'forms': form
+    }
     return render(request, 'Inventory/all_items_list.html', context)
 
 @login_required(login_url='login')

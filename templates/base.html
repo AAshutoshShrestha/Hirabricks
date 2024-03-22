@@ -1,8 +1,7 @@
-{% load static %}
-{% load app_filters %}
+{% load static %} {% load app_filters %}
 
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -10,17 +9,17 @@
     <title>{% block title %} {% endblock %}</title>
 
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/scrollbar.css' %} ">
+    <link rel="stylesheet" href="{% static 'css/scrollbar.css' %} " />
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- RemixIcon CDN -->
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
-    
-    <link href="{% static 'image/favicon.png' %}" rel="shortcut icon" type="image/x-icon"/>
+
+    <link href="{% static 'image/favicon.png' %}" rel="shortcut icon" type="image/x-icon" />
 
     <!-- <link href="{% static 'image/factoryicon-black.png' %}" rel="shortcut icon" type="image/x-icon" media="(prefers-color-scheme: light)">
     <link href="{% static 'image/factoryicon-white.png' %}" rel="shortcut icon" type="image/x-icon" media="(prefers-color-scheme: dark)"> -->
-  
+
     <!-- ALpine.js CDN -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
@@ -40,6 +39,19 @@
 
     <link rel="canonical" href="https://car-records.vercel.app/" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: '#b53721',
+              secondary: '#7d1c0b',
+            }
+          }
+        }
+      }
+    </script>
   </head>
 
   <body class="max-w-screen-4xl bg-gray-100">
@@ -57,8 +69,8 @@
               <span class="sr-only">Toggle sidebar</span>
             </button>
             <a href="{% url 'index' %}" class="mr-4 flex items-center justify-between">
-              <img src="{% static 'image/lightlogo.png' %}" class="mr-3 h-11 w-28 dark:hidden" alt="Hirabricks Light Logo"/>
-              <img src="{% static 'image/darklogo.png' %}" class="mr-3 h-11 w-28 hidden dark:block " alt="Hirabricks Dark Logo"/>
+              <img src="{% static 'image/lightlogo.png' %}" class="mr-3 h-11 w-28 dark:hidden" alt="Hirabricks Light Logo" />
+              <img src="{% static 'image/darklogo.png' %}" class="mr-3 hidden h-11 w-28 dark:block" alt="Hirabricks Dark Logo" />
             </a>
           </div>
 
@@ -67,16 +79,13 @@
               <div class="group-hover:scale-102 absolute right-full top-0 h-full w-full transform bg-[#b53721] transition duration-500 group-hover:translate-x-full"></div>
               <span class="relative">Home</span>
             </a>
-    
-
 
             <!-- Apps -->
-            <button type="button" data-dropdown-toggle="apps-dropdown" class="rounded-lg p-2 ml-3 hover:bg-gray-100 hover:text-gray-700 focus:ring-4 focus:ring-gray-400 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-600">
+            <button type="button" data-dropdown-toggle="apps-dropdown" class="ml-3 rounded-lg p-2 hover:bg-gray-100 hover:text-gray-700 focus:ring-4 focus:ring-gray-400 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-600">
               <span class="sr-only">View apps</span>
               <!-- Icon -->
               <i class="ri-dashboard-fill h-6 w-6 text-xl font-bold" aria-hidden="true"></i>
             </button>
-
 
             <!-- Dropdown menu -->
             <div class="z-50 my-4 hidden max-w-sm list-none divide-y divide-gray-100 overflow-hidden rounded-xl bg-white text-base shadow-lg dark:divide-gray-600 dark:bg-gray-700" id="apps-dropdown">
@@ -89,10 +98,9 @@
                   <div class="text-sm text-gray-700 dark:text-white">Dashboard</div>
                 </a>
 
-                
                 <a href="{% url 'profile' %}" class="group block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600">
                   <i class="ri-profile-line mx-auto mb-1 h-7 w-7 text-xl text-gray-400 group-hover:text-gray-500 dark:text-gray-400 dark:group-hover:text-gray-400" aria-hidden="true"></i>
-                  
+
                   <div class="text-sm text-gray-700 dark:text-white">Profile</div>
                 </a>
                 {% if user.is_superuser %}
@@ -102,7 +110,7 @@
                 </a>
                 <a href="{% url 'change_password' %}" class="group block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600">
                   <i class="ri-loop-right-line mx-auto mb-1 h-7 w-7 text-xl text-gray-400 group-hover:text-gray-500 dark:text-gray-400 dark:group-hover:text-gray-400" aria-hidden="true"></i>
-                  
+
                   <div class="text-sm text-gray-700 dark:text-white">Change password</div>
                 </a>
                 <a href="{% url 'test' %}" class="group block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600">
@@ -110,7 +118,7 @@
 
                   <div class="text-sm text-gray-700 dark:text-white">Test Page</div>
                 </a>
-                {% endif %} 
+                {% endif %}
                 <a href="{% url 'logout' %}" class="group block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600">
                   <i class="ri-logout-box-r-fill mx-auto mb-1 h-7 w-7 text-xl text-gray-400 group-hover:text-gray-500 dark:text-gray-400 dark:group-hover:text-gray-400" aria-hidden="true"></i>
 
@@ -136,7 +144,7 @@
                 <li>
                   <a href="../admin" class="block px-4 py-2 text-sm hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white">Admin</a>
                 </li>
-                {% endif %} 
+                {% endif %}
                 <li>
                   <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white">Account settings</a>
                 </li>
@@ -166,7 +174,7 @@
             {% if user.is_superuser %}
             <li>
               <button type="button" class="group flex w-full items-center rounded-lg p-2 font-medium text-gray-700 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="dropdown-pages" data-collapse-toggle="dropdown-pages">
-                <i class="ri-database-fill h-6 w-6 pl-1 text-lg text-gray-500 transition duration-75 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-white"></i>                
+                <i class="ri-database-fill h-6 w-6 pl-1 text-lg text-gray-500 transition duration-75 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-white"></i>
                 <span class="ml-3 flex-1 whitespace-nowrap text-left">Database</span>
                 <svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
@@ -182,8 +190,7 @@
                 </li>
               </ul>
             </li>
-            
-            
+
             <li>
               <a href="{% url 'analytics' %}" class="group flex items-center rounded-lg p-2 text-base font-medium text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
                 <i class="ri-line-chart-fill h-6 w-6 pl-1 text-lg text-gray-500 transition duration-75 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-white"></i>
@@ -191,12 +198,11 @@
                 <!-- <span class="text-red-800 bg-red-100 dark:bg-red-200 dark:text-red-800 inline-flex h-5 w-5 items-center justify-center rounded-full text-xs font-semibold"> 4 </span> -->
               </a>
             </li>
-            {% endif %} 
-            {% if user.is_authenticated %}
+            {% endif %} {% if user.is_authenticated %}
             <li>
               <button type="button" class="group flex w-full items-center rounded-lg p-2 font-medium text-gray-700 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="Temperature-pages" data-collapse-toggle="Temperature-pages">
                 <i class="ri-fire-fill h-6 w-6 pl-1 text-lg text-gray-500 transition duration-75 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-white"></i>
-                
+
                 <span class="ml-3 flex-1 whitespace-nowrap text-left">Kiln Temperature</span>
                 <svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
@@ -210,16 +216,14 @@
                 {% if user.is_superuser %}
                 <li>
                   <a href="{% url 'temperature_details' %}" class="group flex w-full items-center rounded-lg p-2 pl-12 text-base font-medium text-gray-700 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">All Records</a>
-                </li>  
-                {% endif %}       
+                </li>
+                {% endif %}
               </ul>
             </li>
-            {% endif %} 
-
-            {% if user.is_superuser %}
+            {% endif %} {% if user.is_superuser %}
             <li>
               <button type="button" class="group flex w-full items-center rounded-lg p-2 font-medium text-gray-700 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="inventory-dropdown" data-collapse-toggle="inventory-dropdown">
-                <i class="ri-store-2-line h-6 w-6 pl-1 text-lg text-gray-500 transition duration-75 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-white"></i>                
+                <i class="ri-store-2-line h-6 w-6 pl-1 text-lg text-gray-500 transition duration-75 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-white"></i>
                 <span class="ml-3 flex-1 whitespace-nowrap text-left">Inventory</span>
                 <svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
@@ -234,7 +238,6 @@
                   <a href="{% url 'all_items_list' %}" class="group flex w-full items-center rounded-lg p-2 pl-12 text-base font-medium text-gray-700 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">All Products</a>
                 </li>
                 <li>
-                  
                   <a href="{% url 'sales_list' %}" class="group flex w-full items-center rounded-lg p-2 pl-12 text-base font-medium text-gray-700 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Sales</a>
                 </li>
                 <li>
@@ -242,10 +245,10 @@
                 </li>
               </ul>
             </li>
-            {% endif %} 
+            {% endif %}
             <li>
               <button type="button" class="group flex w-full items-center rounded-lg p-2 font-medium text-gray-700 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="Machine-pages" data-collapse-toggle="Machine-pages">
-                <i class="ri-signpost-fill h-6 w-6 pl-1 text-lg text-gray-500 transition duration-75 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-white"></i>                
+                <i class="ri-signpost-fill h-6 w-6 pl-1 text-lg text-gray-500 transition duration-75 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-white"></i>
                 <span class="ml-3 flex-1 whitespace-nowrap text-left">Machine</span>
                 <svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
@@ -260,13 +263,13 @@
                 <li>
                   <a href="{% url 'runtime_records' %}" class="group flex w-full items-center rounded-lg p-2 pl-12 text-base font-medium text-gray-700 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">All records</a>
                 </li>
-                {% endif %} 
+                {% endif %}
               </ul>
             </li>
             <li>
               <button type="button" class="group flex w-full items-center rounded-lg p-2 font-medium text-gray-700 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="Resource-pages" data-collapse-toggle="Resource-pages">
                 <i class="ri-archive-stack-fill h-6 w-6 pl-1 text-lg text-gray-500 transition duration-75 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-white"></i>
-                
+
                 <span class="ml-3 flex-1 whitespace-nowrap text-left">Resources</span>
                 <svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
@@ -284,13 +287,13 @@
                 <li>
                   <a href="{% url 'resource_reports' %}" class="group flex w-full items-center rounded-lg p-2 pl-12 text-base font-medium text-gray-700 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Report</a>
                 </li>
-                {% endif %} 
+                {% endif %}
               </ul>
             </li>
             <li>
               <button type="button" class="group flex w-full items-center rounded-lg p-2 font-medium text-gray-700 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="Soil-pages" data-collapse-toggle="Soil-pages">
                 <i class="ri-test-tube-fill h-6 w-6 pl-1 text-lg text-gray-500 transition duration-75 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-white"></i>
-                
+
                 <span class="ml-3 flex-1 whitespace-nowrap text-left">Soil</span>
                 <svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
@@ -304,13 +307,11 @@
                 {% if user.is_superuser %}
                 <li>
                   <a href="{% url 'soil_report' %}" class="group flex w-full items-center rounded-lg p-2 pl-12 text-base font-medium text-gray-700 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">All Records</a>
-                </li>  
-                {% endif %}       
+                </li>
+                {% endif %}
               </ul>
             </li>
-                 
 
-           
             <li>
               <button type="button" class="group flex w-full items-center rounded-lg p-2 text-base font-medium text-gray-700 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="dropdown-authentication" data-collapse-toggle="dropdown-authentication">
                 <i class="ri-fingerprint-fill h-6 w-6 pl-1 text-lg text-gray-500 transition duration-75 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-white"></i>
@@ -339,9 +340,9 @@
               </a>
             </li>
             <li>
-              <span class="ml-3 dark:text-gray-400 text-gray-500">Created by</span>
+              <span class="ml-3 text-gray-500 dark:text-gray-400">Created by</span>
 
-              <a href="https://shresthaaashutosh.com.np/" class="group flex items-center rounded-lg p-2 text-base font-medium text-gray-700 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 mb-6" target="_blank_">
+              <a href="https://shresthaaashutosh.com.np/" class="group mb-6 flex items-center rounded-lg p-2 text-base font-medium text-gray-700 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" target="_blank_">
                 <i class="ri-creative-commons-by-fill h-6 w-6 pl-1 text-lg text-gray-500 transition duration-75 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-white"></i>
                 <span class="ml-3">Aashutosh Shrestha</span>
               </a>
@@ -349,17 +350,13 @@
           </ul>
         </div>
         <div class="absolute bottom-0 left-0 z-20 hidden w-full justify-center space-x-4 bg-white lg:flex dark:bg-gray-800">
-          <a href="{% url 'logout' %}" class="inline-flex cursor-pointer justify-center rounded p-2 text-gray-500 hover:bg-red-500 hover:text-white dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white">
+          <a href="{% url 'logout' %}" class="hover:bg-primary inline-flex cursor-pointer justify-center rounded p-2 text-gray-500 hover:text-white dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white">
             <i class="ri-logout-box-r-line h-6 w-6 text-xl font-bold"></i>
           </a>
         </div>
       </aside>
 
-      <main class="pt-14 md:pl-64 ">
-        {% block content %}
-
-        {% endblock %}
-      </main>
+      <main class="pt-14 md:pl-64">{% block content %} {% endblock %}</main>
     </div>
 
     <!-- flowbite CDN -->

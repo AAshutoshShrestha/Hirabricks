@@ -68,7 +68,6 @@ class BrickProduct(models.Model):
             else:
                 self.product_code = 'HB-0001'
 
-
     def __str__(self):
         return self.name
 

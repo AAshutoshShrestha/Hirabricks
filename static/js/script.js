@@ -35,3 +35,7 @@
      " hidden text-sm font-light text-gray-500 dark:text-gray-400";
  }
 
+
+ function clearSearch() {
+  document.getElementById('search').value = ''; // Clear the search input field
+}
