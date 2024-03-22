@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .forms import BrickProductForm
+from django.contrib import messages
+
+from .forms import BrickProductForm,SalesForm
 from .models import *
 
 import os
@@ -18,6 +20,8 @@ supabase = create_client(url, key)
 # Create your views here.
 @login_required(login_url='login')
 def inventory(request):
+    categories = BrickCategory.objects.all()
+
     if request.method == 'POST':
         formset = BrickProductForm(request.POST, request.FILES)
         if formset.is_valid():
@@ -43,6 +47,7 @@ def inventory(request):
                 stock=f_stock,
                 product_image= f_product_image.name,  # Save the file name in the database
             )
+            messages.success(request, f"New product {{new_product.name}} added succesfully")
             # Save the Mixture instance
             new_product.save()
             
@@ -54,8 +59,9 @@ def inventory(request):
         formset = BrickProductForm()
     context = {
         'formset': formset,
+        'categories': categories,
     }
-    return render(request, 'Inventory/home.html', context)
+    return render(request, 'Inventory/productForms.html', context)
 
 # Create your views here.
 @login_required(login_url='login')
@@ -68,6 +74,7 @@ def all_items_list(request):
         res = supabase.storage.from_('image-bucket/Products/').get_public_url(bricks.product_image)
         # Update soil_img field with the public URL
         bricks.product_image = res
+        
     context = {
         'all_items': all_items_list,
         'forms': form,
@@ -87,5 +94,26 @@ def product_edit(request, pk):
         form = BrickProductForm(instance=brick_product)
     context = {
         'forms': form,
+        'brick_product': brick_product,  # Add brick_product to the context
     }
     return render(request, 'Inventory/edit_product.html', context)
+
+
+@login_required(login_url='login')
+def sales_list(request):
+    form =SalesForm()
+    sales = Sale.objects.all()
+
+    if request.method == 'POST':
+        form = SalesForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('sales_list')  # Redirect to the list view after editing
+    else:
+        form = SalesForm()
+    context ={
+        "forms":form,
+        "sales":sales,
+
+    }
+    return render(request, 'Inventory/sales.html', context)

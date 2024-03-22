@@ -123,8 +123,15 @@ def index(request):
     return render(request, 'index.html', context)
 
 @login_required(login_url='login')
+def temperature_details(request):
+    data = TemperatureRecord.objects.all()
+    context = {
+        'temperature_records': data,
+    }
+    return render(request, 'Temp_Records/Records.html', context)
+
+@login_required(login_url='login')
 def temp_forms(request):
-    temperature_records = TemperatureRecord.objects.all()
     if request.method == 'POST':
         by = request.user
         form = TemperatureRecordForm(request.POST)
@@ -141,9 +148,8 @@ def temp_forms(request):
 
     context = {
         'tempform': form,
-        'temperature_records': temperature_records
     }
-    return render(request, 'Temperatureforms.html', context)
+    return render(request, 'Temp_Records/Forms.html', context)
 
 
 

@@ -85,7 +85,7 @@
   </head>
   <body class="overflow-x-hidden">
     <header>
-      <nav class="relative mb-12 bg-transparent py-6 lg:mb-20">
+      <nav class="relative mb-12 bg-transparent py-6 ">
         <div class="container mx-auto px-4">
           <div class="flex items-center">
             <a href="{% url 'homepage' %}" class="mr-4 inline-block items-center justify-between">
@@ -113,7 +113,7 @@
                       <a class="block rounded-lg px-4 py-3 text-sm text-gray-900 hover:bg-orange-50" href="{% url 'homepage' %}#aboutus">About Us</a>
                       <a class="block rounded-lg px-4 py-3 text-sm text-gray-900 hover:bg-orange-50" href="{% url 'products' %}">Products</a>
 
-                      <a class="block rounded-lg px-4 py-3 text-sm text-gray-900 hover:bg-orange-50" href="#Services">Services</a>
+                      <a class="block rounded-lg px-4 py-3 text-sm text-gray-900 hover:bg-orange-50" href="{% url 'homepage' %}#Services">Services</a>
                     </div>
                     <div class="mb-3 border-b border-gray-100 pb-3">
                       <a class="mb-2 flex items-center rounded-lg px-4 py-3 text-sm text-gray-900 hover:bg-orange-50" href="#">
@@ -179,10 +179,10 @@
           </div>
           <div>
             <ul class="mb-2">
-              <li><a class="block rounded-lg px-5 py-4 text-gray-900 hover:bg-orange-50" href="#aboutus" data-config-id="text44">About Us</a></li>
+              <li><a class="block rounded-lg px-5 py-4 text-gray-900 hover:bg-orange-50" href="{% url 'homepage' %}#aboutus" data-config-id="text44">About Us</a></li>
               <li><a class="block rounded-lg px-5 py-4 text-gray-900 hover:bg-orange-50" href="{% url 'products' %}" data-config-id="text45">Products</a></li>
-              <li><a class="block rounded-lg px-5 py-4 text-gray-900 hover:bg-orange-50" href="#Services" data-config-id="text45">Services</a></li>
-              <li><a class="block rounded-lg px-5 py-4 text-gray-900 hover:bg-orange-50" href="#contact-us" data-config-id="text47">Contact US</a></li>
+              <li><a class="block rounded-lg px-5 py-4 text-gray-900 hover:bg-orange-50" href="{% url 'homepage' %}#Services" data-config-id="text45">Services</a></li>
+              <li><a class="block rounded-lg px-5 py-4 text-gray-900 hover:bg-orange-50" href="{% url 'homepage' %}#contact-us" data-config-id="text47">Contact US</a></li>
               <li><a class="block rounded-lg px-5 py-4 text-gray-900 hover:bg-orange-50" href="#" data-config-id="text48">Gallery</a></li>
               <li><a class="block rounded-lg px-5 py-4 text-gray-900 hover:bg-orange-50" href="#" data-config-id="text46">Documentation</a></li>
             </ul>
@@ -225,8 +225,8 @@
           <div class="mb-16 w-full px-4 md:mb-0 md:w-2/12">
             <h3 class="mb-5 text-lg font-bold text-gray-900">Product</h3>
             <ul>
-              <li class="mb-4"><a class="inline-block font-medium text-gray-500 hover:text-gray-600" href="#aboutus">About Us</a></li>
-              <li class="mb-4"><a class="inline-block font-medium text-gray-500 hover:text-gray-600" href="#Services">Services</a></li>
+              <li class="mb-4"><a class="inline-block font-medium text-gray-500 hover:text-gray-600" href="{% url 'homepage' %}#aboutus">About Us</a></li>
+              <li class="mb-4"><a class="inline-block font-medium text-gray-500 hover:text-gray-600" href="{% url 'homepage' %}#Services">Services</a></li>
               <li class="mb-4"><a class="inline-block font-medium text-gray-500 hover:text-gray-600" href="{% url 'products' %}">Products</a></li>
             </ul>
           </div>

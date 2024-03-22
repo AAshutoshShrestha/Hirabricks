@@ -4,8 +4,8 @@
 {% block title %} All Products | Hirabricks {% endblock %}
 {% block content %}
 
-<div class="container mx-auto px-5 py-8">
-  <h3 class="z-50 mb-8 px-3 py-2 text-3xl font-bold tracking-tighter md:text-5xl">All {{ category }} Products</h3>
+<div class="container mx-auto px-5">
+  <h3 class="z-50 mb-8 px-3 py-2 text-3xl font-bold tracking-tighter md:text-5xl">All Products</h3>
   <div class="m-4 flex flex-wrap">
     
       {% for product in products %}
@@ -14,7 +14,7 @@
             <img alt="{{ product.name }}" class="block h-full w-full object-cover object-center" src="{{ product.product_image }}" />
           </a>
           <div class="mt-4">
-            <a href="{% url 'By_category' category_id=product.category %}">
+            <a href="{% url 'By_category' slug=product.category.slug %}">
               <span class="mb-4 inline-block rounded-md bg-red-100 px-3 py-1 text-xs font-medium uppercase leading-5 text-[#b53721]">{{ product.category }}</span>
             </a>
             <a href="{% url 'product_detail' slug=product.slug %}">
@@ -24,12 +24,36 @@
             </a>
           </div>
         </div>
+
+        
       {% endfor %}
       {% if category_empty %}
       <h3 class="z-50 mb-8 px-3 py-2 text-3xl font-bold tracking-tighter md:text-5xl">No {{ category }} Products found</h3>
       {% endif %}
+
+
+    </div>
   </div>
-</div>
+  <!-- Pagination section -->
+  <div class="flex flex-col items-center">
+    <!-- Help text -->
+    <span class="text-sm text-gray-700 dark:text-gray-400"> Showing <span class="font-semibold text-gray-900 dark:text-white">{{ products.number }}</span>of <span class="font-semibold text-gray-900 dark:text-white">{{ products.paginator.num_pages }}</span> Products </span>
+  
+    <!-- Buttons -->
+    <div class="xs:mt-0 mt-2 inline-flex">
+      {% if products.has_previous %}
+      <a href="?page={{ products.previous_page_number }}">
+        <button class="flex h-8 items-center justify-center rounded-s bg-gray-800 px-3 text-sm font-medium text-white hover:bg-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Prev</button>
+      </a>
+      {% endif %}
+      {% if products.has_next %}
+      <a href="?page={{ products.next_page_number }}">
+        <button class="flex h-8 items-center justify-center rounded-e border-0 border-s border-gray-700 bg-gray-800 px-3 text-sm font-medium text-white hover:bg-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Next</button>
+      </a>
+      {% endif %}
+    </div>
+  </div>
+  
 
   
   

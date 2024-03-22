@@ -1,8 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
 from django.utils import timezone
-
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import ContactForm
 from .models import *
 
@@ -57,17 +57,64 @@ def main(request):
     }
     return render(request, 'Main/home.html', context)
 
-def products(request):
+
+def all_products(request):
     all_bricks = BrickProduct.objects.all()
-    for bricks in all_bricks:
-        # Get public URL for soil_img
+    paginator = Paginator(all_bricks, 12)  # 12 products per page
+    page_number = request.GET.get('page')
+    try:
+        products = paginator.page(page_number)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        products = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        products = paginator.page(paginator.num_pages)
+    
+    for bricks in products:
+        # Get public URL for product_image
         res = supabase.storage.from_('image-bucket/Products/').get_public_url(bricks.product_image)
-        # Update soil_img field with the public URL
+        # Update product_image field with the public URL
         bricks.product_image = res
+    
     context = {
-        'products':all_bricks,
+        'products': products,
     }
     return render(request, 'Main/all_products.html', context)
+
+
+def By_category(request, slug):
+    category = get_object_or_404(BrickCategory, slug=slug)
+    category_slug=category.slug
+
+    product_by_category = BrickProduct.objects.filter(category=category).order_by('id')
+    paginator = Paginator(product_by_category, 12)  # 12 products per page
+    category_empty = not product_by_category.exists()
+
+
+    page_number = request.GET.get('page')
+    try:
+        products = paginator.page(page_number)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        products = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        products = paginator.page(paginator.num_pages)
+    
+    for bricks in products:
+        # Get public URL for product_image
+        res = supabase.storage.from_('image-bucket/Products/').get_public_url(bricks.product_image)
+        # Update product_image field with the public URL
+        bricks.product_image = res
+    
+    context = {
+        'products': products,
+        'category_empty': category_empty,
+        'category': category_slug,
+    }
+
+    return render(request, 'Main/category.html', context)
 
 def product_detail(request, slug):
     product = BrickProduct.objects.filter(slug=slug)
@@ -83,24 +130,3 @@ def product_detail(request, slug):
     }
 
     return render(request, 'Main/product_details.html', context)
-
-def By_category(request, category_id):
-    category = get_object_or_404(BrickCategory, name=category_id)
-    category_name=category_id
-
-    product = BrickProduct.objects.filter(category=category).order_by('id')
-    category_empty = not product.exists()
-    for i in product:
-        # Get public URL for soil_img
-        res = supabase.storage.from_('image-bucket/Products/').get_public_url(i.product_image)
-        # Update soil_img field with the public URL
-        i.product_image = res
-
-    context = {
-        'products': product,
-        'category_empty': category_empty,
-        'category': category_name,
-    }
-
-    return render(request, 'Main/category.html', context)
-

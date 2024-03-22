@@ -17,6 +17,13 @@ supabase: Client = create_client(url, key,
 
 class BrickCategory(models.Model):
     name = models.CharField(max_length=100)
+    slug = models.SlugField(unique=True, max_length=255)
+
+    def save(self, *args, **kwargs):
+        # If the slug is not set or the name has changed, generate the slug
+        if not self.slug or self.name != self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -39,6 +46,7 @@ class BrickProduct(models.Model):
     price = models.IntegerField(default=0)
     stock = models.PositiveIntegerField(default=0)
     product_image = models.ImageField(upload_to ='Products')
+    product_code = models.CharField(max_length=10, unique=True, editable=False)
 
     def product_img_display(self):
         res = supabase.storage.from_('image-bucket/Products').get_public_url(self.product_image)
@@ -49,6 +57,17 @@ class BrickProduct(models.Model):
         if not self.slug or self.name != self.slug:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
+
+        if not self.pk:  # Only for new instances
+            last_product = BrickProduct.objects.order_by('-id').first()
+            if last_product:
+                last_code = last_product.product_code
+                last_num = int(last_code.split('-')[1])
+                new_num = last_num + 1
+                self.product_code = f'HB-{str(new_num).zfill(4)}'
+            else:
+                self.product_code = 'HB-0001'
+
 
     def __str__(self):
         return self.name
