@@ -17,12 +17,12 @@
             <div id="otherSourceInput" style="display: none;">
                 <label for="id_other_source">Other Source:</label>
                 <input type="text" id="id_other_source" name="other_source">
-                <p class="mt-2 text-sm text-red-700 dark:text-gray-400">You have selected the 'Others' option. Kindly specify the location from which the soil is imported</p>
+                <p class="mt-2 text-sm text-secondary dark:text-gray-400">You have selected the 'Others' option. Kindly specify the location from which the soil is imported</p>
 
             </div>
             
         </div>
-        <button type="submit" class="mt-4 w-full rounded-lg bg-red-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 sm:w-auto dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Submit</button>
+        <button type="submit" class="mt-4 w-full rounded-lg bg-secondary px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-secondary focus:outline-none focus:ring-4 focus:ring-primary sm:w-auto dark:bg-secondary dark:hover:bg-secondary dark:focus:ring-secondary">Submit</button>
         {% for message in messages %}
             <p id="bg-green-500 px-4 py-6">{{message}}</p>
         {% endfor %}

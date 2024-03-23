@@ -42,6 +42,10 @@
           extend: {
             animation: {
               'spin-slow': 'spin 8s linear infinite',
+            },
+            colors: {
+              primary: '#b53721',
+              secondary: '#7d1c0b',
             }
           }
         }
@@ -103,56 +107,133 @@
             </div>
 
             <ul class="ml-14 hidden lg:flex lg:w-auto lg:space-x-12">
-              <li><a class="inline-block text-sm font-medium text-gray-900 hover:text-[#b53721]" href="{% url 'homepage' %}">Home</a></li>
+              <li><a class="inline-block text-sm font-medium text-gray-900 hover:text-primary" href="{% url 'homepage' %}">Home</a></li>
               <li class="group relative">
-                <a class="inline-block text-sm font-medium text-gray-900 hover:text-[#b53721]" href="#">About</a>
+                <a class="inline-block text-sm font-medium text-gray-900 hover:text-primary" href="#">
+                  About
+                  </a>
+                          
                 <div class="absolute left-0 top-full z-30 hidden min-w-max max-w-xs p-4 group-hover:block">
-                  <div class="-mb-2 ml-8 h-4 w-4 rotate-45 transform rounded-sm border-l border-t border-gray-200 bg-white"></div>
-                  <div class="w-full max-w-xs rounded-3xl border border-gray-100 bg-white px-4 pb-4 pt-4">
-                    <div class="mb-3 border-b border-gray-100 pb-3">
-                      <a class="block rounded-lg px-4 py-3 text-sm text-gray-900 hover:bg-orange-50" href="{% url 'homepage' %}#aboutus">About Us</a>
-                      <a class="block rounded-lg px-4 py-3 text-sm text-gray-900 hover:bg-orange-50" href="{% url 'products' %}">Products</a>
-
-                      <a class="block rounded-lg px-4 py-3 text-sm text-gray-900 hover:bg-orange-50" href="{% url 'homepage' %}#Services">Services</a>
-                    </div>
-                    <div class="mb-3 border-b border-gray-100 pb-3">
-                      <a class="mb-2 flex items-center rounded-lg px-4 py-3 text-sm text-gray-900 hover:bg-orange-50" href="#">
-                        <i class="ri-shape-fill text-lg"></i>
-                        <span class="ml-3">Architecture Designs</span>
-                      </a>
-                      <a class="mb-2 flex items-center rounded-lg px-4 py-3 text-sm text-gray-900 hover:bg-orange-50" href="{% url 'docs' %}">
-                        <i class="ri-guide-line text-lg"></i>
-                        <span class="ml-3">Documentation</span>
-                      </a>
-                      <a class="mb-2 flex items-center rounded-lg px-4 py-3 text-sm text-gray-900 hover:bg-orange-50" href="#contact-us">
-                        <i class="ri-contacts-book-line text-lg"></i>
-                        <span class="ml-3">Contact</span>
-                      </a>
-                    </div>
-                    <div class="flex items-center">
-                      <div class="flex h-10 w-10 items-center justify-center rounded-full bg-orange-50">
-                        <i class="ri-mail-send-line text-lg"></i>
-                      </div>
-                      <div class="ml-3">
-                        <span class="block text-xs text-gray-500">Drop us a line</span>
-                        <a class="text-sm font-semibold text-black hover:text-[#b53721]" href="#">info@hirabricks.com</a>
+                  
+                  <div class="w-full max-w-2xl rounded-3xl border border-gray-100 bg-white px-4 pb-4 pt-4">
+                    <div class="grid grid-cols-1">
+                      <div class="flex flex-col py-6 px-3 md:px-6">
+                        <div class="space-y-4">
+                          <span class="text-xs font-semibold uppercase text-gray-800 dark:text-gray-200">
+                            About
+                          </span>
+            
+                          <a class="flex gap-x-4 text-gray-800 hover:text-secondary dark:text-gray-200 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 pt-1" href="{% url 'homepage' %}#aboutus">
+                            <i class="ri-arrow-up-double-fill"></i>
+                            <div class="grow">
+                              <p>About Us</p>
+                            </div>
+                          </a>
+            
+                      
+                          <a class="flex gap-x-4 text-gray-800 hover:text-secondary dark:text-gray-200 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="{% url 'homepage'%}#Services">
+                            <i class="ri-article-line"></i>
+                            <div class="grow">
+                              <p>Services</p>
+                            </div>
+                          </a>
+            
+                        <div class="border-t border-gray-300 py-6 max-w-sm">
+                            <div class="flex flex-col mx-1 md:mx-0">
+                              <a class="group flex gap-x-5 hover:bg-gray-100 rounded-lg p-4 dark:text-gray-200 dark:hover:bg-gray-900 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="{% url 'docs' %}">
+                                <i class="ri-guide-line text-lg"></i>
+                                <div class="grow">
+                                  <p class="font-medium text-gray-800 dark:text-gray-200">Documentations</p>
+                                  <p class="text-sm text-gray-500 group-hover:text-gray-800 dark:group-hover:text-gray-200">Explore advice and explanations for all of Preline's features.</p>
+                                </div>
+                              </a>
+            
+                              <a class="group flex gap-x-5 hover:bg-gray-100 rounded-lg p-4 dark:text-gray-200 dark:hover:bg-gray-900 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="#">
+                               <i class="ri-ancient-gate-line"></i>
+                                <div class="grow">
+                                  <p class="font-medium text-gray-800 dark:text-gray-200">Architecture Designs</p>
+                                  <p class="text-sm text-gray-500 group-hover:text-gray-800 dark:group-hover:text-gray-200">Discover the huge range of Designs that Hirabricks has planed and executed.</p>
+                                </div>
+                              </a>
+                          </div>
+                        </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </li>
-              <li><a class="inline-block text-sm font-medium text-gray-900 hover:text-[#b53721]" href="{% url 'products' %}">Products</a></li>
-              <li><a class="inline-block text-sm font-medium text-gray-900 hover:text-[#b53721]" href="#">Gallery</a></li>
+              <li class="group relative">
+                  <a class="inline-block text-sm font-medium text-gray-900 hover:text-primary" href="#">Products</a>
+            
+                  <div class="absolute left-0 top-full z-30 hidden min-w-max max-w-xs p-4 group-hover:block">
+                    
+                    <div class="w-full max-w-2xl rounded-3xl border border-gray-100 bg-white px-4 pb-4 pt-4">
+                      <div class="grid grid-cols-3">
+                        <div class="col-span-1">
+                          <div class="flex flex-col py-6 px-3 md:px-6">
+                            <div class="space-y-4">            
+                              <a class="flex gap-x-4 text-gray-800 hover:text-primary dark:text-gray-200 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="{% url 'products' %}">
+                                <i class="ri-store-line"></i>
+                                <div class="grow">
+                                  <p>All Products</p>
+                                </div>
+                              </a>
+            
+                          
+                              <div class="flex gap-x-4 text-gray-800 hover:text-primary dark:text-gray-200 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="#">
+                                <i class="ri-box-3-line"></i>
+                                <div class="grow">
+                                  <p>Category</p>
+                                </div>
+                              </div>
+                              
+                              {% for category in categories %}
+                              <a class="flex gap-x-4 text-gray-800 hover:text-primary dark:text-gray-200 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600 ms-8" href="{% url 'By_category' slug=category.slug %}">
+                               
+                                <div class="grow">
+                                  <p>{{category}}</p>
+                                </div>
+                              </a>
+                              {% endfor %}
+            
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-span-2">
+                          <div class="flex flex-col bg-gray-50 p-6 dark:bg-gray-700">
+                            <span class="text-xs font-semibold uppercase text-gray-800 dark:text-gray-200">Architecture Designs</span>
+            
+                            <a class="mt-4 group dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="#">
+                              <div class="h-48">
+                                <img class="w-full h-full object-cover rounded-lg" src="https://i.pinimg.com/564x/71/f7/d8/71f7d83c9445600bbd2ccc26cfd963eb.jpg" alt="Image Description">
+                              </div>
+                              <div class="mt-2">
+                                <p class="text-gray-800 dark:text-gray-200">Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium optio adipisci ullam porro delectus vitae. Adipisci.</p>
+                                <p class="mt-3 inline-flex items-center gap-x-1 text-sm text-primary decoration-2 hover:underline font-medium dark:text-primary dark:hover:text-primary dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-slate-600">
+                                  Learn more
+                                  <i class="ri-arrow-right-s-line text-xl"></i>
+                                </p>
+                              </div>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                      
+                    </div>
+                  </div>
+              </li>
+              <li><a class="inline-block text-sm font-medium text-gray-900 hover:text-primary" href="#">Gallery</a></li>
             </ul>
             <div class="ml-auto hidden lg:block">
               <div class="flex items-center">
                 {% if user.is_authenticated %}
-                <a class="group relative inline-block overflow-hidden rounded-md border border-gray-200 px-4 py-3 text-sm font-semibold text-[#b53721] transition duration-300 hover:text-white" href="{% url 'index' %}">
-                  <div class="group-hover:scale-102 absolute right-full top-0 h-full w-full transform bg-[#b53721] transition duration-500 group-hover:translate-x-full"></div>
+                <a class="group relative inline-block overflow-hidden rounded-md border border-gray-200 px-4 py-3 text-sm font-semibold text-primary transition duration-300 hover:text-white" href="{% url 'index' %}">
+                  <div class="group-hover:scale-102 absolute right-full top-0 h-full w-full transform bg-primary transition duration-500 group-hover:translate-x-full"></div>
                   <span class="relative">Dashboard</span>
                 </a>
                 {% else %}
-                <a class="mr-9 inline-block text-sm font-semibold text-[#b53721] hover:text-gray-900" href="{% url 'index' %}">Sign In</a>
+                <a class="mr-9 inline-block text-sm font-semibold text-primary hover:text-gray-900" href="{% url 'index' %}">Sign In</a>
                 <svg width="20" height="10" viewbox="0 0 84 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M1 4.25C0.585786 4.25 0.25 4.58579 0.25 5C0.25 5.41421 0.585786 5.75 1 5.75L1 4.25ZM84 5.00001L76.5 0.669879L76.5 9.33013L84 5.00001ZM1 5.75L77.25 5.75001L77.25 4.25001L1 4.25L1 5.75Z" fill="#1E254C"></path>
                 </svg>
@@ -188,12 +269,12 @@
             </ul>
             <div class="mb-16 flex items-center border-b border-t border-gray-200 px-6 py-8">
               {% if user.is_authenticated %}
-              <a class="group relative inline-block overflow-hidden rounded-md border border-gray-200 px-4 py-3 text-sm font-semibold text-[#b53721] transition duration-300 hover:text-white" href="{% url 'index' %}">
-                <div class="group-hover:scale-102 absolute right-full top-0 h-full w-full transform bg-[#b53721] transition duration-500 group-hover:translate-x-full"></div>
+              <a class="group relative inline-block overflow-hidden rounded-md border border-gray-200 px-4 py-3 text-sm font-semibold text-primary transition duration-300 hover:text-white" href="{% url 'index' %}">
+                <div class="group-hover:scale-102 absolute right-full top-0 h-full w-full transform bg-primary transition duration-500 group-hover:translate-x-full"></div>
                 <span class="relative">Dashboard</span>
               </a>
               {% else %}
-              <a class="mr-9 inline-block text-sm font-semibold text-[#b53721] hover:text-gray-900" href="{% url 'index' %}">Sign In</a>
+              <a class="mr-9 inline-block text-sm font-semibold text-primary hover:text-gray-900" href="{% url 'index' %}">Sign In</a>
               {% endif %}
             </div>
             <div>

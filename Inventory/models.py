@@ -67,6 +67,7 @@ class BrickProduct(models.Model):
                 self.product_code = f'HB-{str(new_num).zfill(4)}'
             else:
                 self.product_code = 'HB-0001'
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name

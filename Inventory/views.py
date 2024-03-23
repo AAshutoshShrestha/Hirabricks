@@ -3,9 +3,11 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import HttpResponseForbidden
+from django.db.models import Q
+
 from .forms import BrickProductForm,SalesForm,add_inventoryForm
 from .models import *
-from django.db.models import Q
+from .utils import generate_product_code
 
 import os
 from supabase import create_client
@@ -21,9 +23,8 @@ supabase = create_client(url, key)
 
 @login_required(login_url='login')
 def inventory(request):
-    # Check if the user is a superuser
     if not request.user.is_superuser:
-        return HttpResponseForbidden("You don't have     permission to access this page.")
+        return HttpResponseForbidden("You don't have permission to access this page.")
     
     categories = BrickCategory.objects.all()
 
@@ -45,12 +46,15 @@ def inventory(request):
             # Get the last BrickProduct ID
             last_product = BrickProduct.objects.last()
             if last_product:
-                last_id = last_product.id
-                new_id = last_id + 1
+                new_id = last_product.id + 1
             else:
                 new_id = 1
 
-            # Create a new BrickProduct instance with the new ID
+            
+            # Generate product code
+            productcode = generate_product_code()
+
+            # Create a new BrickProduct instance
             new_product = BrickProduct.objects.create(
                 id=new_id,
                 name=f_name,
@@ -59,27 +63,26 @@ def inventory(request):
                 dimensions=f_dimensions,
                 price=f_price,
                 stock=f_stock,
-                product_image=f_product_image.name,  # Save the file name in the database
+                product_image=f_product_image.name,
+                product_code=productcode  
             )
 
             messages.success(request, f"New product {new_product.name} added successfully")
-
-            # Save the BrickProduct instance
-            new_product.save()
-
+            
             # Upload product image to Supabase storage
-            supabase.storage.from_('image-bucket/Products').upload(f_product_image.name, f_product_image.read(), {'content-type': 'image/jpeg'})
+            if f_product_image:
+                supabase.storage.from_('image-bucket/Products').upload(f_product_image.name, f_product_image.read(), {'content-type': 'image/jpeg'})
 
-            return redirect('inventory')
+            return redirect('add_inventory')
 
     else:
         formset = BrickProductForm()
 
-        context = {
-            'formset': formset,
-            'categories': categories,
-        }
-    return render(request, 'Inventory/productForms.html', context)
+    context = {
+        'formset': formset,
+        'categories': categories,
+    }
+    return render(request, 'Inventory/add_new_product.html', context)
 
 
 @login_required(login_url='login')
@@ -111,7 +114,7 @@ def all_items_list(request):
         'all_items': all_items_list,
         'forms': form
     }
-    return render(request, 'Inventory/all_items_list.html', context)
+    return render(request, 'Inventory/All_product_list.html', context)
 
 @login_required(login_url='login')
 def product_edit(request, pk):
@@ -132,7 +135,7 @@ def product_edit(request, pk):
             'forms': form,
             'brick_product': brick_product,  # Add brick_product to the context
         }
-    return render(request, 'Inventory/edit_product.html', context)
+    return render(request, 'Inventory/Edit_product_Byid.html', context)
 
 
 @login_required(login_url='login')
@@ -156,7 +159,7 @@ def sales_list(request):
             "sales":sales,
 
         }
-    return render(request, 'Inventory/sales.html', context)
+    return render(request, 'Inventory/Sales_list_add.html', context)
 
 @login_required(login_url='login')
 def add_inventory(request):
@@ -179,4 +182,4 @@ def add_inventory(request):
             "added_inventory":add_inventory,
 
         }
-    return render(request, 'Inventory/Stock_in.html', context)
+    return render(request, 'Inventory/Add_inventory.html', context)

@@ -36,6 +36,11 @@
  }
 
 
- function clearSearch() {
-  document.getElementById('search').value = ''; // Clear the search input field
+function clearSearch() {
+  // Clear the search input field
+  document.getElementById('search').value = '';
+
+  // Remove the search query parameter from the URL and reload the page
+  const urlWithoutSearch = window.location.href.split('?')[0]; // Get the URL without query parameters
+  window.location.href = urlWithoutSearch; // Reload the page without the search query parameter
 }

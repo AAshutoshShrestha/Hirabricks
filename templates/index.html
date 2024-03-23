@@ -25,7 +25,7 @@
             {{ carForm.as_p }}
           </div>
         
-          <button type="submit" class="mt-4 w-full rounded-lg bg-red-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 sm:w-auto dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Submit</button>
+          <button type="submit" class="mt-4 w-full rounded-lg bg-secondary px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-secondary focus:outline-none focus:ring-4 focus:ring-red-300 sm:w-auto dark:bg-primary dark:hover:bg-secondary dark:focus:ring-secondary">Submit</button>
           {% for message in messages %}
           <p id="bg-green-500 px-4 py-6">{{message}}</p>
           {% endfor %}
@@ -59,7 +59,7 @@
         </div>
         <div class="px-6 py-4">
         <div class="flex gap-x-5 ">
-          <i class="ri-hexagon-fill m-1 h-6 w-6 flex-shrink-0 text-red-600 dark:text-red-500"></i>
+          <i class="ri-hexagon-fill m-1 h-6 w-6 flex-shrink-0 text-primary dark:text-primary"></i>
           <div class="flex gap-6">
             <h3 class="text-lg font-semibold text-gray-800 dark:text-white pl-2">Product Type:</h3>
             <h3 class="text-lg font-semibold text-gray-800 dark:text-white">{{ req_condition.name }}</h3>
@@ -67,7 +67,7 @@
         </div>
 
         <div class="flex gap-x-5 pt-2">
-          <i class="ri-hexagon-fill m-1 h-6 w-6 flex-shrink-0 text-red-600 dark:text-red-500"></i>
+          <i class="ri-hexagon-fill m-1 h-6 w-6 flex-shrink-0 text-primary dark:text-primary"></i>
           <div class="flex gap-6">
             <h3 class="text-lg font-semibold text-gray-800 dark:text-white pl-2">Fan Speed:</h3>
             <h3 class="text-lg font-semibold text-gray-800 dark:text-white">{{ req_condition.fan_speed }}</h3>
@@ -75,7 +75,7 @@
         </div>
 
         <div class="flex gap-x-5 pt-2">
-          <i class="ri-hexagon-fill m-1 h-6 w-6 flex-shrink-0 text-red-600 dark:text-red-500"></i>
+          <i class="ri-hexagon-fill m-1 h-6 w-6 flex-shrink-0 text-primary dark:text-primary"></i>
           <div class="flex gap-6">
             <h3 class="text-lg font-semibold text-gray-800 dark:text-white pl-2">Dryer Speed:</h3>
             <h3 class="text-lg font-semibold text-gray-800 dark:text-white">{{ req_condition.dryer_speed }}</h3>
@@ -83,14 +83,14 @@
         </div>
 
         <div class="flex gap-x-5 pt-2">
-          <i class="ri-hexagon-fill m-1 h-6 w-6 flex-shrink-0 text-red-600 dark:text-red-500"></i>
+          <i class="ri-hexagon-fill m-1 h-6 w-6 flex-shrink-0 text-primary dark:text-primary"></i>
           <div class="flex gap-6">
             <h3 class="text-lg font-semibold text-gray-800 dark:text-white pl-2">Burner Speed:</h3>
             <h3 class="text-lg font-semibold text-gray-800 dark:text-white">{{ req_condition.burner_speed }}</h3>
           </div>
         </div>
         <div class="flex gap-x-5 pt-2">
-          <i class="ri-hexagon-fill m-1 h-6 w-6 flex-shrink-0 text-red-600 dark:text-red-500"></i>
+          <i class="ri-hexagon-fill m-1 h-6 w-6 flex-shrink-0 text-primary dark:text-primary"></i>
           <div class="flex gap-6">
             <h3 class="text-lg font-semibold text-gray-800 dark:text-white pl-2">Temperature :</h3>
             <h3 class="text-lg font-semibold text-gray-800 dark:text-white">{{ req_condition.temperature }} ° C</h3>
@@ -98,7 +98,7 @@
         </div>
 
         <div class="flex gap-x-5 pt-2">
-          <i class="ri-hexagon-fill m-1 h-6 w-6 flex-shrink-0 text-red-600 dark:text-red-500"></i>
+          <i class="ri-hexagon-fill m-1 h-6 w-6 flex-shrink-0 text-primary dark:text-primary"></i>
           <div class="flex gap-6">
             <h3 class="text-lg font-semibold text-gray-800 dark:text-white pl-2">Durations:</h3>
             <h3 class="text-lg font-semibold text-gray-800 dark:text-white pl-2">{{ req_condition.durations|convert }}</h3>
@@ -135,7 +135,7 @@
                   <p class="mt-0 text-xl font-medium text-gray-800">{{ Cars.zone.id }}</p>
                 </div>
                 {% for firing in firing %} {% if Cars.zone.name == firing.zone.name %}
-                <i class="ri-fire-fill h-6 w-6 text-red-600 group-hover:opacity-70"></i>
+                <i class="ri-fire-fill h-6 w-6 text-primary group-hover:opacity-70"></i>
                 {% endif %} {% endfor %}
               </div>
 

@@ -135,7 +135,7 @@ def soil_mixture(request):
         formset = MixtureForm(request.POST, request.FILES)
         if formset.is_valid():
             # Extract data from the form
-            type = request.POST.get('type')
+            s_type = request.POST.get('type')
             came_from = request.POST.get('Source')
             sand = request.POST.get('sand')
             silt = request.POST.get('silt')
@@ -153,7 +153,7 @@ def soil_mixture(request):
             mix = SoilDetails.objects.create(
                 user=by,
                 date=timezone.now(),
-                type=type,
+                type=s_type,
                 Source=source,
                 sand=sand,
                 silt=silt,
