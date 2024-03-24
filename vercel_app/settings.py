@@ -80,6 +80,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                'Homepage.context_processors.base_context',
             ],
             'builtins':[
                 'example.templatetags.app_filters',
@@ -88,6 +90,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'vercel_app.wsgi.app'
 

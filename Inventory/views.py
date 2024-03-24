@@ -43,20 +43,11 @@ def inventory(request):
             # Retrieve the BrickCategory instance
             category_instance = BrickCategory.objects.get(pk=f_category)
 
-            # Get the last BrickProduct ID
-            last_product = BrickProduct.objects.last()
-            if last_product:
-                new_id = last_product.id + 1
-            else:
-                new_id = 1
-
-            
             # Generate product code
             productcode = generate_product_code()
 
             # Create a new BrickProduct instance
             new_product = BrickProduct.objects.create(
-                id=new_id,
                 name=f_name,
                 category=category_instance,
                 description=f_description,
@@ -66,13 +57,10 @@ def inventory(request):
                 product_image=f_product_image.name,
                 product_code=productcode  
             )
+            new_product.save()
+            supabase.storage.from_('image-bucket/Products/').upload(f_product_image.name, f_product_image.read(), {'content-type': 'image/jpeg'})
 
             messages.success(request, f"New product {new_product.name} added successfully")
-            
-            # Upload product image to Supabase storage
-            if f_product_image:
-                supabase.storage.from_('image-bucket/Products').upload(f_product_image.name, f_product_image.read(), {'content-type': 'image/jpeg'})
-
             return redirect('add_inventory')
 
     else:
@@ -163,23 +151,22 @@ def sales_list(request):
 
 @login_required(login_url='login')
 def add_inventory(request):
-    # Check if the user is a superuser
     if not request.user.is_superuser:
         return HttpResponseForbidden("You don't have permission to access this page.")
+
+    form =add_inventoryForm()
+    add_inventory = BrickStock.objects.all()
+
+    if request.method == 'POST':
+        form = add_inventoryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('add_inventory')  # Redirect to the list view after editing
     else:
-        form =add_inventoryForm()
-        add_inventory = BrickStock.objects.all()
+        form = add_inventoryForm()
+    context ={
+        "forms":form,
+        "added_inventory":add_inventory,
 
-        if request.method == 'POST':
-            form = add_inventoryForm(request.POST)
-            if form.is_valid():
-                form.save()
-                return redirect('add_inventory')  # Redirect to the list view after editing
-        else:
-            form = add_inventoryForm()
-        context ={
-            "forms":form,
-            "added_inventory":add_inventory,
-
-        }
+    }
     return render(request, 'Inventory/Add_inventory.html', context)

@@ -1,3 +1,4 @@
+import locale
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.http import HttpResponse
@@ -11,14 +12,14 @@ from django.db.models import Count,F, Sum
 
 from datetime import timedelta, date
 
-from .decorators import unauthenticated_user
-from .forms import CarEntryForm,TemperatureRecordForm
-from .models import *
 from conditions.models import MultiCondition
 from conditions.views import required_MultiConditions,foranalytics
 from Resources.models import *
 
-import locale
+from .decorators import unauthenticated_user
+from .forms import CarEntryForm,TemperatureRecordForm
+from .models import *
+from .utils import format_timedelta
 
 # Set the locale to the user's default setting
 locale.setlocale(locale.LC_ALL, '')
@@ -29,17 +30,7 @@ def convert_to_hours_and_minutes(value):
     minutes = value % 60
     return f"{hours} hours, {minutes} minutes"
 
-def format_timedelta(td):
-    total_minutes = td.days * 24 * 60 + td.seconds // 60
-    hours, minutes = divmod(total_minutes, 60)
 
-    parts = []
-    if hours:
-        parts.append(f"{hours} hours")
-    if minutes:
-        parts.append(f"{minutes} minutes")
-
-    return ', '.join(parts)
 
 
 def page_not_found_view(request, exception):

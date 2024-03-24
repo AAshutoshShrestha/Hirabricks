@@ -19,24 +19,7 @@ url=os.environ.get('SUPABASE_URL')
 key=os.environ.get('SUPABASE_SERVICE_ROLE_KEY')
 supabase = create_client(url, key)
 
-
-def base(request):
-    socialmedia = SocialLink.objects.all()
-    company_info = Company_info.objects.all()
-    Team_info = TeamMember.objects.all()
-    categories = BrickCategory.objects.all()
-    context = {
-        'SocialLink':socialmedia,
-        'Company_info':company_info,
-        'TeamMember':Team_info,
-        'categories':categories,
-    }
-    return render(request, 'Main/base.html', context)
 def main(request):
-    socialmedia = SocialLink.objects.all()
-    company_info = Company_info.objects.all()
-    Team_info = TeamMember.objects.all()
-    categories = BrickCategory.objects.all()
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
@@ -55,16 +38,11 @@ def main(request):
         form = ContactForm()
     context = {
         'form':form,
-        'SocialLink':socialmedia,
-        'Company_info':company_info,
-        'TeamMember':Team_info,
-        'categories':categories,
     }
     return render(request, 'Main/home.html', context)
 
 
 def all_products(request):
-    categories = BrickCategory.objects.all()
     all_bricks = BrickProduct.objects.all()
     paginator = Paginator(all_bricks, 12)  # 12 products per page
     page_number = request.GET.get('page')
@@ -85,13 +63,11 @@ def all_products(request):
     
     context = {
         'products': products,
-        'categories':categories,
     }
     return render(request, 'Main/all_products.html', context)
 
 
 def By_category(request, slug):
-    All_categories = BrickCategory.objects.all()
     category = get_object_or_404(BrickCategory, slug=slug)
     category_name=category
 
@@ -120,7 +96,6 @@ def By_category(request, slug):
         'products': products,
         'category_empty': category_empty,
         'category': category_name,
-        'categories':All_categories,
     }
 
     return render(request, 'Main/category.html', context)
@@ -135,7 +110,6 @@ def product_detail(request, slug):
 
     context = {
         'products': product,
-
     }
 
     return render(request, 'Main/product_details.html', context)
