@@ -6,7 +6,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import ContactForm
 from .models import *
 
-from Inventory.models import BrickProduct,BrickCategory
+from Inventory.models import BrickProduct,BrickCategory,ProductAttribute    
 
 import os
 from supabase import create_client
@@ -102,15 +102,29 @@ def By_category(request, slug):
     return render(request, 'Main/category.html', context)
 
 def product_detail(request, slug):
-    product = BrickProduct.objects.filter(slug=slug)
-    for i in product:
-        # Get public URL for soil_img
-        res = supabase.storage.from_('image-bucket/Products/').get_public_url(i.product_image)
-        # Update soil_img field with the public URL
-        i.product_image = res
+    product = BrickProduct.objects.get(slug=slug)
+    product_attributes = product.productattribute_set.all().values('name','dimensions','price','stock')
+
+    
+    # Convert Decimal objects to float
+    product_attributes_json = []
+    for attribute in product_attributes:
+        product_attributes_json.append({
+            'name': attribute['name'],
+            'dimensions': attribute['dimensions'],
+            'price': float(attribute['price']),
+            'stock': attribute['stock'],
+        })
+
+    # Get public URL for product image
+    res = supabase.storage.from_('image-bucket/Products/').get_public_url(product.product_image)
+    # Update product image field with the public URL
+    product.product_image = res
 
     context = {
         'products': product,
+        'product_attributes_json': product_attributes_json,  # Convert to JSON
+
     }
 
     return render(request, 'Main/product_details.html', context)

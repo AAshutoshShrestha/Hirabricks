@@ -1,10 +1,21 @@
 from django.contrib import admin
+from django.forms import inlineformset_factory
 from import_export.admin import ImportExportModelAdmin
 from .models import *
+from .forms import ProductAttributeForm
+
+ProductAttributeFormSet = inlineformset_factory(BrickProduct, ProductAttribute, form=ProductAttributeForm, extra=1)
+
+class ProductAttributeInline(admin.TabularInline):
+    model = ProductAttribute
+    formset = ProductAttributeFormSet
+
 
 # Register your models here.
 @admin.register(BrickProduct)
 class BrickProductAdmin(ImportExportModelAdmin,admin.ModelAdmin):
+    inlines = [ProductAttributeInline]
+    
     def product_img_display(self, obj):
         # Call the soil_img_display method on the provided object
         return obj.product_img_display()

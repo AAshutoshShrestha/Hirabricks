@@ -10,6 +10,11 @@ class BrickProductForm(forms.ModelForm):
         model = BrickProduct
         fields = ['name','category','description','dimensions','price','stock','product_image',]
 
+class ProductAttributeForm(forms.ModelForm):
+    class Meta:
+        model = ProductAttribute
+        fields = ['dimensions', 'price', 'stock']
+        
 class SalesForm(forms.ModelForm):    
     class Meta:
         model = Sale

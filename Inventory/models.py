@@ -49,7 +49,7 @@ class BrickProduct(models.Model):
     product_code = models.CharField(max_length=10, unique=True, editable=False)
 
     def product_img_display(self):
-        res = supabase.storage.from_('image-bucket/').get_public_url(self.product_image)
+        res = supabase.storage.from_('image-bucket/Products/').get_public_url(self.product_image)
         return format_html('<img src="{}" width="100" height="100">', res)
     
     def save(self, *args, **kwargs):
@@ -79,6 +79,22 @@ class BrickProduct(models.Model):
     def bulk_create_from_import(cls, data):
         cls.objects.bulk_create([cls(**item) for item in data])
   
+class ProductAttribute(models.Model):
+    product = models.ForeignKey(BrickProduct, on_delete=models.CASCADE)
+    name = models.CharField(max_length=50)
+    dimensions = models.CharField(max_length=100)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    stock = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return f"{self.product.name} of {self.dimensions}"
+    
+    class Meta:
+        ordering = ['id']
+
+    @classmethod
+    def bulk_create_from_import(cls, data):
+        cls.objects.bulk_create([cls(**item) for item in data])
 
 class Sale(models.Model):
     product = models.ForeignKey(BrickProduct, on_delete=models.CASCADE)
