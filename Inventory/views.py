@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import HttpResponseForbidden
 from django.db.models import Q
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .forms import BrickProductForm,SalesForm,add_inventoryForm
 from .models import *
@@ -31,37 +32,17 @@ def inventory(request):
     if request.method == 'POST':
         formset = BrickProductForm(request.POST, request.FILES)
         if formset.is_valid():
-            # Extract data from the form
-            f_name = request.POST.get('name')
-            f_category = request.POST.get('category')
-            f_description = request.POST.get('description')
-            f_dimensions = request.POST.get('dimensions')
-            f_price = request.POST.get('price')
-            f_stock = request.POST.get('stock')
-            f_product_image = request.FILES.get('product_image')
+            formset.instance.pk = None  # Ensure a new instance is created
+            new_product = formset.save(commit=False)  # Create new product without saving to database yet
+            new_product.product_image = new_product.product_image.name  # Assign Name
+            new_product.product_code = generate_product_code()  # Generate product code
+            new_product.save()  # Save the new product
 
-            # Retrieve the BrickCategory instance
-            category_instance = BrickCategory.objects.get(pk=f_category)
-
-            # Generate product code
-            productcode = generate_product_code()
-
-            # Create a new BrickProduct instance
-            new_product = BrickProduct.objects.create(
-                name=f_name,
-                category=category_instance,
-                description=f_description,
-                dimensions=f_dimensions,
-                price=f_price,
-                stock=f_stock,
-                product_image=f_product_image.name,
-                product_code=productcode  
-            )
-            new_product.save()
-            supabase.storage.from_('image-bucket/Products/').upload(f_product_image.name, f_product_image.read(), {'content-type': 'image/jpeg'})
+            # Upload product image to Supabase storage
+            supabase.storage.from_('image-bucket/').upload(new_product.product_image.name, new_product.product_image.read(), {'content-type': 'image/jpeg'})
 
             messages.success(request, f"New product {new_product.name} added successfully")
-            return redirect('add_inventory')
+            return redirect('inventory')
 
     else:
         formset = BrickProductForm()
@@ -90,16 +71,27 @@ def all_items_list(request):
     else:
         all_items_list = BrickProduct.objects.all()
 
+    # handel Pagination
+    paginator = Paginator(all_items_list, 12)  # 12 products per page
+    page_number = request.GET.get('page')
+    try:
+        products = paginator.page(page_number)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        products = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        products = paginator.page(paginator.num_pages)
     form = BrickProductForm(request.POST if request.method == 'POST' else None)
 
-    for bricks in all_items_list:
+    for bricks in products:
         # Get public URL for soil_img
         res = supabase.storage.from_('image-bucket/Products/').get_public_url(bricks.product_image)
         # Update soil_img field with the public URL
         bricks.product_image = res
     
     context = {
-        'all_items': all_items_list,
+        'all_items': products,
         'forms': form
     }
     return render(request, 'Inventory/All_product_list.html', context)

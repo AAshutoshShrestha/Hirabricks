@@ -44,6 +44,7 @@ def main(request):
 
 def all_products(request):
     all_bricks = BrickProduct.objects.all()
+    
     paginator = Paginator(all_bricks, 12)  # 12 products per page
     page_number = request.GET.get('page')
     try:

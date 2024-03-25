@@ -49,7 +49,7 @@ class BrickProduct(models.Model):
     product_code = models.CharField(max_length=10, unique=True, editable=False)
 
     def product_img_display(self):
-        res = supabase.storage.from_('image-bucket/Products').get_public_url(self.product_image)
+        res = supabase.storage.from_('image-bucket/').get_public_url(self.product_image)
         return format_html('<img src="{}" width="100" height="100">', res)
     
     def save(self, *args, **kwargs):

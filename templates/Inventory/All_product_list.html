@@ -34,6 +34,7 @@
           <table class="min-w-full leading-normal">
             <thead>
               <tr>
+                <th scope="col" class="border-b border-gray-200 bg-white px-5 py-3 text-left text-sm font-normal uppercase text-gray-800">Product Code</th>
                 <th scope="col" class="border-b border-gray-200 bg-white px-5 py-3 text-left text-sm font-normal uppercase text-gray-800">Product image</th>
                 <th scope="col" class="border-b border-gray-200 bg-white px-5 py-3 text-left text-sm font-normal uppercase text-gray-800">Name</th>
                 <th scope="col" class="border-b border-gray-200 bg-white px-5 py-3 text-left text-sm font-normal uppercase text-gray-800">Category</th>
@@ -46,6 +47,9 @@
             <tbody>
               {% for item in all_items %}
               <tr>
+                <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                  <p class="whitespace-no-wrap text-gray-900">{{item.product_code}}</p>
+                </td>
                 <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
                   <!-- popup toggle -->
                   <img src="{{item.product_image}}" alt="{{item.name}}" class="h-36 w-36 rounded-lg object-cover" data-modal-target="popup-modal" data-modal-toggle="popup-modal" />
@@ -92,6 +96,25 @@
   </div>
 </div>
 
+  <!-- Pagination section -->
+  <div class="flex flex-col items-center">
+    <!-- Help text -->
+    <span class="text-sm text-gray-700 dark:text-gray-400"> Showing <span class="font-semibold text-gray-900 dark:text-white">{{ all_items.number }}</span>of <span class="font-semibold text-gray-900 dark:text-white">{{ all_items.paginator.num_pages }}</span> Pages </span>
+  
+    <!-- Buttons -->
+    <div class="xs:mt-0 mt-2 inline-flex">
+      {% if all_items.has_previous %}
+      <a href="?page={{ all_items.previous_page_number }}">
+        <button class="flex h-8 items-center justify-center rounded-s bg-gray-800 px-3 text-sm font-medium text-white hover:bg-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Prev</button>
+      </a>
+      {% endif %}
+      {% if all_items.has_next %}
+      <a href="?page={{ all_items.next_page_number }}">
+        <button class="flex h-8 items-center justify-center rounded-e border-0 border-s border-gray-700 bg-gray-800 px-3 text-sm font-medium text-white hover:bg-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Next</button>
+      </a>
+      {% endif %}
+    </div>
+  </div>
 
 <script>
    function clearSearch() {
