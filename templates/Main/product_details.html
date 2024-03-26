@@ -59,10 +59,6 @@
       </div>
 
       <div class="flex border-t border-gray-200 py-2">
-        <span class="text-gray-500">Size</span>
-        <span class="ml-auto text-gray-900">Medium</span>
-      </div>
-      <div class="flex border-t border-gray-200 py-2">
         <span class="text-gray-500">Item Code</span>
         <span class="ml-auto text-gray-900">{{products.product_code}}</span>
       </div>
@@ -71,7 +67,7 @@
       {% if product_attributes_json %}
       <div class="mb-6 flex border-b border-t border-gray-200 py-2">
         <span class="text-gray-500">Dimensions</span>
-        <span class="ml-auto text-gray-900" id="dimensions-info">{{ attribute.dimensions }}</span>
+        <span class="ml-auto text-gray-900 font-bold" id="dimensions-info">{{ attribute.dimensions }}</span>
       </div>
       <div class="mb-6 flex border-b  border-gray-200">
         <span class="text-gray-500">Available Quantity</span>
@@ -125,11 +121,11 @@
                const stockInfo = document.getElementById('stock-info');
                const dimensionsInfo = document.getElementById('dimensions-info');
                if (selectedAttribute) {
-                   priceInfo.textContent = 'Price: Rs.' + selectedAttribute.price;
+                   priceInfo.textContent = 'Rs.' + selectedAttribute.price;
                    stockInfo.textContent = selectedAttribute.stock;
                    dimensionsInfo.textContent = selectedAttribute.dimensions;
                } else {
-                   priceInfo.textContent = 'Price: N/A';
+                   priceInfo.textContent = 'N/A';
                    stockInfo.textContent = 'N/A';
                    dimensionsInfo.textContent = 'N/A';
                }

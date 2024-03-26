@@ -51,11 +51,8 @@
                   <p class="whitespace-no-wrap text-gray-900">{{item.product_code}}</p>
                 </td>
                 <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
-                  <!-- popup toggle -->
-                  <img src="{{item.product_image}}" alt="{{item.name}}" class="h-36 w-36 rounded-lg object-cover" data-modal-target="popup-modal" data-modal-toggle="popup-modal" />
-
                   <!-- Main modal -->
-                  <div id="popup-modal" class="item-center fixed left-0 right-0 top-0 z-50 hidden  max-h-full w-full justify-center overflow-y-auto overflow-x-hidden md:inset-0">
+                  <div id="popup-modal" tabindex="-1" class="item-center fixed left-0 right-0 top-0 z-50 hidden max-h-full w-full justify-center overflow-y-auto overflow-x-hidden md:inset-0">
                     <div class="relative max-h-full w-full max-w-md p-4">
                       <!-- Modal content -->
                       <div class="relative rounded-lg bg-white shadow dark:bg-gray-700">
@@ -63,6 +60,9 @@
                       </div>
                     </div>
                   </div>
+                  <!-- popup toggle -->
+                  <img src="{{item.product_image}}" alt="{{item.name}}" class="h-36 w-36 rounded-lg object-cover" data-modal-target="popup-modal" data-modal-toggle="popup-modal" />
+
                 </td>
 
                 <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
@@ -73,7 +73,7 @@
                   <p class="whitespace-no-wrap text-gray-900">{{item.category}}</p>
                 </td>
                 <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
-                  <p class="whitespace-no-wrap text-gray-900">{{item.dimensions}}</p>
+                  <p class="whitespace-no-wrap text-gray-900">{{item.productattribute.dimensions}}</p>
                 </td>
                 <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
                   <p class="whitespace-no-wrap text-gray-900">{{item.stock}}</p>
@@ -115,15 +115,4 @@
       {% endif %}
     </div>
   </div>
-
-<script>
-   function clearSearch() {
-      // Clear the search input field
-      document.getElementById('search').value = '';
-
-      // Remove the search query parameter from the URL and reload the page
-      const urlWithoutSearch = window.location.href.split('?')[0]; // Get the URL without query parameters
-      window.location.href = urlWithoutSearch; // Reload the page without the search query parameter
-  }
-</script>
 {% endblock content %}

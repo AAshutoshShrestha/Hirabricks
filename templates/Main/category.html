@@ -25,19 +25,16 @@
     {% for product in products %}
 
     <div class="w-full p-4 md:w-1/2 lg:w-1/4">
-      <a class="relative block h-48 overflow-hidden rounded">
-        <img alt="name" class="block h-full w-full object-cover object-center" src="{{product.product_image}}" />
-      </a>
+      <a href="{% url 'product_detail' slug=product.slug %}">
+        <div class="relative block h-48 overflow-hidden rounded">
+          <img alt="name" class="block h-full w-full object-cover object-center" src="{{product.product_image}}" />
+        </div>
       <div class="mt-4">
       
-        <a href="{% url 'product_detail' slug=product.slug %}">
           <h1 class="title-font text-lg font-medium text-gray-900">{{product.name}}</h1>
-
-          <p class="mt-1">{{product.dimensions}}</p>
-          <p class="mt-1"><span class="font-medium">Rs. </span> {{product.price}}</p>
-        </a>
+        </div>
+      </a>
       </div>
-    </div>
     
     {% endfor %}
 

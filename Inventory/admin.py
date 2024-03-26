@@ -22,11 +22,18 @@ class BrickProductAdmin(ImportExportModelAdmin,admin.ModelAdmin):
 
     product_img_display.short_description = 'Soil Image'
 
-    list_display = ('id','product_code','name','category', 'description','dimensions','price','stock','product_img_display')
+    list_display = ('id','product_code','name','category', 'description','product_img_display')
     list_filter = ('id', 'name','category','product_code',)
     search_fields = ('id', 'name','category','product_code',)
     list_per_page = 15
 
+
+@admin.register(ProductAttribute)
+class ProductAttributeAdmin(ImportExportModelAdmin,admin.ModelAdmin):
+    list_display = ('id','product','name','dimensions','price','stock')
+    list_filter = ('id',)
+    search_fields = ('id',)
+    list_per_page = 15
 
 @admin.register(BrickCategory)
 class BrickCategoryAdmin(ImportExportModelAdmin,admin.ModelAdmin):

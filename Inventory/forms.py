@@ -8,7 +8,7 @@ class BrickProductForm(forms.ModelForm):
     
     class Meta:
         model = BrickProduct
-        fields = ['name','category','description','dimensions','price','stock','product_image',]
+        fields = ['name','category','description','product_image',]
 
 class ProductAttributeForm(forms.ModelForm):
     class Meta:

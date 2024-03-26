@@ -42,9 +42,6 @@ class BrickProduct(models.Model):
 
     category = models.ForeignKey(BrickCategory, on_delete=models.CASCADE)
     description = models.TextField()
-    dimensions = models.CharField(max_length=100)
-    price = models.IntegerField(default=0)
-    stock = models.PositiveIntegerField(default=0)
     product_image = models.ImageField(upload_to ='Products')
     product_code = models.CharField(max_length=10, unique=True, editable=False)
 
