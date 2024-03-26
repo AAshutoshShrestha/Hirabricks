@@ -95,16 +95,17 @@ class ProductAttribute(models.Model):
 
 class Sale(models.Model):
     product = models.ForeignKey(BrickProduct, on_delete=models.CASCADE)
+    product_attribute = models.ForeignKey(ProductAttribute, on_delete=models.CASCADE)
     quantity_sold = models.PositiveIntegerField()
     date_sold = models.DateField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        self.product.stock -= self.quantity_sold
-        self.product.save()
+        self.product_attribute.stock -= self.quantity_sold
+        self.product_attribute.save()
 
     def __str__(self):
-        return f"{self.quantity_sold} units of {self.product.name} sold on {self.date_sold}"
+        return f"{self.quantity_sold} units of {self.product.name} ({self.product_attribute.name}) sold on {self.date_sold}"
     
     class Meta:
         ordering = ['id']
@@ -112,6 +113,7 @@ class Sale(models.Model):
     @classmethod
     def bulk_create_from_import(cls, data):
         cls.objects.bulk_create([cls(**item) for item in data])
+
 
 
 class BrickStock(models.Model):
