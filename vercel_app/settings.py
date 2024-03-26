@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 import os
 from django.utils.translation import gettext_lazy as _
-
+from .jazminSetup import JAZZMIN_SETTINGS,JAZZMIN_UI_TWEAKS
 from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv()
@@ -178,50 +178,5 @@ MEDIAFILE_DIRS =[
 ]
 
 
-JAZZMIN_SETTINGS ={
-    "site_title": "Hirabricks",
-    "site_header": "TunnelKiln",
-    "site_brand": "TunnelKiln records",
-    "site_logo_classes": "admin-logo",
-    "site_logo":"image/factoryicon-white.png",
-    
-    "site_icon":"image/favicon.png",
-
-    "copyright": "Aashutosh Shrestha © Hirabricks 2024",
-
-    "navbar": "navbar-light",
-
-    "sidebar": "sidebar-light-orange",
-    "show_sidebar" : True,
-
-    "brand_colour": "navbar-orange",
-
-    "usermenu_links": [
-        {"model": "auth.user"}
-    ],
-    "custom_links": {
-    "books": [{
-        "name": "Make Messages"
-    }]
-    },
-
-    "changeform_format": "horizontal_tabs",
-
-    "topmenu_links": [
-
-        # Url that gets reversed (Permissions can be added)
-        {"name": "Open Site",  "url": "/Dashboard", "permissions": ["auth.view_user"]},
-        {"name": "Home page",  "url": "/", "permissions": ["auth.view_user"]},
-
-        # Url that gets reversed (Permissions can be added)
-        {"name": "Register",  "url": "/register", "permissions": ["auth.view_user"]},
-
-        # App with dropdown menu to all its models pages (Permissions checked against models)
-        {"app": "example"},
-
-        # model admin to link to (Permissions checked against model)
-        {"model": "auth.User"},
-    ],
-
-    "dark_mode_theme": None,
-}
+JAZZMIN_SETTINGS = JAZZMIN_SETTINGS
+JAZZMIN_UI_TWEAKS = JAZZMIN_UI_TWEAKS

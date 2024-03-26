@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse,HttpResponse
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
-from .forms import MachineRuntimeForm
+from .forms import MachineRuntimeForm,MaintenanceTaskForm
 from .models import *
 
 @login_required(login_url='login')
@@ -66,11 +66,13 @@ def runtime_records(request):
 
 @login_required(login_url='login')
 def maintenance_tasks(request):
+    form =MaintenanceTaskForm()
     pending_tasks = MaintenanceTask.objects.filter(status='Pending')
     onprocess_tasks = MaintenanceTask.objects.filter(status='Onprocess')
     completed_tasks = MaintenanceTask.objects.filter(status='Completed')
     Onhold_tasks = MaintenanceTask.objects.filter(status='Onhold')
     context ={
+        'forms': form, 
         'pending_tasks': pending_tasks, 
         'onprocess_tasks': onprocess_tasks, 
         'completed_tasks': completed_tasks,

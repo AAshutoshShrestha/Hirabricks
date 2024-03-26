@@ -73,4 +73,90 @@
   </form>
 </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="rounded-xl border border-gray-300 bg-white p-3 shadow-lg sm:p-7 dark:bg-slate-900">
+  <div class="border-b border-gray-100 px-6 py-4">
+    <h3 class="font-medium text-gray-600 dark:text-gray-400">Form with product attribute</h3>
+  </div>
+  <form class="mx-auto px-12 py-12" action="{% url 'inventory' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="mb-5">
+      <div>
+        <label for="id_name" class="mb-2 mt-4 block text-sm font-medium text-gray-900 dark:text-white">Name:</label>
+        <input type="text" name="name" maxlength="100" required="" id="id_name" class="focus:border-primary focus:ring-primary block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500" />
+      </div>
+
+      <div>
+        <label for="id_category" class="mb-2 mt-4 block text-sm font-medium text-gray-900 dark:text-white">Category:</label>
+        <select name="category" required="" id="id_category" class="focus:border-primary focus:ring-primary dark:focus:border-primary dark:focus:ring-primary block w-full cursor-pointer rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
+          <option value="" selected="" class="ml-2 text-left text-sm font-medium text-gray-900">---------</option>
+          {% for category in categories %}
+          <option value="{{ category.id }}" class="ml-2 text-left text-sm font-medium text-gray-900">{{ category.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label for="id_product_image" class="mb-2 mt-4 block text-sm font-medium text-gray-900 dark:text-white">Product image:</label>
+        <input type="file" name="product_image" accept="image/*" required="" id="id_product_image" class="focus:border-primary focus:ring-primary block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500" />
+      </div>
+      <div>
+        <label for="id_description" class="mb-2 mt-4 block text-sm font-medium text-gray-900 dark:text-white">Description:</label>
+        <textarea name="description" cols="40" rows="10" placeholder="Write short description" id="id_description" class="focus:border-primary focus:ring-primary dark:focus:border-primary dark:focus:ring-primary block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"></textarea>
+      </div>
+    </div>
+
+    {{ product_attribute_formset.management_form }}
+    <div class="product-attribute-formset" id="attribute-formset-wrapper">
+        {% for form in product_attribute_formset %}
+            <div class="product-attribute-form">
+                {{ form.as_table }}
+            </div>
+        {% endfor %}
+    </div>
+     
+    <button type="button" id="add-attribute-formset" class="bg-primary hover:bg-secondary dark:bg-primary dark:hover:bg-primary dark:focus:ring-secondary mt-4 w-full rounded-lg px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 focus:ring-red-300 sm:w-auto">Add Attribute</button>
+    <button type="submit" class="bg-primary hover:bg-secondary dark:bg-primary dark:hover:bg-primary dark:focus:ring-secondary mt-4 w-full rounded-lg px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 focus:ring-red-300 sm:w-auto">Submit</button>
+    </form>
+
+  
+</div>
+<!-- JavaScript for dynamically adding/removing formsets -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      const formsetWrapper = document.getElementById('attribute-formset-wrapper');
+      const addFormsetButton = document.getElementById('add-attribute-formset');
+
+      let formsetIndex = 0;
+
+      function addFormset() {
+          const formsetHTML = `<div class="formset" id="formset-${formsetIndex}">
+              <!-- Your attribute form fields -->
+          </div>`;
+          formsetWrapper.insertAdjacentHTML('beforeend', formsetHTML);
+          formsetIndex++;
+      }
+
+      function removeFormset(formsetID) {
+          const formset = document.getElementById(formsetID);
+          formset.remove();
+      }
+
+      addFormsetButton.addEventListener('click', addFormset);
+
+      // You can add functionality to remove formsets if needed
+  });
+</script>
+
+
 {% endblock content %}

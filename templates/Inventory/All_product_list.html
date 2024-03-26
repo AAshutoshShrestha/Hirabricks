@@ -38,6 +38,7 @@
                 <th scope="col" class="border-b border-gray-200 bg-white px-5 py-3 text-left text-sm font-normal uppercase text-gray-800">Product image</th>
                 <th scope="col" class="border-b border-gray-200 bg-white px-5 py-3 text-left text-sm font-normal uppercase text-gray-800">Name</th>
                 <th scope="col" class="border-b border-gray-200 bg-white px-5 py-3 text-left text-sm font-normal uppercase text-gray-800">Category</th>
+                <th scope="col" class="border-b border-gray-200 bg-white px-5 py-3 text-left text-sm font-normal uppercase text-gray-800">Type</th>
                 <th scope="col" class="border-b border-gray-200 bg-white px-5 py-3 text-left text-sm font-normal uppercase text-gray-800">Dimensions</th>
                 <th scope="col" class="border-b border-gray-200 bg-white px-5 py-3 text-left text-sm font-normal uppercase text-gray-800">Stock</th>
                 <th scope="col" class="border-b border-gray-200 bg-white px-5 py-3 text-left text-sm font-normal uppercase text-gray-800">Price</th>
@@ -73,13 +74,32 @@
                   <p class="whitespace-no-wrap text-gray-900">{{item.category}}</p>
                 </td>
                 <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
-                  <p class="whitespace-no-wrap text-gray-900">{{item.productattribute.dimensions}}</p>
+                  <ul>
+                    {% for attribute in item.productattribute_set.all %}
+                      <li>{{ attribute.name }}</li>
+                    {% endfor %}
+                  </ul>
                 </td>
                 <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
-                  <p class="whitespace-no-wrap text-gray-900">{{item.stock}}</p>
+                  <ul>
+                    {% for attribute in item.productattribute_set.all %}
+                      <li>{{ attribute.dimensions }}</li>
+                    {% endfor %}
+                  </ul>
                 </td>
                 <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
-                  <p class="whitespace-no-wrap text-gray-900">{{item.price}}</p>
+                  <ul>
+                    {% for attribute in item.productattribute_set.all %}
+                      <li>{{ attribute.stock }}</li>
+                    {% endfor %}
+                  </ul>
+                </td>
+                <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                  <ul>
+                    {% for attribute in item.productattribute_set.all %}
+                      <li>{{ attribute.price }}</li>
+                    {% endfor %}
+                  </ul>
                 </td>
                 <td class="border-b border-gray-200 bg-white px-5 py-5 text-sm">
                   <a href="{% url 'product_edit' pk=item.id %}">

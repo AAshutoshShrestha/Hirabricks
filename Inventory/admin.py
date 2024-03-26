@@ -31,8 +31,8 @@ class BrickProductAdmin(ImportExportModelAdmin,admin.ModelAdmin):
 @admin.register(ProductAttribute)
 class ProductAttributeAdmin(ImportExportModelAdmin,admin.ModelAdmin):
     list_display = ('id','product','name','dimensions','price','stock')
-    list_filter = ('id',)
-    search_fields = ('id',)
+    list_filter = ('id','product',)
+    search_fields = ('id','name',)
     list_per_page = 15
 
 @admin.register(BrickCategory)

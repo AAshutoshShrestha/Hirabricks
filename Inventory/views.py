@@ -6,7 +6,9 @@ from django.http import HttpResponseForbidden
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-from .forms import BrickProductForm,SalesForm,add_inventoryForm
+
+from django.forms import inlineformset_factory
+from .forms import *
 from .models import *
 from .utils import generate_product_code
 
@@ -26,33 +28,43 @@ supabase = create_client(url, key)
 def inventory(request):
     if not request.user.is_superuser:
         return HttpResponseForbidden("You don't have permission to access this page.")
-    
+
     categories = BrickCategory.objects.all()
 
+    # Import ProductAttributeFormSet here
+    ProductAttributeFormSet = inlineformset_factory(BrickProduct, ProductAttribute, form=ProductAttributeForm, extra=1)
+
     if request.method == 'POST':
-        formset = BrickProductForm(request.POST, request.FILES)
-        if formset.is_valid():
-            formset.instance.pk = None  # Ensure a new instance is created
-            new_product = formset.save(commit=False)  # Create new product without saving to database yet
-            new_product.product_image = new_product.product_image.name  # Assign Name
-            new_product.product_code = generate_product_code()  # Generate product code
-            new_product.save()  # Save the new product
+        form = BrickProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            new_product = form.save(commit=False)
+            new_product.product_image = new_product.product_image.name
+            new_product.product_code = generate_product_code()
+            new_product.save()
 
             # Upload product image to Supabase storage
             supabase.storage.from_('image-bucket/').upload(new_product.product_image.name, new_product.product_image.read(), {'content-type': 'image/jpeg'})
 
-            messages.success(request, f"New product {new_product.name} added successfully")
-            return redirect('inventory')
+            # Process product attributes formset
+            product_attribute_formset = ProductAttributeFormSet(request.POST, instance=new_product)
+            if product_attribute_formset.is_valid():
+                product_attribute_formset.save()
+
+                messages.success(request, f"New product {new_product.name} added successfully")
+                return redirect('inventory')
+        else:
+            product_attribute_formset = ProductAttributeFormSet(request.POST)
 
     else:
-        formset = BrickProductForm()
+        form = BrickProductForm()
+        product_attribute_formset = ProductAttributeFormSet()
 
     context = {
-        'formset': formset,
+        'form': form,
+        'product_attribute_formset': product_attribute_formset,
         'categories': categories,
     }
     return render(request, 'Inventory/add_new_product.html', context)
-
 
 @login_required(login_url='login')
 def all_items_list(request):
@@ -65,13 +77,25 @@ def all_items_list(request):
     if search_query:
         all_items_list = BrickProduct.objects.filter(
             Q(name__icontains=search_query) |
-            Q(category__name__icontains=search_query)|
+            Q(category__name__icontains=search_query) |
             Q(product_code__icontains=search_query)
         )
     else:
         all_items_list = BrickProduct.objects.all()
 
-    # handel Pagination
+    # Convert Decimal objects to float
+    product_attributes_json = []
+    for brick_product in all_items_list:
+        attributes = brick_product.productattribute_set.all().values('name', 'dimensions', 'price', 'stock')
+        for attribute in attributes:
+            product_attributes_json.append({
+                'name': attribute['name'],
+                'dimensions': attribute['dimensions'],
+                'price': float(attribute['price']),
+                'stock': attribute['stock'],
+            })
+
+    # Handle Pagination
     paginator = Paginator(all_items_list, 12)  # 12 products per page
     page_number = request.GET.get('page')
     try:
@@ -82,41 +106,50 @@ def all_items_list(request):
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
         products = paginator.page(paginator.num_pages)
+
     form = BrickProductForm(request.POST if request.method == 'POST' else None)
 
-    for bricks in products:
-        # Get public URL for soil_img
-        res = supabase.storage.from_('image-bucket/Products/').get_public_url(bricks.product_image)
-        # Update soil_img field with the public URL
-        bricks.product_image = res
-    
+    for brick_product in products:
+        # Get public URL for product_image
+        res = supabase.storage.from_('image-bucket/Products/').get_public_url(brick_product.product_image)
+        # Update product_image field with the public URL
+        brick_product.product_image = res
+
     context = {
         'all_items': products,
+        'product_attributes_json': product_attributes_json,  # Convert to JSON
         'forms': form
     }
     return render(request, 'Inventory/All_product_list.html', context)
+
 
 @login_required(login_url='login')
 def product_edit(request, pk):
     # Check if the user is a superuser
     if not request.user.is_superuser:
         return HttpResponseForbidden("You don't have permission to access this page.")
-    else:
-        brick_product = get_object_or_404(BrickProduct, pk=pk)
-        
-        if request.method == 'POST':
-            form = BrickProductForm(request.POST, instance=brick_product)
-            if form.is_valid():
-                form.save()
-                return redirect('all_items_list')  # Redirect to the list view after editing
-        else:
-            form = BrickProductForm(instance=brick_product)
-        context = {
-            'forms': form,
-            'brick_product': brick_product,  # Add brick_product to the context
-        }
-    return render(request, 'Inventory/Edit_product_Byid.html', context)
 
+    brick_product = get_object_or_404(BrickProduct, pk=pk)
+    ProductAttributeFormSet = inlineformset_factory(BrickProduct, ProductAttribute, fields=('name', 'dimensions', 'price', 'stock'), extra=1)
+
+    if request.method == 'POST':
+        form = BrickProductForm(request.POST, instance=brick_product)
+        formset = ProductAttributeFormSet(request.POST, instance=brick_product)
+        
+        if form.is_valid() and formset.is_valid():
+            form.save()
+            formset.save()
+            return redirect('all_items_list')  # Redirect to the list view after editing
+    else:
+        form = BrickProductForm(instance=brick_product)
+        formset = ProductAttributeFormSet(instance=brick_product)
+
+    context = {
+        'forms': form,
+        'formset': formset,
+        'brick_product': brick_product,
+    }
+    return render(request, 'Inventory/Edit_product_Byid.html', context)
 
 @login_required(login_url='login')
 def sales_list(request):
