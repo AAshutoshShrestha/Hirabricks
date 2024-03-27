@@ -1,0 +1,28 @@
+{% extends "Main/base.html" %}
+{% load static %}
+
+{% block title %} Gallery | Hirabricks {% endblock %}
+{% block content %}
+
+h1>Image Gallery</h1>
+    
+<div class="container mx-auto">
+    {% for i in names %}
+        <h1>{{i.name}}</h1>
+    {% endfor %}
+    {% for image_chunk in images %}
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <div class="p-4 bg-gray-100">
+                    <img src="{{ image_chunk }}" alt="Image" class="w-full h-auto">
+                </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
+
+bucket_name = 'image-bucket'
+folder_path = 'Products'
+supabase.storage.from_(f'{bucket_name}/).get_public_url(f'{folder_path}/{object_name}')
+supabase.storage.from_('Products_image').get_public_url('BYK_0045.webp')
+supabase.storage.from_('Products_image').list()

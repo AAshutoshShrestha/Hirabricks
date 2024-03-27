@@ -5,7 +5,8 @@ from django.utils import timezone
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import ContactForm
 from .models import *
-
+import requests
+from django.http import JsonResponse
 from Inventory.models import BrickProduct,BrickCategory,ProductAttribute    
 
 import os
@@ -58,7 +59,7 @@ def all_products(request):
     
     for bricks in products:
         # Get public URL for product_image
-        res = supabase.storage.from_('image-bucket/Products/').get_public_url(bricks.product_image)
+        res = supabase.storage.from_('Products_image').get_public_url(bricks.product_image)
         # Update product_image field with the public URL
         bricks.product_image = res
     
@@ -89,7 +90,7 @@ def By_category(request, slug):
     
     for bricks in products:
         # Get public URL for product_image
-        res = supabase.storage.from_('image-bucket/Products/').get_public_url(bricks.product_image)
+        res = supabase.storage.from_('Products_image').get_public_url(bricks.product_image)
         # Update product_image field with the public URL
         bricks.product_image = res
     
@@ -117,7 +118,7 @@ def product_detail(request, slug):
         })
 
     # Get public URL for product image
-    res = supabase.storage.from_('image-bucket/Products/').get_public_url(product.product_image)
+    res = supabase.storage.from_('Products_image').get_public_url(product.product_image)
     # Update product image field with the public URL
     product.product_image = res
 
@@ -128,3 +129,15 @@ def product_detail(request, slug):
     }
 
     return render(request, 'Main/product_details.html', context)
+
+
+def gallery(request):
+    object_names = supabase.storage.from_('image-bucket').list()
+    
+    # Generate public URLs for the objects
+    public_urls = supabase.storage.from_('image-bucket').get_public_url(f'Products/{object_names}')
+    context ={
+        'images': public_urls,
+        'names': object_names,
+    }
+    return render(request, 'Main/gallery.html', context)

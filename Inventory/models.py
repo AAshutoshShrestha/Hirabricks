@@ -42,11 +42,11 @@ class BrickProduct(models.Model):
 
     category = models.ForeignKey(BrickCategory, on_delete=models.CASCADE)
     description = models.TextField()
-    product_image = models.ImageField(upload_to ='Products')
+    product_image = models.ImageField()
     product_code = models.CharField(max_length=10, unique=True, editable=False)
 
     def product_img_display(self):
-        res = supabase.storage.from_('image-bucket/Products/').get_public_url(self.product_image)
+        res = supabase.storage.from_('Products_image/').get_public_url(self.product_image)
         return format_html('<img src="{}" width="100" height="100">', res)
     
     def save(self, *args, **kwargs):
@@ -84,7 +84,7 @@ class ProductAttribute(models.Model):
     stock = models.PositiveIntegerField(default=0)
 
     def __str__(self):
-        return f"{self.product.name} of {self.dimensions}"
+        return f"{self.product.name} of {self.name}"
     
     class Meta:
         ordering = ['id']
@@ -101,7 +101,9 @@ class Sale(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        self.product_attribute.stock -= self.quantity_sold
+        # Convert quantity_sold to integer
+        quantity_sold = int(self.quantity_sold)
+        self.product_attribute.stock -= quantity_sold
         self.product_attribute.save()
 
     def __str__(self):

@@ -1,7 +1,7 @@
 JAZZMIN_SETTINGS ={
     "site_title": "Hirabricks",
     "site_header": "TunnelKiln",
-    "site_brand": "TunnelKiln records",
+    "site_brand": "Hirabricks",
     "site_logo_classes": "admin-logo",
     "site_logo":"image/factoryicon-white.png",
     

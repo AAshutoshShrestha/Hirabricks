@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.http import HttpResponseForbidden
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+from django.utils import timezone
 
 from django.forms import inlineformset_factory
 from .forms import *
@@ -156,22 +156,39 @@ def sales_list(request):
     # Check if the user is a superuser
     if not request.user.is_superuser:
         return HttpResponseForbidden("You don't have permission to access this page.")
+    
+    form =SalesForm()
+    sale = Sale.objects.all()
+    products = BrickProduct.objects.all()
+    product_attributes = ProductAttribute.objects.all()
+
+    if request.method == 'POST':
+        form = SalesForm(request.POST)
+        if form.is_valid():
+            f_product_id = request.POST.get('product')
+            f_product_attribute_name = request.POST.get('product_attribute')
+            f_quantity_sold = request.POST.get('quantity_sold')
+            
+            # Retrieve product and filter product attribute by product_id and name
+            f_product = BrickProduct.objects.get(id=f_product_id)
+            f_product_attribute = get_object_or_404(ProductAttribute, product_id=f_product_id, name=f_product_attribute_name)
+
+            new_sales = Sale.objects.create(
+                product=f_product,
+                product_attribute=f_product_attribute.id,
+                quantity_sold=f_quantity_sold,
+                date_sold=timezone.now(),
+            )
+            new_sales.save()
+            return redirect('all_items_list')  # Redirect to the list view after editing
     else:
-        form =SalesForm()
-        sales = Sale.objects.all()
-
-        if request.method == 'POST':
-            form = SalesForm(request.POST)
-            if form.is_valid():
-                form.save()
-                return redirect('sales_list')  # Redirect to the list view after editing
-        else:
-            form = SalesForm()
-        context ={
-            "forms":form,
-            "sales":sales,
-
-        }
+        form = SalesForm()
+    context ={
+        "forms":form,
+        "sales":sale,
+        "products": products,
+        "product_attributes": product_attributes,
+    }
     return render(request, 'Inventory/Sales_list_add.html', context)
 
 @login_required(login_url='login')
