@@ -43,7 +43,7 @@ def inventory(request):
             new_product.save()
 
             # Upload product image to Supabase storage
-            supabase.storage.from_('image-bucket/').upload(new_product.product_image.name, new_product.product_image.read(), {'content-type': 'image/jpeg'})
+            supabase.storage.from_('Products_image').upload(new_product.product_image.name, new_product.product_image.read(), {'content-type': 'image/jpeg'})
 
             # Process product attributes formset
             product_attribute_formset = ProductAttributeFormSet(request.POST, instance=new_product)
@@ -111,7 +111,7 @@ def all_items_list(request):
 
     for brick_product in products:
         # Get public URL for product_image
-        res = supabase.storage.from_('image-bucket/Products/').get_public_url(brick_product.product_image)
+        res = supabase.storage.from_('Products_image').get_public_url(brick_product.product_image)
         # Update product_image field with the public URL
         brick_product.product_image = res
 

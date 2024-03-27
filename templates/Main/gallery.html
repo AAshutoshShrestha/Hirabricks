@@ -7,8 +7,9 @@
 h1>Image Gallery</h1>
     
 <div class="container mx-auto">
-    {% for i in names %}
-        <h1>{{i.name}}</h1>
+
+    {% for i in all_names %}
+        <h1>{{i}}</h1>
     {% endfor %}
     {% for image_chunk in images %}
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">

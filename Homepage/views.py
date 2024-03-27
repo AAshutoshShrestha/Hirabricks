@@ -132,12 +132,15 @@ def product_detail(request, slug):
 
 
 def gallery(request):
-    object_names = supabase.storage.from_('image-bucket').list()
-    
-    # Generate public URLs for the objects
-    public_urls = supabase.storage.from_('image-bucket').get_public_url(f'Products/{object_names}')
+    object_names = supabase.storage.from_('Products_image').list()
+    all_names = [name['name'] for name in object_names]
+
+    # Generate individual public URLs for each image
+    individual_public_urls = [
+        f"https://govmngfhcfddnuqorust.supabase.co/storage/v1/object/public/Products_image/{name}"
+        for name in all_names
+    ]
     context ={
-        'images': public_urls,
-        'names': object_names,
+        'images': individual_public_urls ,
     }
     return render(request, 'Main/gallery.html', context)
