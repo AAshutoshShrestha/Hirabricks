@@ -135,12 +135,26 @@ def gallery(request):
     object_names = supabase.storage.from_('Products_image').list()
     all_names = [name['name'] for name in object_names]
 
-    # Generate individual public URLs for each image
+    paginator = Paginator(all_names, 12)  # 12 products per page
+
+    page_number = request.GET.get('page')
+    try:
+        page_obj = paginator.page(page_number)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        page_obj = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        page_obj = paginator.page(paginator.num_pages)
+    # Generate individual public URLs for each image in the current page
     individual_public_urls = [
         f"https://govmngfhcfddnuqorust.supabase.co/storage/v1/object/public/Products_image/{name}"
-        for name in all_names
+        for name in page_obj.object_list
     ]
-    context ={
-        'images': individual_public_urls ,
+
+    context = {
+        'images': individual_public_urls,
+        'page_obj': page_obj,
     }
     return render(request, 'Main/gallery.html', context)
+

@@ -38,24 +38,25 @@
       <p class="mb-4 leading-relaxed">{{products.description | safe }}</p>
 
       <div class="flex border-t border-gray-200 py-2">
-        <h3 class="mb-4 font-semibold text-gray-900 dark:text-white mr-4">Sizes </h3>
-
+        <h3 class="mb-4 font-semibold text-gray-900 dark:text-white mr-auto">Types</h3>
         {% if product_attributes_json %}
-        <ul class="w-full items-center rounded-lg border border-gray-200 bg-white text-sm font-medium text-gray-900 sm:flex dark:border-gray-600 dark:bg-gray-700 dark:text-white space-x-1">
+        <ul class="w-1/2 rounded-lg border border-gray-200 bg-white text-sm font-medium text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
           {% for attribute in product_attributes_json %}
-          <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+          <li class="w-full rounded-t-lg border-b border-gray-200 dark:border-gray-600 items-start justify-start">
             <div class="flex items-center ps-3">
-              <input id="dimension_{{ forloop.counter }}" type="radio" value="{{ attribute.dimensions }}" name="name" class="text-primary focus:ring-primary dark:focus:ring-primary h-4 w-2 border-gray-300 bg-gray-100 focus:ring-2 dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700" />
+              <input dimension_{{ forloop.counter }} type="radio" value="{{ attribute.dimensions }}" name="name" class="h-4 w-4 border-gray-300 bg-gray-100 text-red-600 dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-700" />
 
               <label for="dimension_{{ forloop.counter }}" class="ms-2 w-full py-3 text-sm font-medium text-gray-900 dark:text-gray-300">{{ attribute.name }} </label>
             </div>
           </li>
+
           {% endfor %}
         </ul>
         {% else %}
         <span class="ml-auto text-gray-900">{{products.dimensions}}</span>
 
         {% endif %}
+
       </div>
 
       <div class="flex border-t border-gray-200 py-2">
@@ -120,6 +121,7 @@
                const priceInfo = document.getElementById('price-info');
                const stockInfo = document.getElementById('stock-info');
                const dimensionsInfo = document.getElementById('dimensions-info');
+
                if (selectedAttribute) {
                    priceInfo.textContent = 'Rs.' + selectedAttribute.price;
                    stockInfo.textContent = selectedAttribute.stock;

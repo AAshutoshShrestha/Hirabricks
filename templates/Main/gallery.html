@@ -4,26 +4,55 @@
 {% block title %} Gallery | Hirabricks {% endblock %}
 {% block content %}
 
-h1>Image Gallery</h1>
+<h1>Image Gallery</h1>
     
-<div class="container mx-auto">
 
-    {% for i in all_names %}
-        <h1>{{i}}</h1>
-    {% endfor %}
-    {% for image_chunk in images %}
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                <div class="p-4 bg-gray-100">
-                    <img src="{{ image_chunk }}" alt="Image" class="w-full h-auto">
-                </div>
-        </div>
+<div class="md:max-w-5xl md:mx-auto mb-14">
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+    {% for image in images %}
+        <img data-modal-target="image-popup" data-modal-toggle="image-popup" class="w-full object-cover sm:size-56" src="{{ image }}" alt="{{ image }}">
     {% endfor %}
 </div>
+</div>
 
+
+
+   <!-- Pagination section -->
+   <div class="flex flex-col items-center">
+    <!-- Help text -->
+    <span class="text-sm text-gray-700 dark:text-gray-400"> Showing <span class="font-semibold text-gray-900 dark:text-white mr-1">{{ page_obj.number }}</span>of <span class="font-semibold text-gray-900 dark:text-white">{{ page_obj.paginator.num_pages }}</span> Pages </span>
+  
+    <!-- Buttons -->
+    <div class="xs:mt-0 mt-2 inline-flex">
+      {% if page_obj.has_previous %}
+      <a href="?page={{ page_obj.previous_page_number }}">
+        <button class="flex h-8 items-center justify-center rounded-s bg-gray-800 px-3 text-sm font-medium text-white hover:bg-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Prev</button>
+      </a>
+      {% endif %}
+      {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}">
+        <button class="flex h-8 items-center justify-center rounded-e border-0 border-s border-gray-700 bg-gray-800 px-3 text-sm font-medium text-white hover:bg-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Next</button>
+      </a>
+      {% endif %}
+    </div>
+  </div>
+
+  <script>
+    function showPopup(imageSrc) {
+        // Display the popup container
+        document.getElementById("popupContainer").classList.remove("hidden");
+        // Set the source of the full-size image
+        document.getElementById("fullSizeImage").src = imageSrc;
+    }
+
+    function hidePopup() {
+        // Hide the popup container
+        document.getElementById("popupContainer").classList.add("hidden");
+        // Clear the source of the full-size image
+        document.getElementById("fullSizeImage").src = "";
+    }
+
+    // Close the popup when clicking on the overlay
+    document.querySelector("#popupContainer .bg-black").addEventListener("click", hidePopup);
+</script>
 {% endblock %}
-
-bucket_name = 'image-bucket'
-folder_path = 'Products'
-supabase.storage.from_(f'{bucket_name}/).get_public_url(f'{folder_path}/{object_name}')
-supabase.storage.from_('Products_image').get_public_url('BYK_0045.webp')
-supabase.storage.from_('Products_image').list()
