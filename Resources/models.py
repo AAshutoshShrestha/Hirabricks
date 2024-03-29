@@ -30,6 +30,12 @@ METHOD_CHOICES = [
     ('झोगाई Mixed', 'झोगाई Mixed'),
     ('झोगाई WoodDust', 'झोगाई WoodDust'),
 ]
+
+brick_type = [
+    ('दचि', 'दचि'),
+    ('सानो बुता', 'सानो बुता'),
+    ('ठूलो बुता', 'ठूलो बुता'),
+]
 Soilsource_CHOICES = [
     ('Gokarna', 'Gokarna'),
     ('Chyasal', 'Chyasal'),
@@ -104,6 +110,23 @@ class SoilDetails(models.Model):
         res = supabase.storage.from_('image-bucket/Reports').get_public_url(self.soil_test_report)
         return (res)
         
+
+    def __str__(self):
+        return f"{self.id}"
+    
+    class Meta:
+        ordering = ['id']
+
+    @classmethod
+    def bulk_create_from_import(cls, data):
+        cls.objects.bulk_create([cls(**item) for item in data])
+
+
+class Dryer_Efficiency(models.Model):
+    user = models.ForeignKey(User, null=True, default='1', on_delete=models.SET_NULL)
+    Date = models.DateTimeField(null=True, blank=True)
+    Brick_type = models.CharField(max_length=20, choices=brick_type)
+    Count = models.IntegerField(default=0)
 
     def __str__(self):
         return f"{self.id}"

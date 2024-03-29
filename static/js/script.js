@@ -5,6 +5,7 @@
  var form_select = document.getElementsByTagName("select");
  var form_option = document.getElementsByTagName("option");
  var form_helptxt = document.getElementsByClassName("helptext");
+ var form_errorlist = document.getElementsByClassName("errorlist");
  
  for (var field in form_label) {
    form_label[field].className +=
@@ -33,6 +34,11 @@
  for (var field in form_helptxt) {
    form_helptxt[field].className +=
      " hidden text-sm font-light text-gray-500 dark:text-gray-400";
+ }
+ 
+ for (var field in form_errorlist) {
+  form_errorlist[field].className +=
+     " hidden";
  }
 
 

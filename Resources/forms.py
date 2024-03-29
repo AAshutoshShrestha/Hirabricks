@@ -13,6 +13,12 @@ class JhogaiConsumptionForm(forms.ModelForm):
         fields = ['type','weight']
         exclude = ['user','date']
 
+class Dryer_EfficiencyForm(forms.ModelForm):
+    class Meta:
+        model = Dryer_Efficiency
+        fields = ['Brick_type','Count']
+        exclude = ['user','Date']
+
 
 class MixtureForm(forms.ModelForm):
     type = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'What type of soil is it?'}))
