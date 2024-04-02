@@ -9,7 +9,7 @@
         <h3 class="font-medium text-gray-600 dark:text-gray-400">Soil details Form</h3>
     </div>
 
-    <form class="mx-auto px-12 py-12" action="{% url 'soil_mixture' %}" method="post" enctype="multipart/form-data">
+    <form class="mx-auto px-12 py-12" action="{% url 'soil_mixture' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="mb-5">
             {{ formset.as_p }} 

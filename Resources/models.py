@@ -14,11 +14,7 @@ load_dotenv()
 
 url: str = os.environ.get("SUPABASE_URL")
 key: str = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
-supabase: Client = create_client(url, key,
-  options=ClientOptions(
-    postgrest_client_timeout=10,
-    storage_client_timeout=10
-  ))
+supabase: Client = create_client(url, key)
 
 class DateTimeWithoutTZField(DateTimeField):
     def db_type(self, connection):

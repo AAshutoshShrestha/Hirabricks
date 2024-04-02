@@ -7,6 +7,12 @@ from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from .forms import MachineRuntimeForm,MaintenanceTaskForm
 from .models import *
+import plotly.offline as py
+import plotly.graph_objs as go
+
+
+
+import json
 
 @login_required(login_url='login')
 def record_time(request):
@@ -58,10 +64,14 @@ def runtime_records(request):
     request.session['project_name'] = 'Machines'
     request.session['model_name'] = 'MachineRuntime'
     
-    runtime_records  = MachineRuntime.objects.all()
+    # Retrieve runtime records from the database
+    runtime_records = MachineRuntime.objects.all()
+    
+    # Pass the plot_div to the template context
     context = {
         'Runtime_details': runtime_records,
     }
+    # Render the template with the context data
     return render(request, 'Machine/Records.html', context)
 
 @login_required(login_url='login')

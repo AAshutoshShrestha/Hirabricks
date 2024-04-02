@@ -167,7 +167,8 @@ def soil_mixture(request):
             
             # Upload soilimg to Supabase storage
             if soilimg:
-                supabase.storage.from_('image-bucket').upload(soilimg.name, soilimg.read(), {'content-type': 'image/jpeg'})
+                supabase.storage.from_('image-bucket/').upload(soilimg.name, soilimg.read(), {'content-type': 'image/jpeg'})
+                # Upload soilimg to Supabase storage bucket named 'image-bucket'
             if soiltest:
                 supabase.storage.from_('image-bucket/Reports').upload(soiltest.name, soiltest.read(), {'content-type': 'image/jpeg'})
             return redirect('soil_mixture')
@@ -186,7 +187,7 @@ def Soilreports(request):
     soil = SoilDetails.objects.all()
     for soil_detail in soil:
         # Get public URL for soil_img
-        res1 = supabase.storage.from_('image-bucket').get_public_url(soil_detail.soil_img)
+        res1 = supabase.storage.from_('image-bucket/').get_public_url(soil_detail.soil_img)
         res2 = supabase.storage.from_('image-bucket/Reports/').get_public_url(soil_detail.soil_test_report)
         # Update soil_img field with the public URL
         soil_detail.soil_img = res1

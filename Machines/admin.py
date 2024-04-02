@@ -30,7 +30,7 @@ class Machine_ControlerAdmin(ImportExportModelAdmin,admin.ModelAdmin):
 class MachineRuntimeResource(resources.ModelResource):
     Machine_name = fields.Field(attribute='Machine_name')
     Worked_hours = fields.Field(attribute='Worked_hours')
-
+    
     class Meta:
         model = MachineRuntime
         fields = ('id', 'start_time', 'end_time', 'machine_operator', 'Machine_name', 'Worked_hours')
