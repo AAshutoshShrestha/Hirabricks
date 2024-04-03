@@ -7,10 +7,6 @@ from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from .forms import MachineRuntimeForm,MaintenanceTaskForm
 from .models import *
-import plotly.offline as py
-import plotly.graph_objs as go
-
-
 
 import json
 
