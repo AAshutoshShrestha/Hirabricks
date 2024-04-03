@@ -5,6 +5,7 @@ from django.views.static import serve
 from vercel_app.utils import export_csv
 
 urlpatterns = [
+    path('admin/doc/', include('django.contrib.admindocs.urls')),
     path('admin/', admin.site.urls),
     path('', include('Homepage.urls')),
     path('Conditions/', include('conditions.urls')),
