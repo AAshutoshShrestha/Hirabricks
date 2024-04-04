@@ -4,22 +4,13 @@
 {% block title %} Dryer Record Form | TunnelKiln {% endblock %} 
 
 {% block content %}
-
-<form action="{% url 'Dryer_report' %}" method="POST" class="mx-auto px-12 py-12" id="jhogai_form">
+<form action="{% url 'Dryer_report' %}" method="post" class="mb-4 p-12 ">
     {% csrf_token %}
+    {{ forms.as_p }}   
 
-    <div class="mb-5">
-        <h2 class="mb-2 text-xl font-semibold">Dryer Record Form</h2>
-        {{ forms.as_p }}
-    </div>
-
-    
     <button type="submit" class="mt-4 w-full rounded-lg bg-red-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 sm:w-auto dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Submit</button>
-
-
-    {% for message in messages %}
-        <p id="bg-green-500 px-4 py-6">{{message}}</p>
-    {% endfor %}
+    
+   
 </form>
 
 {% endblock %} 

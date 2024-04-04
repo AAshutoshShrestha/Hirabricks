@@ -5,9 +5,7 @@ from django.utils import timezone
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import ContactForm
 from .models import *
-import requests
-from django.http import JsonResponse
-from Inventory.models import BrickProduct,BrickCategory,ProductAttribute    
+from Inventory.models import BrickProduct,BrickCategory    
 
 import os
 from supabase import create_client

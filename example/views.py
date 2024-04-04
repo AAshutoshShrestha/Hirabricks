@@ -1,8 +1,6 @@
 import locale
 from django.shortcuts import render, redirect
 from django.utils import timezone
-from django.http import HttpResponse
-
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
