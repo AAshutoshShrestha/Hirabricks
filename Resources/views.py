@@ -201,23 +201,26 @@ def Soilreports(request):
 
 @login_required(login_url='login')
 def DriedBricksForm(request):
-    Reportform = Dryer_EfficiencyForm(request.POST)
     if request.method == 'POST':    
+        Reportform = Dryer_EfficiencyForm(request.POST)
         if Reportform.is_valid(): 
             by = request.user
-            brick_type = request.POST.get('Brick_type')
-            count = request.POST.get('Count')
+            bricktype = Reportform.cleaned_data['Brick_type']
+            quantity = Reportform.cleaned_data['Count']
 
             rep_form = Dryer_Efficiency.objects.create(
                 user=by,
                 Date=timezone.now(),
-                Brick_type=brick_type,
-                Count=count,
+                Brick_type=bricktype,
+                Count=quantity,
             )
             rep_form.save()
             return redirect('Dryer_Form')
+    else:
+        Reportform = Dryer_EfficiencyForm()
+        
     context = {
-        'forms' :Reportform
+        'dryer_record_form': Reportform
     }
     return render(request, 'Dryer/Dryer_form.html', context)
 

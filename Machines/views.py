@@ -1,13 +1,64 @@
 from django.shortcuts import render, redirect
-from datetime import date
+from datetime import date,datetime
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.contrib import messages
+import requests
+from django.views.decorators.csrf import csrf_exempt
+from pytz import timezone
+
 from .forms import MachineRuntimeForm,MaintenanceTaskForm
 from .models import *
 
 import json
+
+import os
+from supabase import create_client
+from dotenv import load_dotenv
+
+load_dotenv()
+
+
+url=os.environ.get('SUPABASE_URL')
+key=os.environ.get('SUPABASE_SERVICE_ROLE_KEY')
+supabase = create_client(url, key)
+
+
+
+# Firebase Realtime Database URL
+FIREBASE_DB_URL = "https://tunnel-kiln-default-rtdb.asia-southeast1.firebasedatabase.app/"
+
+# Function to check machine status
+def check_machine_status():
+    # Get data from Firebase
+    response = requests.get(FIREBASE_DB_URL + "/Sensor/Machine_status.json")
+    machine_status = response.json()
+    if machine_status == 1:
+        return "machine started"
+    else:
+        return "machine stopped"
+    
+
+@csrf_exempt
+def machine_status_update(request=None):
+    if request and request.method == 'GET':
+        state = check_machine_status()
+        status = JsonResponse({"status": state})
+    
+        if status == "machine started":
+            # Save start time to Supabase
+            start_time = datetime.now(timezone('UTC'))
+            supabase.from_('Current_sensor_esp8266').insert({ 'Start_time': start_time})
+
+            # Code to save start_time to Supabase
+        elif status == "machine stopped":
+            # Save stop time to Supabase
+            stop_time = datetime.now(timezone('UTC'))
+            supabase.from_('Current_sensor_esp8266').insert({ 'Stop_time': stop_time})
+        return status
+
+machine_status_update()
 
 @login_required(login_url='login')
 def record_time(request):
