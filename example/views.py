@@ -144,12 +144,15 @@ def temp_forms(request):
         by = request.user
         form = TemperatureRecordForm(request.POST)
         if form.is_valid():
+            last_record = TemperatureRecord.objects.last()  # Get the last record
+            new_id = last_record.id + 1 if last_record else 1  # Increment the ID
             create = form.save(commit=False)
-            create.user = by  # Assigning the user directly to the instance
-            create.date = timezone.now().date()  # Assigning date directly
-            create.time = timezone.now().time()  # Assigning time directly
-            create.save()  # Saving the instance
-            messages.success(request, "Kiln temperature recorded Succesfully")
+            create.id = new_id  # Assign the new ID
+            create.user = by
+            create.date = timezone.now().date()
+            create.time = timezone.now().time()
+            create.save()
+            messages.success(request, "Kiln temperature recorded successfully")
             return redirect('temp_forms') 
     else:
         form = TemperatureRecordForm()

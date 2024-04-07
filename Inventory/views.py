@@ -37,7 +37,10 @@ def inventory(request):
     if request.method == 'POST':
         form = BrickProductForm(request.POST, request.FILES)
         if form.is_valid():
+            last_record = BrickProductForm.objects.last()  # Get the last record
+            new_id = last_record.id + 1 if last_record else 1  # Increment the ID
             new_product = form.save(commit=False)
+            new_product.id = new_id
             new_product.product_image = new_product.product_image.name
             new_product.product_code = generate_product_code()
             new_product.save()
