@@ -1,17 +1,14 @@
 from django.shortcuts import render, redirect
-from datetime import date,datetime
+from datetime import date
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.contrib import messages
 import requests
 from django.views.decorators.csrf import csrf_exempt
-from pytz import timezone
 
 from .forms import MachineRuntimeForm,MaintenanceTaskForm
 from .models import *
-
-import json
 
 import os
 from supabase import create_client
@@ -35,35 +32,50 @@ def check_machine_status():
     response = requests.get(FIREBASE_DB_URL + "/Sensor/Machine_status.json")
     machine_status = response.json()
     if machine_status == 1:
-        return "machine started"
+        status = "machine started"
     else:
-        return "machine stopped"
-    
+        status =  "machine stopped"
+    return status
 
 @csrf_exempt
-def machine_status_update(request=None):
-    if request and request.method == 'GET':
+def machine_status_update(request):
+    runtime_records = MachineRuntime.objects.all()
+    operator = MachineOperator.objects.first()
+    try:
+        machine_runtime = MachineRuntime.objects.filter(machine_operator=operator, end_time__isnull=True).latest('start_time')
+    except MachineRuntime.DoesNotExist:
+        machine_runtime = None
+
+    if request.method == 'GET':
         state = check_machine_status()
-        status = JsonResponse({"status": state})
-    
-        if status == "machine started":
-            # Save start time to Supabase
-            start_time = datetime.now(timezone('UTC'))
-            supabase.from_('Current_sensor_esp8266').insert({ 'Start_time': start_time})
+        form = MachineRuntimeForm(request.POST)
+        if state == "machine started":
+                machine_runtime = form.save(commit=False)
+                machine_runtime.start_time = timezone.now()
+                machine_runtime.machine_operator = operator
+                machine_runtime.save()
+
+                messages.success(request, "The machine has started running.")
 
             # Code to save start_time to Supabase
-        elif status == "machine stopped":
-            # Save stop time to Supabase
-            stop_time = datetime.now(timezone('UTC'))
-            supabase.from_('Current_sensor_esp8266').insert({ 'Stop_time': stop_time})
-        return status
+        elif state == "machine stopped":
+            if machine_runtime:
+                machine_runtime.end_time = timezone.now()
+                machine_runtime.save()
+                messages.success(request, "The machine has stopped running.")
+            
+    context = {
+        'Runtime_details': runtime_records,
+   
+    }
 
-machine_status_update()
+    return render(request, 'Machine/Runtime.html', context)
+
 
 @login_required(login_url='login')
 def record_time(request):
     today = date.today()
-    user = request.user
+    user = 1
 
     runtime_records = MachineRuntime.objects.filter(start_time__date=today, machine_operator__user=user)
     operator = MachineOperator.objects.get(user=request.user)
