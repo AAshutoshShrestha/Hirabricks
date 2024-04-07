@@ -1,11 +1,12 @@
 import locale
+import json
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
-
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Count,F, Sum
 
 from datetime import timedelta, date
@@ -113,9 +114,27 @@ def index(request):
 
 @login_required(login_url='login')
 def temperature_details(request):
-    data = TemperatureRecord.objects.all()
+    request.session['project_name'] = 'example'
+    request.session['model_name'] = 'TemperatureRecord'
+
+    temp_records = TemperatureRecord.objects.all()
+
+    paginator = Paginator(temp_records, 50)  # 50 products per page
+    page_number = request.GET.get('page')
+
+    try:
+        temp_data = paginator.page(page_number)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        temp_data = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        temp_data = paginator.page(paginator.num_pages)
+
+    total =temp_records.count()
     context = {
-        'temperature_records': data,
+        'temp_data': temp_data,
+        'total': total,
     }
     return render(request, 'Temp_Records/Records.html', context)
 

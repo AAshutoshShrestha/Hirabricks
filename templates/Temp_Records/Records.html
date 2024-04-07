@@ -5,15 +5,107 @@
 
 {% block content %}
 
-      <div class="bg-gray-200  p-12 ">
+<section class="bg-gray-50 py-3 sm:py-5 dark:bg-gray-900">
+  <div class="mx-auto max-w-screen-2xl px-4 lg:px-12">
+    <div class="relative overflow-hidden bg-white shadow-md sm:rounded-lg dark:bg-gray-800">
+      <div class="flex flex-col space-y-3 px-4 py-3 lg:flex-row lg:items-center lg:justify-between lg:space-x-4 lg:space-y-0">
+        <div class="flex flex-1 items-center space-x-4">
+          <h5>
+            <span class="text-gray-500">All Data:</span>
+            <span class="dark:text-white">{{total}}</span>
+          </h5>
+        </div>
+        <div class="flex flex-shrink-0 flex-col space-y-3 md:flex-row md:items-center md:space-x-3 md:space-y-0 lg:justify-end">
 
-        <h2 class="text-2xl font-bold mb-4">All temperature records</h2>
-        {% for data in temperature_records %}
-			<h1>thermo1</h1>
-            <span>{{data.thermocouples_1}}</span>
-        {% endfor %}
-     
+          <a href="{% url 'export_csv' %}">
+          <button type="button" class="hover:text-primary-700 flex flex-shrink-0 items-center justify-center rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700">
+            <svg class="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+            </svg>
+            Export
+          </button>
+        </a>
+        </div>
       </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm text-gray-500 dark:text-gray-400">
+          <thead class="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th scope="col" class="px-6 py-3">No.</th>
+              <th scope="col" class="px-6 py-3">Date</th>
+              <th scope="col" class="px-6 py-3">Time</th>
+              <th scope="col" class="px-6 py-3">Thermocouple 1</th>
+              <th scope="col" class="px-6 py-3">Thermocouple 2</th>
+              <th scope="col" class="px-6 py-3">Thermocouple 3</th>
+              <th scope="col" class="px-6 py-3">Thermocouple 4</th>
+              <th scope="col" class="px-6 py-3">Thermocouple 5</th>
+              <th scope="col" class="px-6 py-3">Thermocouple 6</th>
+              <th scope="col" class="px-6 py-3">Thermocouple 7</th>
+              <th scope="col" class="px-6 py-3">Thermocouple 8</th>
+              <th scope="col" class="px-6 py-3">Thermocouple 9</th>
+              <th scope="col" class="px-6 py-3">Thermocouple 10</th>
+              <th scope="col" class="px-6 py-3">Thermocouple 11</th>
+              <th scope="col" class="px-6 py-3">Thermocouple 12</th>
+            </tr>
+          </thead>
+          <tbody class="p-12">
+            {% for data in temp_data %}
+            <tr class="border-b hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-gray-700">
+              <td class="px-4 py-2">
+                <span class="bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-300 rounded px-2 py-0.5 text-xs font-medium">{{data.id }}</span>
+              </td>
+              <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-white">{{data.date}}</td>
+              <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-white">{{data.time}}</td>
+              <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-white">{{data.thermocouples_1}}</td>
+              <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-white">{{data.thermocouples_2}}</td>
+              <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-white">{{data.thermocouples_3}}</td>
+              <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-white">{{data.thermocouples_4}}</td>
+              <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-white">{{data.thermocouples_5}}</td>
+              <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-white">{{data.thermocouples_6}}</td>
+              <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-white">{{data.thermocouples_7}}</td>
+              <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-white">{{data.thermocouples_8}}</td>
+              <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-white">{{data.thermocouples_9}}</td>
+              <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-white">{{data.thermocouples_10}}</td>
+              <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-white">{{data.thermocouples_11}}</td>
+              <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-white">{{data.thermocouples_12}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <nav class="flex flex-col items-start justify-between space-y-3 p-4 md:flex-row md:items-center md:space-y-0" aria-label="Table navigation">
+        <span class="text-sm text-gray-700 dark:text-gray-400"> 
+          Showing 
+          <span class="font-semibold text-gray-900 dark:text-white">{{ temp_data.number }}</span>
+          of 
+          <span class="font-semibold text-gray-900 dark:text-white">{{ temp_data.paginator.num_pages }}</span>
+          Datas </span>
 
-	  
+        <ul class="inline-flex items-stretch -space-x-px">
+          <li>
+            {% if temp_data.has_previous %}
+            <a href="?page={{ temp_data.previous_page_number }}" class="ml-0 flex h-full items-center justify-center rounded-l-lg border border-gray-300 bg-white px-3 py-1.5 text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+              <svg class="h-5 w-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+              <span class="">Previous</span>
+            </a>
+          </li>
+          {% endif %}
+          {% if temp_data.has_next %}
+          <li>
+            <a href="?page={{ temp_data.next_page_number }}" class="flex h-full items-center justify-center rounded-r-lg border border-gray-300 bg-white px-3 py-1.5 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+              <span class="">Next</span>
+              <svg class="h-5 w-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+              </svg>
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  </div>
+</section>
+
 {% endblock %}

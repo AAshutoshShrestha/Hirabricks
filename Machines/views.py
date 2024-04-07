@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
-from datetime import date
+from django.db.models import Sum, F
+from datetime import date, timedelta
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.contrib import messages
 import requests
 from django.views.decorators.csrf import csrf_exempt
+import json
 
 from .forms import MachineRuntimeForm,MaintenanceTaskForm
 from .models import *
@@ -28,19 +30,18 @@ FIREBASE_DB_URL = "https://tunnel-kiln-default-rtdb.asia-southeast1.firebasedata
 
 # Function to check machine status
 def check_machine_status():
-    # Get data from Firebase
     response = requests.get(FIREBASE_DB_URL + "/Sensor/Machine_status.json")
     machine_status = response.json()
     if machine_status == 1:
         status = "machine started"
     else:
-        status =  "machine stopped"
+        status = "machine stopped"
     return status
 
 @csrf_exempt
 def machine_status_update(request):
-    runtime_records = MachineRuntime.objects.all()
     operator = MachineOperator.objects.first()
+    runtime_records = MachineRuntime.objects.filter(start_time__date=date.today(), machine_operator__user=request.user)
     try:
         machine_runtime = MachineRuntime.objects.filter(machine_operator=operator, end_time__isnull=True).latest('start_time')
     except MachineRuntime.DoesNotExist:
@@ -48,25 +49,23 @@ def machine_status_update(request):
 
     if request.method == 'GET':
         state = check_machine_status()
-        form = MachineRuntimeForm(request.POST)
-        if state == "machine started":
-                machine_runtime = form.save(commit=False)
-                machine_runtime.start_time = timezone.now()
-                machine_runtime.machine_operator = operator
-                machine_runtime.save()
+        
+        if state == "machine started" and (not machine_runtime or machine_runtime.end_time is not None):
+            # Machine started and previous state was stopped or no record exists
+            machine_runtime = MachineRuntime(start_time=timezone.now(), machine_operator=operator)
+            machine_runtime.save()
+            messages.success(request, "The machine has started running.")
+        
+        elif state == "machine stopped" and machine_runtime and machine_runtime.end_time is None:
+            # Machine stopped and previous state was started
+            machine_runtime.end_time = timezone.now()
+            machine_runtime.save()
+            messages.success(request, "The machine has stopped running.")
+    
+   
 
-                messages.success(request, "The machine has started running.")
-
-            # Code to save start_time to Supabase
-        elif state == "machine stopped":
-            if machine_runtime:
-                machine_runtime.end_time = timezone.now()
-                machine_runtime.save()
-                messages.success(request, "The machine has stopped running.")
-            
     context = {
         'Runtime_details': runtime_records,
-   
     }
 
     return render(request, 'Machine/Runtime.html', context)
@@ -123,11 +122,30 @@ def runtime_records(request):
     request.session['model_name'] = 'MachineRuntime'
     
     # Retrieve runtime records from the database
-    runtime_records = MachineRuntime.objects.all()
-    
-    # Pass the plot_div to the template context
+    runtime_records = MachineRuntime.objects.order_by('id').all()
+
+    labels = []
+    data = []
+
+   # Aggregate work durations for each unique date
+    work_durations_by_date = MachineRuntime.objects.values(
+        'start_time__date', 'machine_operator__user__username', 'machine_operator__machine__name'
+    ).annotate(
+        total_duration=Sum(F('end_time') - F('start_time'))
+    )
+
+    for query in work_durations_by_date:
+        labels.append(query['start_time__date'].strftime('%Y-%m-%d'))
+        data.append(query['total_duration'].total_seconds() // 3600)
+    # Convert lists to JSON format
+    labels_json = json.dumps(labels)
+    data_json = json.dumps(data)
+
     context = {
         'Runtime_details': runtime_records,
+        'work_durations_by_date': work_durations_by_date,
+        'labels': labels_json,
+        'data': data_json,
     }
     # Render the template with the context data
     return render(request, 'Machine/Records.html', context)

@@ -23,27 +23,67 @@
 		<table class="table-auto w-full border-collapse border border-gray-200">
 			<thead class="bg-gray-100">
 				<tr>
-					<th class="px-4 py-2">id</th>
-					<th class="px-4 py-2">user</th>
+					<th class="px-4 py-2">No.</th>
+					<th class="px-4 py-2">User</th>
 					<th class="px-4 py-2">Machine</th>
-					<th class="px-4 py-2">Start time</th>
-					<th class="px-4 py-2">End time</th>
-					<th class="px-4 py-2">Work durations</th>
+					<th class="px-4 py-2">Date</th>
+					<th class="px-4 py-2">Work Durations</th>
 				</tr>
 			</thead>
 			<tbody>
-				{% for details in Runtime_details %}
+				{% for record in work_durations_by_date %}
 				<tr>
-					<td class="border px-4 py-2">{{ details.id }}</td>
-					<td class="border px-4 py-2">{{ details.machine_operator }}</td>
-					<td class="border px-4 py-2">{{ details.Machine_name }}</td>
-					<td class="border px-4 py-2">{{ details.start_time }}</td>
-					<td class="border px-4 py-2">{{ details.end_time }}</td>
-					<td class="border px-4 py-2">{{ details.Worked_hours }}</td>
+					<td class="border px-4 py-2">{{ forloop.counter }}</td>
+					<td class="border px-4 py-2">{{ record.machine_operator__user__username }}</td>
+					<td class="border px-4 py-2">{{ record.machine_operator__machine__name }}</td>
+					<td class="border px-4 py-2">{{ record.start_time__date }}</td>
+					<td class="border px-4 py-2">{{ record.total_duration }}</td>
 				</tr>
 				{% endfor %}
 			</tbody>
 		</table>
+			
+		
 	</div>
 </div>
+
+
+	<div class="px-16 py-12">
+		<canvas id="myChart"></canvas>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+	<script>
+	const labels = JSON.parse('{{ labels|escapejs }}');
+	const data = JSON.parse('{{ data|escapejs }}');
+
+	const ctx = document.getElementById('myChart');
+
+	new Chart(ctx, {
+		type: 'line',
+
+		data: {
+			labels: labels,
+			datasets: [{
+				label: 'Worked hours',
+				data: data,
+				fill: 'origin',
+				borderColor: 'rgb(255, 0, 0)',
+				tension: 0.1
+			}]
+		},
+		options: {
+			scales: {
+				y: {
+					beginAtZero: true
+				}
+			}
+		}
+	});
+
+
+	</script>
+
+
 {% endblock %}
