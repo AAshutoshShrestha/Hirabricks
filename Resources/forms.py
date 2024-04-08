@@ -13,11 +13,11 @@ class JhogaiConsumptionForm(forms.ModelForm):
         fields = ['type','weight']
         exclude = ['user','date']
 
-class Dryer_EfficiencyForm(forms.ModelForm):
+class Form_Dryer_Efficiency(forms.ModelForm):
     class Meta:
         model = Dryer_Efficiency
         fields = ['Brick_type','Count']
-        exclude = ['user','Date']
+        exclude = ['user','date']
 
 
 class MixtureForm(forms.ModelForm):

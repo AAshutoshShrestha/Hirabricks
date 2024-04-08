@@ -120,7 +120,7 @@ class SoilDetails(models.Model):
 
 class Dryer_Efficiency(models.Model):
     user = models.ForeignKey(User, null=True, default='1', on_delete=models.SET_NULL)
-    Date = models.DateTimeField(null=True, blank=True)
+    date = models.DateTimeField(null=True, blank=True)
     Brick_type = models.CharField(max_length=20, choices=brick_type)
     Count = models.IntegerField(default=0)
 

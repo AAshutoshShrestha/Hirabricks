@@ -50,3 +50,4 @@ function clearSearch() {
   const urlWithoutSearch = window.location.href.split('?')[0]; // Get the URL without query parameters
   window.location.href = urlWithoutSearch; // Reload the page without the search query parameter
 }
+

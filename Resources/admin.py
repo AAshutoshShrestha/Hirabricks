@@ -23,9 +23,9 @@ class JhogaiConsumptionAdmin(ImportExportModelAdmin,admin.ModelAdmin):
 
 @admin.register(Dryer_Efficiency)
 class Dryer_EfficiencyAdmin(ImportExportModelAdmin,admin.ModelAdmin):
-    list_display = ('id','Date','Brick_type','Count','user')
-    list_filter = ('Date',)
-    search_fields = ('Date',)
+    list_display = ('id','date','Brick_type','Count','user')
+    list_filter = ('date',)
+    search_fields = ('date',)
     list_per_page = 15
 
 

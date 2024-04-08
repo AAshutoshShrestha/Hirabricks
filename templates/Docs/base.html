@@ -5,6 +5,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %} {% endblock %}</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{% static 'css/docs.css' %}" />
     <!-- RemixIcon CDN -->
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
@@ -110,7 +112,33 @@
 
     <!-- flowbite CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
+    <script>
 
+      const clipboard = FlowbiteInstances.getInstance('CopyClipboard', 'code-copy-text');
+    
+      const $defaultMessage = document.getElementById('default-message');
+      const $successMessage = document.getElementById('success-message');
+    
+      clipboard.updateOnCopyCallback((clipboard) => {
+          showSuccess();
+    
+          // reset to default state
+          setTimeout(() => {
+              resetToDefault();
+          }, 1000);
+      })
+    
+      const showSuccess = () => {
+          $defaultMessage.classList.add('hidden');
+          $successMessage.classList.remove('hidden');
+      }
+    
+      const resetToDefault = () => {
+          $defaultMessage.classList.remove('hidden');
+          $successMessage.classList.add('hidden');
+      }
+    </script>
+    
     <script src="{% static 'js/script.js' %}"></script>
   </body>
 </html>

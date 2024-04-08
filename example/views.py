@@ -241,7 +241,24 @@ def history(request):
 def alldatas(request):
     request.session['project_name'] = 'example'
     request.session['model_name'] = 'Car'
-    all_data = Car.objects.all().select_related('zone', 'Type').order_by('zone')
+
+    alldata = Car.objects.all().select_related('zone', 'Type').order_by('zone')
+
+
+    paginator = Paginator(alldata, 50)  # 50 products per page
+    page_number = request.GET.get('page')
+
+    try:
+        all_data = paginator.page(page_number)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        all_data = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        all_data = paginator.page(paginator.num_pages)
+
+    total =alldata.count()
+
     for car in all_data:
         if car.exit_time is not None:
             cycle_time = car.exit_time - car.entry_time
@@ -249,7 +266,10 @@ def alldatas(request):
         else:
             car.cycle_time = "--"
             
-    context = {'alldatas': all_data}
+    context = {
+        'alldatas': all_data,
+        'total': total,
+        }
     return render(request, 'Datas/All_records.html', context)
 
 def change_password(request):

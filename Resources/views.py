@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.db.models import Sum
-from .forms import BurnerConsumptionForm, JhogaiConsumptionForm, MixtureForm, Dryer_EfficiencyForm
+from .forms import BurnerConsumptionForm, JhogaiConsumptionForm, MixtureForm, Form_Dryer_Efficiency
 from .models import *
 from datetime import date
 from django.contrib.auth.decorators import login_required
@@ -200,24 +200,24 @@ def Soilreports(request):
 
 
 @login_required(login_url='login')
-def DriedBricksForm(request):
+def Dried_record_Form(request):
     if request.method == 'POST':    
-        Reportform = Dryer_EfficiencyForm(request.POST)
+        Reportform = Form_Dryer_Efficiency(request.POST)
         if Reportform.is_valid(): 
             by = request.user
-            bricktype = Reportform.cleaned_data['Brick_type']
-            quantity = Reportform.cleaned_data['Count']
+            bricktype = request.POST.get('Brick_type')
+            quantity = request.POST.get('Count')
 
             rep_form = Dryer_Efficiency.objects.create(
                 user=by,
-                Date=timezone.now(),
+                date=timezone.now(),
                 Brick_type=bricktype,
                 Count=quantity,
             )
             rep_form.save()
             return redirect('Dryer_Form')
     else:
-        Reportform = Dryer_EfficiencyForm()
+        Reportform = Form_Dryer_Efficiency()
         
     context = {
         'dryer_record_form': Reportform
