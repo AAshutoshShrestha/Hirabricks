@@ -1,79 +1,95 @@
 {% extends "base.html" %} 
 {% block title %} Car push History | hirabricks {% endblock %}
 {% block content %}
-<div class="max-w-full overflow-x-auto">
-  <div class="p-6 pb-8">
-    <h1 class="text-4xl font-semibold text-gray-800 dark:text-gray-200">Car Push History</h1>
-  </div>
-  <div class="min-w-[1170px] bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden dark:bg-slate-900 dark:border-gray-700">
-    <!-- table header start -->
-    <div class="grid grid-cols-12 rounded-t-2xl bg-red-700 dark:bg-red-500 px-5 py-4 lg:px-7 2xl:px-11">
-      <div class="col-span-1">
-        <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">ID</h5>
+<section class="bg-gray-50 py-3 sm:py-5 dark:bg-gray-900">
+  <div class="mx-auto max-w-screen-2xl px-4 lg:px-12">
+    <div class="relative overflow-hidden bg-white shadow-md sm:rounded-lg dark:bg-gray-800">
+      <div class="flex flex-col space-y-3 px-4 py-3 lg:flex-row lg:items-center lg:justify-between lg:space-x-4 lg:space-y-0">
+        <div class="flex flex-1 items-center space-x-4">
+          <h5>
+            <span class="text-gray-500">All Data:</span>
+            <span class="dark:text-white">{{total}}</span>
+          </h5>
+        </div>
+        <div class="flex flex-shrink-0 flex-col space-y-3 md:flex-row md:items-center md:space-x-3 md:space-y-0 lg:justify-end">
+          <a href="{% url 'export_csv' %}">
+            <button type="button" class="hover:text-primary-700 flex flex-shrink-0 items-center justify-center rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700">
+              <svg class="mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+              </svg>
+              Export
+            </button>
+          </a>
+        </div>
       </div>
-      <div class="col-span-1">
-        <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">Number</h5>
-      </div>
-      
-      <div class="col-span-2">
-        <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200 ">Entry Time</h5>
-      </div>
-      
-      <div class="col-span-2">
-        <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200 ">Exit Time</h5>
-      </div>
-      <div class="col-span-2">
-        <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200">Type</h5>
-      </div>
-      <div class="col-span-2">
-        <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200 ">Cycle time</h5>
-      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm text-gray-500 dark:text-gray-400">
+          <thead class="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th scope="col" class="px-6 py-3">ID</th>
+              <th scope="col" class="px-6 py-3">Number</th>
+              <th scope="col" class="px-6 py-3">Entry Time</th>
+              <th scope="col" class="px-6 py-3">Exit Time</th>
+              <th scope="col" class="px-6 py-3">Type</th>
+              <th scope="col" class="px-6 py-3">Cycle time</th>
+              <th scope="col" class="px-6 py-3">Status</th>
+              <th scope="col" class="px-6 py-3">Pushed by</th>
+            </tr>
+          </thead>
+          <tbody class="p-12">
+            {% for Cars in Completed %}
+            <tr class="border-b hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-gray-700">
+              <td class="px-4 py-2">
+                <span class="bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-300 rounded px-2 py-0.5 text-xs font-medium">{{ Cars.id }}</span>
+              </td>
+              <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-white">{{ Cars.car_number }}</td>
 
-      <div class="col-span-1">
-        <h5 class="font-semibold uppercase tracking-wide text-white dark:text-gray-200 ">Status</h5>
+              <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-white">{{ Cars.entry_time }}</td>
+              <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-white">{{ Cars.exit_time }}</td>
+              <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-white">{{ Cars.Type }}</td>
+              <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-white">{{ Cars.cycle_time }}</td>
+              <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-white">
+                <p class="inline-block whitespace-nowrap rounded-lg bg-gradient-to-tl from-green-600 to-green-300 px-2 py-2 text-center align-baseline text-xs font-bold uppercase leading-none text-gray-50">{{ Cars.status }}</p>
+              </td>
+              <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 dark:text-white">{{ Cars.user.first_name }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
+      <nav class="flex flex-col items-start justify-between space-y-3 p-4 md:flex-row md:items-center md:space-y-0" aria-label="Table navigation">
+        <span class="text-sm text-gray-700 dark:text-gray-400">
+          Showing
+          <span class="font-semibold text-gray-900 dark:text-white">{{ Completed.number }}</span>
+          of
+          <span class="font-semibold text-gray-900 dark:text-white">{{ Completed.paginator.num_pages }}</span>
+          Datas
+        </span>
 
-      <div class="col-span-1">
-        <h5 class="text-right font-semibold uppercase tracking-wide text-white dark:text-gray-200">Pushed by</h5>
-      </div>
+        <ul class="inline-flex items-stretch -space-x-px">
+          <li>
+            {% if Completed.has_previous %}
+            <a href="?page={{ Completed.previous_page_number }}" class="ml-0 flex h-full items-center justify-center rounded-l-lg border border-gray-300 bg-white px-3 py-1.5 text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+              <svg class="h-5 w-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+              <span class="">Previous</span>
+            </a>
+          </li>
+          {% endif %} {% if Completed.has_next %}
+          <li>
+            <a href="?page={{ Completed.next_page_number }}" class="flex h-full items-center justify-center rounded-r-lg border border-gray-300 bg-white px-3 py-1.5 leading-tight text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+              <span class="">Next</span>
+              <svg class="h-5 w-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+              </svg>
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
     </div>
-    <!-- table header end -->
-
-    <!-- table body start -->
-    <div class="dark:bg-gray-700 bg-white">
-      {% for Cars in Completed %}
-      <!-- table row item -->
-      <div class="dark:border-strokedark grid grid-cols-12 border-t border-[#EEEEEE] px-5 py-4 lg:px-7 2xl:px-11">
-        <div class="col-span-1">
-          <p class="font-semibold text-sm text-gray-800 dark:text-white">{{ Cars.id }}</p>
-        </div>
-        <div class="col-span-1">
-          <p class="font-semibold text-sm text-gray-800 dark:text-white">{{ Cars.car_number }}</p>
-        </div>
-
-        <div class="col-span-2">
-          <p class="font-semibold text-sm text-gray-800 dark:text-white">{{ Cars.entry_time }}</p>
-        </div>
-
-        <div class="col-span-2">
-          <p class="font-semibold text-sm text-gray-800 dark:text-white">{{ Cars.exit_time }}</p>
-        </div>
-        <div class="col-span-2">
-          <p class="font-semibold text-sm text-black dark:text-white">{{ Cars.Type }}</p>
-        </div>
-        <div class="col-span-2">
-          <p class="font-semibold text-sm text-black dark:text-white">{{ Cars.cycle_time }}</p>
-        </div>
-        <div class="col-span-1">
-          <p class="inline-block whitespace-nowrap rounded-lg bg-gradient-to-tl from-green-600 to-green-300 px-2 py-2 text-center align-baseline text-xs font-bold uppercase leading-none text-gray-50 text-right">{{ Cars.status }}</p>
-        </div>
-        <div class="col-span-1">
-          <h5 class="font-semibold text-sm text-gray-800 dark:text-white text-right">{{ Cars.user.first_name }}</h5>
-        </div>
-      </div>
-      {% endfor %}
-    </div>
-    <!-- table body end -->
   </div>
-</div>
+</section>
+
 {% endblock content %}

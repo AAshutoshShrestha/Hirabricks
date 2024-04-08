@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Count,F, Sum
-
+from django.db import connection
 from datetime import timedelta, date
 
 from conditions.models import MultiCondition
@@ -229,12 +229,31 @@ def profile(request):
 
 @login_required(login_url='login')
 def history(request):
-    completed_cars = Car.objects.filter(status='COMPLETED').order_by('-id')
+    completedcars = Car.objects.filter(status='COMPLETED').order_by('-id')
+
+    paginator = Paginator(completedcars, 50)  # 50 products per page
+    page_number = request.GET.get('page')
+
+    try:
+        completed_cars = paginator.page(page_number)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        completed_cars = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        completed_cars = paginator.page(paginator.num_pages)
+
+    total =completedcars.count()
+
+
     for car in completed_cars:
         cycle_time = car.exit_time - car.entry_time
         car.cycle_time = format_timedelta(cycle_time)
 
-    context = {'Completed': completed_cars}
+    context = {
+        'Completed': completed_cars,
+        'total': total,
+    }
     return render(request, 'Datas/history.html', context)
 
 @login_required(login_url='login')
