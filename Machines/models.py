@@ -6,7 +6,7 @@ class MachineArea(models.Model):
     area = models.CharField(max_length=50, help_text="Machine place")
     
     def __str__(self):
-        return self.name
+        return self.area
 
     class Meta:
         ordering = ['id']
@@ -38,6 +38,8 @@ STATUS_CHOICES = (
 
 
 class MaintenanceTask(models.Model):
+    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    date = models.DateField(help_text="Date of the task created")
     area = models.ForeignKey(MachineArea, on_delete=models.CASCADE)
     machine = models.ForeignKey(Machine, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)

@@ -128,12 +128,12 @@
                 </a>
               </div>
             </div>
-            <button type="button" class="mx-3 flex rounded-full bg-gray-800 text-sm focus:ring-4 focus:ring-gray-400 md:mr-0 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="dropdown">
+            <button type="button" class="mx-3 flex rounded-full bg-gray-800 text-sm focus:ring-4 focus:ring-gray-400 md:mr-0 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="Userdropdown">
               <span class="sr-only">Open user menu</span>
               <img class="h-8 w-8 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gough.png" alt="user photo" />
             </button>
             <!-- Dropdown menu -->
-            <div class="z-50 my-4 hidden w-56 list-none divide-y divide-gray-100 rounded-xl bg-white text-base shadow dark:divide-gray-600 dark:bg-gray-700" id="dropdown">
+            <div class="z-50 my-4 hidden w-56 list-none divide-y divide-gray-100 rounded-xl bg-white text-base shadow dark:divide-gray-600 dark:bg-gray-700" id="Userdropdown">
               <div class="px-4 py-3">
                 <span class="block text-sm font-semibold text-gray-700 dark:text-white">{{ request.user }}</span>
                 <span class="block truncate text-sm text-gray-700 dark:text-white">{{ request.user.email }}</span>
@@ -283,6 +283,9 @@
               </button>
 
               <ul id="Machine-pages" class="hidden space-y-2 py-2">
+                <li>
+                  <a href="{% url 'maintenance_tasks' %}" class="group flex w-full items-center rounded-lg p-2 pl-12 text-base font-medium text-gray-700 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Maintenance Request</a>
+                </li>
                 <li>
                   <a href="{% url 'machine_runtime' %}" class="group flex w-full items-center rounded-lg p-2 pl-12 text-base font-medium text-gray-700 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Machine Runtime</a>
                 </li>

@@ -1,0 +1,290 @@
+{% extends 'base.html' %}
+{% load static app_filters %}
+
+{% block title %} Maintenance Tasks | TunnelKiln {% endblock %}
+
+{% block content %}
+
+<div class="bg-gray-200  p-12 ">
+
+  <h2 class="text-2xl font-bold mb-4">Maintenance Tasks form</h2>
+  {% for message in messages %}
+    <div class="pt-4" x-data="{ isOpen: true }">
+      <div class="border-stroke dark:border-dark-3 dark:bg-dark-2 mb-11 flex items-center rounded-md border border-l-[8px] border-l-[#00B078] bg-white p-5 pl-8" x-show="isOpen">
+      <div class="mr-5 flex h-[36px] w-full max-w-[36px] items-center justify-center rounded-full bg-[#00B078]" >
+        <i class="ri-check-fill"></i>
+      </div>
+      <div class="flex w-full items-center justify-between">
+        <div>
+        <h3 class="text-dark mb-1 text-lg font-medium dark:text-white">{{message}}</h3>
+        </div>
+        <div>
+        <button class="hover:text-danger text-[#ACACB0]" @click="isOpen = false">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 18L18 6M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+        </div>
+      </div>
+      </div>
+    </div>
+  {% endfor %}
+
+  <form action="{% url 'maintenance_tasks' %}" method="post" class="mb-4">
+  {% csrf_token %}
+  <div class="mb-5">
+    <label for="area" class="block text-sm font-medium text-gray-700">Machine Area</label>
+    <select id="area" name="area">
+      {% for area in machinearea %}
+        <option value="{{ area.id }}">{{ area.area }}</option>
+      {% endfor%}
+    </select>
+  </div>
+  <div class="mb-5">
+    <label for="machine" class="block text-sm font-medium text-gray-700">Select Machine </label>
+    <select id="machine" name="machine">
+      {% for attribute in machines %}
+        <option value="{{attribute.machine_area.id}}">{{attribute.name}}</option>
+      {% endfor%}
+    </select>
+  </div>
+
+  <div class="mb-5">
+    <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+    <input type="text" id="title" name="title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required />
+  </div>
+
+  <div class="mb-5">
+    <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+    <textarea type="text" id="description" name="description" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required /></textarea>
+  </div>
+
+  <button type="submit" class="mt-4 w-full rounded-lg bg-red-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 sm:w-auto dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Submit</button>
+  {% for message in messages %}
+    <p id="bg-green-500 px-4 py-6">{{ message }}</p>
+  {% endfor %}
+</form>
+
+
+</div>
+
+
+
+<div class="bg-gray-200 p-8">
+  <div class="grid gap-5 sm:grid-cols-2 md:grid-cols-4">
+    <!-- Pending -->
+    <div class="rounded bg-white px-2 py-2">
+      <!-- board category header -->
+      <div class="mx-1 mb-2 flex flex-row items-center justify-between">
+        <div class="flex items-center pb-2">
+          <h2 class="mr-2 w-max rounded bg-red-100 px-1 text-sm text-gray-700">Pending</h2>
+          <p class="text-sm text-gray-400">{{pendingtotal}}</p>
+        </div>
+      </div>
+      <!-- board card -->
+      <div class="grid grid-rows-2 gap-2">
+        {% for tasks in pending_tasks%}
+        <div class="w-full max-w-sm rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">
+          <div class="flex justify-end px-4 pt-2">
+            <button id="CardAction" data-dropdown-toggle="Pending_dropdown" class="inline-block rounded-lg p-1.5 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-700" type="button">
+              <span class="sr-only">Open dropdown</span>
+              <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
+                <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
+              </svg>
+            </button>
+            <!-- Dropdown menu -->
+            <div id="Pending_dropdown" class="z-10 hidden w-44 list-none divide-y divide-gray-100 rounded-lg bg-white text-base shadow dark:bg-gray-700">
+              <ul class="py-2" aria-labelledby="CardAction">
+                <li>
+                  <a href="{% url 'update_task_status' pk=tasks.pk %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a>
+                </li>
+                <li>
+                  <a href="{% url 'task_delete' pk=tasks.pk %}" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600 dark:hover:text-white">Delete</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="flex flex-col items-start p-6">
+            <h3 class="mb-3 text-sm text-gray-700">{{tasks.title}}</h3>
+            <p class="mr-2 w-max rounded bg-red-100 p-1 text-xs text-gray-700">{{tasks.status}}</p>
+            <p class="pt-4 text-xs text-gray-500">By {{tasks.user}}</p>
+            <div class="mt-2 flex flex-row items-center">
+              <div class="mr-3 h-4 w-4 rounded-full bg-gray-300"></div>
+              <p class="ms-2 text-xs text-gray-500">AT {{tasks.area}}</p>
+              <p class="ms-2 text-xs text-gray-500">For {{tasks.machine}}</p>
+            </div>
+            <p class="text-s pt-4 font-normal text-gray-700 dark:text-gray-400">{{tasks.description}}</p>
+          </div>
+        </div>
+
+        {% endfor %}
+      </div>
+      
+    </div>
+
+    <!-- On process -->
+    <div class="rounded bg-white px-2 py-2">
+      <!-- board category header -->
+      <div class="mx-1 mb-2 flex flex-row items-center justify-between">
+        <div class="flex items-center">
+          <h2 class="mr-2 w-max rounded bg-yellow-100 px-1 text-sm text-gray-700">Onprocess</h2>
+          <p class="text-sm text-gray-400">{{onprocesstotal}}</p>
+        </div>
+      </div>
+      <!-- board card -->
+      <div class="grid grid-rows-2 gap-2">
+        {% for tasks in onprocess_tasks%}
+        <div class="w-full max-w-sm rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">
+          <div class="flex justify-end px-4 pt-2">
+            <button id="CardAction" data-dropdown-toggle="onprocess_dropdown" class="inline-block rounded-lg p-1.5 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-700" type="button">
+              <span class="sr-only">Open dropdown</span>
+              <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
+                <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
+              </svg>
+            </button>
+            <!-- Dropdown menu -->
+            <div id="onprocess_dropdown" class="z-10 hidden w-44 list-none divide-y divide-gray-100 rounded-lg bg-white text-base shadow dark:bg-gray-700">
+              <ul class="py-2" aria-labelledby="CardAction">
+                <li>
+                  <a href="{% url 'update_task_status' pk=tasks.pk %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a>
+                </li>
+                <li>
+                  <a href="{% url 'task_delete' pk=tasks.pk %}" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600 dark:hover:text-white">Delete</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="flex flex-col items-start p-6">
+            <h3 class="mb-3 text-sm text-gray-700">{{tasks.title}}</h3>
+            <p class="mr-2 w-max rounded bg-red-100 p-1 text-xs text-gray-700">{{tasks.status}}</p>
+            <p class="pt-4 text-xs text-gray-500">By {{tasks.user}}</p>
+            <div class="mt-2 flex flex-row items-center">
+              <div class="mr-3 h-4 w-4 rounded-full bg-gray-300"></div>
+              <p class="ms-2 text-xs text-gray-500">AT {{tasks.area}}</p>
+              <p class="ms-2 text-xs text-gray-500">For {{tasks.machine}}</p>
+            </div>
+            <p class="text-s pt-4 font-normal text-gray-700 dark:text-gray-400">{{tasks.description}}</p>
+          </div>
+        </div>
+
+        {% endfor %}
+      </div>
+      
+    </div>
+
+    <!-- Complete -->
+    <div class="rounded bg-white px-2 py-2">
+      <!-- board category header -->
+      <div class="mx-1 mb-2 flex flex-row items-center justify-between">
+        <div class="flex items-center">
+          <h2 class="mr-2 w-max rounded bg-green-100 px-1 text-sm text-gray-700">completed</h2>
+          <p class="text-sm text-gray-400">{{completedtotal}}</p>
+        </div>
+      </div>
+      <!-- board card -->
+      <div class="grid grid-rows-2 gap-2">
+        {% for tasks in completed_tasks%}
+        <div class="w-full max-w-sm rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">
+          <div class="flex flex-col items-start p-6">
+            <h3 class="mb-3 text-sm text-gray-700">{{tasks.title}}</h3>
+            <p class="mr-2 w-max rounded bg-red-100 p-1 text-xs text-gray-700">{{tasks.status}}</p>
+            <p class="pt-4 text-xs text-gray-500">By {{tasks.user}}</p>
+            <div class="mt-2 flex flex-row items-center">
+              <div class="mr-3 h-4 w-4 rounded-full bg-gray-300"></div>
+              <p class="ms-2 text-xs text-gray-500">AT {{tasks.area}}</p>
+              <p class="ms-2 text-xs text-gray-500">For {{tasks.machine}}</p>
+            </div>
+            <p class="text-s pt-4 font-normal text-gray-700 dark:text-gray-400">{{tasks.description}}</p>
+          </div>
+        </div>
+
+        {% endfor %}
+      </div>
+      
+    </div>
+
+    <!-- On HOld -->
+    <div class="rounded bg-white px-2 py-2">
+      <!-- board category header -->
+      <div class="mx-1 mb-2 flex flex-row items-center justify-between">
+        <div class="flex items-center">
+          <h2 class="mr-2 w-max rounded bg-gray-200 px-1 text-sm text-gray-700">Onhold</h2>
+          <p class="text-sm text-gray-400">{{Onholdtotal}}</p>
+        </div>
+      </div>
+      <!-- board card -->
+      <div class="grid grid-rows-2 gap-2">
+        {% for tasks in Onhold_tasks%}
+        <div class="w-full max-w-sm rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">
+          <div class="flex justify-end px-4 pt-2">
+            <button id="CardAction" data-dropdown-toggle="Onhold_dropdown" class="inline-block rounded-lg p-1.5 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-700" type="button">
+              <span class="sr-only">Open dropdown</span>
+              <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
+                <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
+              </svg>
+            </button>
+            <!-- Dropdown menu -->
+            <div id="Onhold_dropdown" class="z-10 hidden w-44 list-none divide-y divide-gray-100 rounded-lg bg-white text-base shadow dark:bg-gray-700">
+              <ul class="py-2" aria-labelledby="CardAction">
+                <li>
+                  <a href="{% url 'update_task_status' pk=tasks.pk %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a>
+                </li>
+                <li>
+                  <a href="{% url 'task_delete' pk=tasks.pk %}" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600 dark:hover:text-white">Delete</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="flex flex-col items-start p-6">
+            <h3 class="mb-3 text-sm text-gray-700">{{tasks.title}}</h3>
+            <p class="mr-2 w-max rounded bg-red-100 p-1 text-xs text-gray-700">{{tasks.status}}</p>
+            <p class="pt-4 text-xs text-gray-500">By {{tasks.user}}</p>
+            <div class="mt-2 flex flex-row items-center">
+              <div class="mr-3 h-4 w-4 rounded-full bg-gray-300"></div>
+              <p class="ms-2 text-xs text-gray-500">AT {{tasks.area}}</p>
+              <p class="ms-2 text-xs text-gray-500">For {{tasks.machine}}</p>
+            </div>
+            <p class="text-s pt-4 font-normal text-gray-700 dark:text-gray-400">{{tasks.description}}</p>
+          </div>
+        </div>
+
+        {% endfor %}
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+<script>
+  $(document).ready(function()
+  {
+    var $select1=$('#area'),
+      $select2=$('#machine'),
+      $options=$select2.find('option');
+      $select1.on('change',function()
+      {
+        $select2.html($options.filter('[value="'+this.value+'"]'));
+      }).trigger('change');
+  });
+
+
+  document.addEventListener("DOMContentLoaded", function() {
+    // Find the delete button
+    var deleteButton = document.getElementById("deleteButton");
+    
+    // Attach click event listener to the delete button
+    deleteButton.addEventListener("click", function() {
+        // Show a confirmation dialog
+        var confirmDelete = confirm("Are you sure you want to delete this item?");
+        if (confirmDelete) {
+            // If user confirms, submit the form
+            document.getElementById("deleteForm").submit();
+        }
+    });
+  });
+</script>
+
+{% endblock %}

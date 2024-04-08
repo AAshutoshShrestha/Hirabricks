@@ -34,5 +34,12 @@ class MachineRuntimeForm(forms.ModelForm):
 class MaintenanceTaskForm(forms.ModelForm):
     class Meta:
         model = MaintenanceTask
-        fields = '__all__'
+        fields = ['area','machine','title','description']
+        exlcude = ['status','date']
+
+class MaintenanceUpdateForm(forms.ModelForm):
+    class Meta:
+        model = MaintenanceTask
+        fields = ['area','machine','title','description','status']
+        exlcude = ['date']
 

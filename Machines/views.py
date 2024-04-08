@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Sum, F
 from datetime import date, timedelta
 from django.utils import timezone
@@ -9,7 +9,7 @@ import requests
 from django.views.decorators.csrf import csrf_exempt
 import json
 
-from .forms import MachineRuntimeForm,MaintenanceTaskForm
+from .forms import MachineRuntimeForm,MaintenanceTaskForm,MaintenanceUpdateForm
 from .models import *
 
 import os
@@ -152,29 +152,81 @@ def runtime_records(request):
 
 @login_required(login_url='login')
 def maintenance_tasks(request):
-    form =MaintenanceTaskForm()
+    form = MaintenanceTaskForm(request.POST)
+    if request.method == 'POST':
+        if form.is_valid():
+            last_record = MaintenanceTask.objects.last()  # Get the last record
+            new_id = last_record.id + 1 if last_record else 1  # Increment the ID
+            state = "Pending"
+
+            create = form.save(commit=False)
+            create.id = new_id  # Assign the new ID
+            create.user = request.user  # Assign the currently logged-in user
+            create.date = timezone.now()  # Assign the current date/time
+            create.status = state
+            create.save()
+            messages.success(request, "Maintenance Request Received successfully")
+            return redirect('maintenance_tasks')
+    
+    machinearea = MachineArea.objects.all()
+    machines = Machine.objects.all()
+
     pending_tasks = MaintenanceTask.objects.filter(status='Pending')
+    pendingtotal = pending_tasks.count()
+
     onprocess_tasks = MaintenanceTask.objects.filter(status='Onprocess')
+    onprocesstotal = onprocess_tasks.count()
+
     completed_tasks = MaintenanceTask.objects.filter(status='Completed')
+    completedtotal = completed_tasks.count()
+
     Onhold_tasks = MaintenanceTask.objects.filter(status='Onhold')
+    Onholdtotal = Onhold_tasks.count()
+
     context ={
         'forms': form, 
+        'machinearea': machinearea,
+        'machines': machines,
+
         'pending_tasks': pending_tasks, 
+        'pendingtotal': pendingtotal, 
+
         'onprocess_tasks': onprocess_tasks, 
+        'onprocesstotal': onprocesstotal, 
+
         'completed_tasks': completed_tasks,
-        'Onhold_tasks': Onhold_tasks
+        'completedtotal': completedtotal, 
+
+        'Onhold_tasks': Onhold_tasks,
+        'Onholdtotal': Onholdtotal,
     }
-    return render(request, 'drag&drop.html', context)
+    return render(request, 'Machine/addtask.html', context)
+
+
+def delete_task(request, pk):
+    obj = get_object_or_404(MaintenanceTask, id=pk)
+    
+    if request.method == "POST":
+        obj.delete()
+        return JsonResponse({'message': 'success'}, status=200)
+    
+    return render(request, "Machine/delete_task.html", {'obj': obj})
 
 @login_required(login_url='login')
-def update_task_status(request, task_id):
-    if request.method == 'POST' and request.is_ajax():
-        new_status = request.POST.get('new_status')
-        try:
-            task = MaintenanceTask.objects.get(pk=task_id)
-            task.status = new_status
-            task.save()
-            return JsonResponse({'success': True})
-        except MaintenanceTask.DoesNotExist:
-            return JsonResponse({'success': False, 'error': 'Task does not exist'})
-    return JsonResponse({'success': False, 'error': 'Invalid request'})
+def update_task_status(request, pk):
+    Maintenance_Task = get_object_or_404(MaintenanceTask, pk=pk)
+    if request.method == 'POST':
+        form = MaintenanceUpdateForm(request.POST, instance=Maintenance_Task)
+        if form.is_valid():
+            form.save()
+            return redirect('maintenance_tasks')
+        
+    else:
+        form = MaintenanceUpdateForm(instance=Maintenance_Task)
+
+    context = {
+        'forms': form,
+        'Maintenance_Task': Maintenance_Task,
+    }
+
+    return render(request, "Machine/updateTask.html",context)

@@ -5,7 +5,7 @@ from .forms import BurnerConsumptionForm, JhogaiConsumptionForm, MixtureForm, Fo
 from .models import *
 from datetime import date
 from django.contrib.auth.decorators import login_required
-
+from django.contrib import messages
 import os
 from supabase import create_client
 from dotenv import load_dotenv
@@ -204,17 +204,17 @@ def Dried_record_Form(request):
     if request.method == 'POST':    
         Reportform = Form_Dryer_Efficiency(request.POST)
         if Reportform.is_valid(): 
-            by = request.user
-            bricktype = request.POST.get('Brick_type')
-            quantity = request.POST.get('Count')
+            last_record = Dryer_Efficiency.objects.last()  # Get the last record
+            new_id = last_record.id + 1 if last_record else 1  # Increment the ID
 
-            rep_form = Dryer_Efficiency.objects.create(
-                user=by,
-                date=timezone.now(),
-                Brick_type=bricktype,
-                Count=quantity,
-            )
+            rep_form = Reportform.save(commit=False)
+            rep_form.id = new_id  # Assign the new ID
+            rep_form.user = request.user  # Assign the currently logged-in user
+            rep_form.date = timezone.now()  # Assign the current date/time
+
             rep_form.save()
+            messages.success(request, "Dryer Record added successfully")
+
             return redirect('Dryer_Form')
     else:
         Reportform = Form_Dryer_Efficiency()

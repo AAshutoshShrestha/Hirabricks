@@ -51,3 +51,4 @@ function clearSearch() {
   window.location.href = urlWithoutSearch; // Reload the page without the search query parameter
 }
 
+
