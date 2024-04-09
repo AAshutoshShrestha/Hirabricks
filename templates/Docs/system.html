@@ -73,7 +73,7 @@
         <!-- First Column: List of Blog Post Titles -->
         <div class="col-span-2 mx-auto flex max-w-screen-xl justify-between overflow-auto px-4">
           <div id="post-{{ post.slug }}">
-            {{ post.content | markdown | safe }}
+            {{ post.content | safe }}
           </div>
         </div>
 

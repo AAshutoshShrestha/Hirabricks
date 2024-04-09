@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
-from django.utils.translation import gettext_lazy as _
 from .jazminSetup import JAZZMIN_SETTINGS,JAZZMIN_UI_TWEAKS
 from dotenv import load_dotenv
 # Load environment variables from .env file
@@ -158,8 +157,8 @@ USE_L10N = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LANGUAGES = (
-    ('ne', _('Nepali')),
-    ('en', _('English')),
+    ('ne', 'Nepali'),
+    ('en', 'English'),
 )
 
 
