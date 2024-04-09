@@ -10,9 +10,7 @@ urlpatterns = [
     path('analytics/', analytics, name='analytics'),
     path('profile/', profile, name='profile'),
     path('temperature-forms/', temp_forms, name='temp_forms'),
-    path('temperature-details/', temperature_details, name='temperature_details'),
-    path('test/', test, name='test'),
-    
+    path('temperature-details/', temperature_details, name='temperature_details'),    
     path('login/', loginPage, name="login"),  
 	path('logout/', logoutUser, name="logout"),
 	path('change_password/', change_password, name="change_password"),

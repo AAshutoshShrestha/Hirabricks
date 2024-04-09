@@ -6,23 +6,40 @@ from .models import *
 from datetime import date
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+
+import pandas as pd
+import plotly.express as px
+
+
+# Importing environment variables
 import os
 from supabase import create_client
 from dotenv import load_dotenv
 
+# Load environment variables from .env file
 load_dotenv()
 
-
-url=os.environ.get('SUPABASE_URL')
-key=os.environ.get('SUPABASE_SERVICE_ROLE_KEY')
+# Initialize Supabase client
+url = os.environ.get('SUPABASE_URL')
+key = os.environ.get('SUPABASE_SERVICE_ROLE_KEY')
 supabase = create_client(url, key)
 
 @login_required(login_url='login')
 def coals(request):
+    """
+    View for recording coal consumption.
+
+    Args:
+        request: HttpRequest object.
+
+    Returns:
+        Rendered template for coal consumption form with context data.
+    """
     burner_form = BurnerConsumptionForm(request.POST)
     jhogai_form = JhogaiConsumptionForm(request.POST)
     if request.method == 'POST':
         if burner_form.is_valid():
+            # Save data for burner consumption
             by = request.user
             coalweight = request.POST.get('coal_weight')
             burnernumber = request.POST.get('burner_number')
@@ -36,6 +53,7 @@ def coals(request):
             return redirect('resource_form')
     if request.method == 'POST':    
         if jhogai_form.is_valid(): 
+            # Save data for jhogai consumption
             by = request.user
             type = request.POST.get('type')
             weight = request.POST.get('weight')
@@ -60,6 +78,15 @@ def coals(request):
 
 @login_required(login_url='login')
 def todaysRecord(request):
+    """
+    View for displaying today's records.
+
+    Args:
+        request: HttpRequest object.
+
+    Returns:
+        Rendered template for displaying today's records with context data.
+    """
     Today = date.today()
     
     # Filter BurnerConsumption records by Today's date
@@ -97,10 +124,18 @@ def todaysRecord(request):
 
 @login_required(login_url='login')
 def reports(request):
+    """
+    View for generating reports.
+
+    Args:
+        request: HttpRequest object.
+
+    Returns:
+        Rendered template for reports with context data.
+    """
     request.session['project_name'] = 'Resources'
     request.session['model_name'] = 'BurnerConsumption'
 
-    
     burner = BurnerConsumption.objects.all().order_by('burner_number','-date')
     jhogai = JhogaiConsumption.objects.all().order_by('type')
 
@@ -118,7 +153,6 @@ def reports(request):
     # Calculate total sum of coal_weight
     burner_total_weight = BurnerConsumption.objects.aggregate(total_weight=Sum('coal_weight'))['total_weight'] or 0
     
-
     context = {
         'METHOD_CHOICES': METHOD_CHOICES,
         'Burner': burner,
@@ -131,6 +165,15 @@ def reports(request):
 
 @login_required(login_url='login')
 def soil_mixture(request):
+    """
+    View for recording soil mixture details.
+
+    Args:
+        request: HttpRequest object.
+
+    Returns:
+        Rendered template for soil mixture form with context data.
+    """
     if request.method == 'POST':
         formset = MixtureForm(request.POST, request.FILES)
         if formset.is_valid():
@@ -168,7 +211,7 @@ def soil_mixture(request):
             # Upload soilimg to Supabase storage
             if soilimg:
                 supabase.storage.from_('image-bucket/').upload(soilimg.name, soilimg.read(), {'content-type': 'image/jpeg'})
-                # Upload soilimg to Supabase storage bucket named 'image-bucket'
+            # Upload soilimg to Supabase storage bucket named 'image-bucket'
             if soiltest:
                 supabase.storage.from_('image-bucket/Reports').upload(soiltest.name, soiltest.read(), {'content-type': 'image/jpeg'})
             return redirect('soil_mixture')
@@ -182,6 +225,15 @@ def soil_mixture(request):
 
 @login_required(login_url='login')
 def Soilreports(request):
+    """
+    View for generating soil reports.
+
+    Args:
+        request: HttpRequest object.
+
+    Returns:
+        Rendered template for soil reports with context data.
+    """
     request.session['project_name'] = 'Resources'
     request.session['model_name'] = 'SoilDetails'
     soil = SoilDetails.objects.all()
@@ -201,6 +253,15 @@ def Soilreports(request):
 
 @login_required(login_url='login')
 def Dried_record_Form(request):
+    """
+    View for recording dryer efficiency.
+
+    Args:
+        request: HttpRequest object.
+
+    Returns:
+        Rendered template for dryer efficiency form with context data.
+    """
     if request.method == 'POST':    
         Reportform = Form_Dryer_Efficiency(request.POST)
         if Reportform.is_valid(): 
@@ -218,16 +279,44 @@ def Dried_record_Form(request):
             return redirect('Dryer_Form')
     else:
         Reportform = Form_Dryer_Efficiency()
-        
+    
+    
+    
     context = {
-        'dryer_record_form': Reportform
+        'dryer_record_form': Reportform,
+        
     }
     return render(request, 'Dryer/Dryer_form.html', context)
 
 @login_required(login_url='login')
 def DriedBricksReport(request):
-    Dryer_Data  = Dryer_Efficiency.objects.all()
+    """
+    View for generating dried bricks reports.
+
+    Args:
+        request: HttpRequest object.
+
+    Returns:
+        Rendered template for dried bricks reports with context data.
+    """
+    Dryer_Data = Dryer_Efficiency.objects.all()
+
+    # Convert queryset to DataFrame
+    df = pd.DataFrame(list(Dryer_Data.values('date', 'Count')))
+
+    # Convert 'date' column to datetime
+    df['date'] = pd.to_datetime(df['date']).dt.date
+
+    # Aggregate counts for the same date
+    df = df.groupby('date').sum().reset_index()
+
+    fig = px.line(df, x='date', y='Count', title='Dryer Efficiency Count Over Time', markers=True)
+
+    # Convert Plotly figure to JSON string
+    fig_json1 = fig.to_json()
+
     context = {
         'Dryer_Data': Dryer_Data,
+        'plot1': fig_json1,
     }
     return render(request, 'Dryer/records.html', context)

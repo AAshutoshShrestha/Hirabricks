@@ -1,24 +1,34 @@
-from django.shortcuts import render
-from django.shortcuts import get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 from django.utils import timezone
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import ContactForm
 from .models import *
-from Inventory.models import BrickProduct,BrickCategory    
+from Inventory.models import BrickProduct, BrickCategory    
 
+# Importing environment variables
 import os
 from supabase import create_client
 from dotenv import load_dotenv
 
+# Load environment variables from .env file
 load_dotenv()
 
-
-url=os.environ.get('SUPABASE_URL')
-key=os.environ.get('SUPABASE_SERVICE_ROLE_KEY')
+# Initialize Supabase client
+url = os.environ.get('SUPABASE_URL')
+key = os.environ.get('SUPABASE_SERVICE_ROLE_KEY')
 supabase = create_client(url, key)
 
 def main(request):
+    """
+    View for the main page.
+
+    Args:
+        request: HttpRequest object.
+
+    Returns:
+        Rendered template for the main page with context data.
+    """
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
@@ -36,12 +46,20 @@ def main(request):
     else:
         form = ContactForm()
     context = {
-        'form':form,
+        'form': form,
     }
     return render(request, 'Main/home.html', context)
 
-
 def all_products(request):
+    """
+    View for displaying all products.
+
+    Args:
+        request: HttpRequest object.
+
+    Returns:
+        Rendered template for displaying all products with context data.
+    """
     all_bricks = BrickProduct.objects.all()
     
     paginator = Paginator(all_bricks, 12)  # 12 products per page
@@ -66,15 +84,23 @@ def all_products(request):
     }
     return render(request, 'Main/all_products.html', context)
 
-
 def By_category(request, slug):
+    """
+    View for displaying products by category.
+
+    Args:
+        request: HttpRequest object.
+        slug: Category slug.
+
+    Returns:
+        Rendered template for displaying products by category with context data.
+    """
     category = get_object_or_404(BrickCategory, slug=slug)
-    category_name=category
+    category_name = category
 
     product_by_category = BrickProduct.objects.filter(category=category).order_by('id')
     paginator = Paginator(product_by_category, 12)  # 12 products per page
     category_empty = not product_by_category.exists()
-
 
     page_number = request.GET.get('page')
     try:
@@ -101,9 +127,18 @@ def By_category(request, slug):
     return render(request, 'Main/category.html', context)
 
 def product_detail(request, slug):
+    """
+    View for displaying product details.
+
+    Args:
+        request: HttpRequest object.
+        slug: Product slug.
+
+    Returns:
+        Rendered template for displaying product details with context data.
+    """
     product = BrickProduct.objects.get(slug=slug)
     product_attributes = product.productattribute_set.all().values('name','dimensions','price','stock')
-
     
     # Convert Decimal objects to float
     product_attributes_json = []
@@ -123,13 +158,21 @@ def product_detail(request, slug):
     context = {
         'products': product,
         'product_attributes_json': product_attributes_json,  # Convert to JSON
-
     }
 
     return render(request, 'Main/product_details.html', context)
 
-
 def gallery(request):
+    """
+    View for displaying gallery of product images.
+
+    Args:
+        request: HttpRequest object.
+
+    Returns:
+        Rendered template for displaying gallery with context data.
+    """
+
     object_names = supabase.storage.from_('Products_image').list()
     all_names = [name['name'] for name in object_names]
 
@@ -155,4 +198,3 @@ def gallery(request):
         'page_obj': page_obj,
     }
     return render(request, 'Main/gallery.html', context)
-

@@ -35,11 +35,11 @@ class MaintenanceTaskForm(forms.ModelForm):
     class Meta:
         model = MaintenanceTask
         fields = ['area','machine','title','description']
-        exlcude = ['status','date']
+        exlcude = ['status','date','remarks']
 
 class MaintenanceUpdateForm(forms.ModelForm):
     class Meta:
         model = MaintenanceTask
-        fields = ['area','machine','title','description','status']
+        fields = ['area','machine','title','description','status','remarks']
         exlcude = ['date']
 

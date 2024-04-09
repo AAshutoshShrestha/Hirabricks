@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Sum, F
-from datetime import date, timedelta
+from datetime import date
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
@@ -8,28 +8,35 @@ from django.contrib import messages
 import requests
 from django.views.decorators.csrf import csrf_exempt
 import json
+import pandas as pd
+import plotly.express as px
+from django.db.models.functions import TruncDate
 
-from .forms import MachineRuntimeForm,MaintenanceTaskForm,MaintenanceUpdateForm
+from .forms import MachineRuntimeForm, MaintenanceTaskForm, MaintenanceUpdateForm
 from .models import *
+from example.utils import format_timedelta
 
+# Importing environment variables
 import os
 from supabase import create_client
 from dotenv import load_dotenv
 
+# Load environment variables from .env file
 load_dotenv()
 
-
-url=os.environ.get('SUPABASE_URL')
-key=os.environ.get('SUPABASE_SERVICE_ROLE_KEY')
+# Initialize Supabase client
+url = os.environ.get('SUPABASE_URL')
+key = os.environ.get('SUPABASE_SERVICE_ROLE_KEY')
 supabase = create_client(url, key)
-
-
 
 # Firebase Realtime Database URL
 FIREBASE_DB_URL = "https://tunnel-kiln-default-rtdb.asia-southeast1.firebasedatabase.app/"
 
 # Function to check machine status
 def check_machine_status():
+    """
+    Check the status of the machine from Firebase Realtime Database.
+    """
     response = requests.get(FIREBASE_DB_URL + "/Sensor/Machine_status.json")
     machine_status = response.json()
     if machine_status == 1:
@@ -40,6 +47,9 @@ def check_machine_status():
 
 @csrf_exempt
 def machine_status_update(request):
+    """
+    Update machine status based on the data received from Firebase Realtime Database.
+    """
     operator = MachineOperator.objects.first()
     runtime_records = MachineRuntime.objects.filter(start_time__date=date.today(), machine_operator__user=request.user)
     try:
@@ -62,17 +72,17 @@ def machine_status_update(request):
             machine_runtime.save()
             messages.success(request, "The machine has stopped running.")
     
-   
-
     context = {
         'Runtime_details': runtime_records,
     }
 
     return render(request, 'Machine/Runtime.html', context)
 
-
 @login_required(login_url='login')
 def record_time(request):
+    """
+    Record the machine runtime.
+    """
     today = date.today()
     user = 1
 
@@ -115,43 +125,60 @@ def record_time(request):
 
     return render(request, 'Machine/Runtime.html', context)
 
-
 @login_required(login_url='login')
 def runtime_records(request):
+    """
+    Display machine runtime records.
+    """
     request.session['project_name'] = 'Machines'
     request.session['model_name'] = 'MachineRuntime'
     
     # Retrieve runtime records from the database
     runtime_records = MachineRuntime.objects.order_by('id').all()
 
-    labels = []
-    data = []
-
-   # Aggregate work durations for each unique date
+    # Aggregate work durations for each unique date
     work_durations_by_date = MachineRuntime.objects.values(
-        'start_time__date', 'machine_operator__user__username', 'machine_operator__machine__name'
+        date=TruncDate('start_time'),
+        machine_operator_username=F('machine_operator__user__username'),
+        machine_name=F('machine_operator__machine__name')
     ).annotate(
         total_duration=Sum(F('end_time') - F('start_time'))
-    )
+    ).order_by('date')  # Sort by date in ascending order
 
-    for query in work_durations_by_date:
-        labels.append(query['start_time__date'].strftime('%Y-%m-%d'))
-        data.append(query['total_duration'].total_seconds() // 3600)
-    # Convert lists to JSON format
-    labels_json = json.dumps(labels)
-    data_json = json.dumps(data)
+
+    # Convert queryset to a DataFrame
+    df = pd.DataFrame(work_durations_by_date)
+
+    # Convert 'date' column to datetime format
+    df['date'] = pd.to_datetime(df['date'])
+
+    # Convert total_duration to timedelta format
+    df['total_duration'] = pd.to_timedelta(df['total_duration'], unit='s')
+
+    # Convert timedelta to hh:mm:ss format
+    df['total_duration'] = df['total_duration'].dt.components.hours.astype(str).str.zfill(2) + \
+                        ':' + df['total_duration'].dt.components.minutes.astype(str).str.zfill(2) + \
+                        ':' + df['total_duration'].dt.components.seconds.astype(str).str.zfill(2)
+
+    # Create a line chart using Plotly Express
+    fig = px.line(df, x='date', y='total_duration', title='Total Work Duration by Date',markers=True)
+
+    # Convert Plotly figure to JSON string
+    linechart = fig.to_json()
 
     context = {
         'Runtime_details': runtime_records,
         'work_durations_by_date': work_durations_by_date,
-        'labels': labels_json,
-        'data': data_json,
+        'linechart': linechart,
     }
     # Render the template with the context data
     return render(request, 'Machine/Records.html', context)
 
 @login_required(login_url='login')
 def maintenance_tasks(request):
+    """
+    Manage maintenance tasks.
+    """
     form = MaintenanceTaskForm(request.POST)
     if request.method == 'POST':
         if form.is_valid():
@@ -172,38 +199,25 @@ def maintenance_tasks(request):
     machines = Machine.objects.all()
 
     pending_tasks = MaintenanceTask.objects.filter(status='Pending')
-    pendingtotal = pending_tasks.count()
-
     onprocess_tasks = MaintenanceTask.objects.filter(status='Onprocess')
-    onprocesstotal = onprocess_tasks.count()
-
-    completed_tasks = MaintenanceTask.objects.filter(status='Completed')
-    completedtotal = completed_tasks.count()
-
+    completed_tasks = MaintenanceTask.objects.filter(status='Completed', date=date.today())
     Onhold_tasks = MaintenanceTask.objects.filter(status='Onhold')
-    Onholdtotal = Onhold_tasks.count()
 
     context ={
         'forms': form, 
         'machinearea': machinearea,
         'machines': machines,
-
         'pending_tasks': pending_tasks, 
-        'pendingtotal': pendingtotal, 
-
         'onprocess_tasks': onprocess_tasks, 
-        'onprocesstotal': onprocesstotal, 
-
         'completed_tasks': completed_tasks,
-        'completedtotal': completedtotal, 
-
         'Onhold_tasks': Onhold_tasks,
-        'Onholdtotal': Onholdtotal,
     }
     return render(request, 'Machine/addtask.html', context)
 
-
 def delete_task(request, pk):
+    """
+    Delete a maintenance task by id
+    """
     obj = get_object_or_404(MaintenanceTask, id=pk)
     
     if request.method == "POST":
@@ -212,8 +226,11 @@ def delete_task(request, pk):
     
     return render(request, "Machine/delete_task.html", {'obj': obj})
 
-@login_required(login_url='login')
+@login_required(login_url='login')  
 def update_task_status(request, pk):
+    """
+    Update the status of a maintenance task.
+    """
     Maintenance_Task = get_object_or_404(MaintenanceTask, pk=pk)
     if request.method == 'POST':
         form = MaintenanceUpdateForm(request.POST, instance=Maintenance_Task)
@@ -229,4 +246,4 @@ def update_task_status(request, pk):
         'Maintenance_Task': Maintenance_Task,
     }
 
-    return render(request, "Machine/updateTask.html",context)
+    return render(request, "Machine/updateTask.html", context)

@@ -45,6 +45,7 @@ class MaintenanceTask(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES)
+    remarks = models.TextField(null=True)
 
 
 class MachineOperator(models.Model):

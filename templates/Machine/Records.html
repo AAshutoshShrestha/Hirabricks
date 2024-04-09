@@ -2,87 +2,61 @@
 {% block title %} Machine Runtimes | TunnelKiln {% endblock %} 
 
 {% block content %}
-<div class="container mx-auto px-4 py-8">
-	<div class="sm:col-span-2 md:grow">
-		<div class="flex justify-end gap-x-2">
-		  <div class="hs-dropdown relative inline-block [--placement:bottom-right]">
-			<a href="{% url 'export_csv' %}">
-			<button id="hs-as-table-table-export-dropdown" type="button" class="inline-flex items-center gap-x-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-800 shadow-sm hover:bg-gray-50 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-700 dark:bg-slate-900 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-			  <svg class="size-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-				<path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
-				<path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
-			  </svg>
-			  Export
-			</button>
-		</a>
-		  </div>
+<section class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+
+	<div id="plotly_div" class="m-2"></div>
+
+	<div class="container mx-auto px-4 py-8">
+		<div class="sm:col-span-2 md:grow">
+			<div class="flex justify-end gap-x-2">
+			<div class="hs-dropdown relative inline-block [--placement:bottom-right]">
+				<a href="{% url 'export_csv' %}">
+				<button id="hs-as-table-table-export-dropdown" type="button" class="inline-flex items-center gap-x-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-800 shadow-sm hover:bg-gray-50 disabled:pointer-events-none disabled:opacity-50 dark:border-gray-700 dark:bg-slate-900 dark:text-white dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+				<svg class="size-3 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+					<path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
+					<path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
+				</svg>
+				Export
+				</button>
+			</a>
+			</div>
+			</div>
+		</div>
+		<h1 class="text-2xl font-bold mb-4">Machine Runtimes</h1>
+		<div class="overflow-x-auto">
+			<table class="table-auto w-full border-collapse border border-gray-200">
+				<thead class="bg-gray-100">
+					<tr>
+						<th class="px-4 py-2">No.</th>
+						<th class="px-4 py-2">User</th>
+						<th class="px-4 py-2">Machine</th>
+						<th class="px-4 py-2">Date</th>
+						<th class="px-4 py-2">Work Durations</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for record in work_durations_by_date %}
+					<tr>
+						<td class="border px-4 py-2">{{ forloop.counter }}</td>
+						<td class="border px-4 py-2">{{ record.machine_operator_username }}</td>
+						<td class="border px-4 py-2">{{ record.machine_name }}</td>
+						<td class="border px-4 py-2">{{ record.date }}</td>
+						<td class="border px-4 py-2">{{ record.total_duration }}</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+				
+			
 		</div>
 	</div>
-	<h1 class="text-2xl font-bold mb-4">Machine Runtimes</h1>
-	<div class="overflow-x-auto">
-		<table class="table-auto w-full border-collapse border border-gray-200">
-			<thead class="bg-gray-100">
-				<tr>
-					<th class="px-4 py-2">No.</th>
-					<th class="px-4 py-2">User</th>
-					<th class="px-4 py-2">Machine</th>
-					<th class="px-4 py-2">Date</th>
-					<th class="px-4 py-2">Work Durations</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for record in work_durations_by_date %}
-				<tr>
-					<td class="border px-4 py-2">{{ forloop.counter }}</td>
-					<td class="border px-4 py-2">{{ record.machine_operator__user__username }}</td>
-					<td class="border px-4 py-2">{{ record.machine_operator__machine__name }}</td>
-					<td class="border px-4 py-2">{{ record.start_time__date }}</td>
-					<td class="border px-4 py-2">{{ record.total_duration }}</td>
-				</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-			
-		
-	</div>
-</div>
 
-
-	<div class="px-16 py-12">
-		<canvas id="myChart"></canvas>
-	</div>
-
-	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</section>
+	
 
 	<script>
-	const labels = JSON.parse('{{ labels|escapejs }}');
-	const data = JSON.parse('{{ data|escapejs }}');
-
-	const ctx = document.getElementById('myChart');
-
-	new Chart(ctx, {
-		type: 'line',
-
-		data: {
-			labels: labels,
-			datasets: [{
-				label: 'Worked hours',
-				data: data,
-				fill: 'origin',
-				borderColor: 'rgb(255, 0, 0)',
-				tension: 0.1
-			}]
-		},
-		options: {
-			scales: {
-				y: {
-					beginAtZero: true
-				}
-			}
-		}
-	});
-
-
+		var plotJson = JSON.parse('{{ linechart|escapejs }}');
+		Plotly.newPlot('plotly_div', plotJson.data, plotJson.layout);
 	</script>
 
 

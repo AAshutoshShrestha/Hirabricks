@@ -48,6 +48,6 @@ class MachineRuntimeAdmin(ImportExportModelAdmin,admin.ModelAdmin):
 @admin.register(MaintenanceTask)
 class MaintenanceTaskAdmin(ImportExportModelAdmin,admin.ModelAdmin):
     list_display = ('id','date','area','machine', 'title', 'description', 'status',)
-    list_filter = ('id','date', 'status',)
-    search_fields = ('id','date', 'status','title',)
+    list_filter = ('id','date', 'status','machine',)
+    search_fields = ('id','date','machine', 'status','title',)
     list_per_page = 15

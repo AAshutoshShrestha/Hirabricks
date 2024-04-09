@@ -4,32 +4,46 @@
 {% block title %} Dryer Records | TunnelKiln {% endblock %} 
 
 {% block content %}
-<div class="p-12">
-	<h1 class="text-2xl font-bold mb-4">Bricks Dried records </h1>
-	<div class="overflow-x-auto">
-		<table class="table-auto w-full border-collapse border border-gray-200">
-			<thead class="bg-gray-100">
-				<tr>
-					<th class="px-4 py-2">id</th>
-					<th class="px-4 py-2">Date</th>
-					<th class="px-4 py-2">Brick type</th>
-					<th class="px-4 py-2">Count</th>
-					<th class="px-4 py-2">user</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for details in Dryer_Data %}
-				<tr>
-					<td class="border px-4 py-2">{{ details.id }}</td>
-					<td class="border px-4 py-2">{{ details.date }}</td>
-					<td class="border px-4 py-2">{{ details.Brick_type }}</td>
-					<td class="border px-4 py-2">{{ details.Count }}</td>
-					<td class="border px-4 py-2">{{ details.user }}</td>
-				</tr>
-				{% endfor %}
-			</tbody>
-		</table>
+<section class="p-12">
+
+<div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+	<div id="plotly_div1" class="m-2"></div>
+
+	<div class="">
+		<h1 class="text-2xl font-bold mb-4">Bricks Dried records </h1>
+		<div class="overflow-x-auto">
+			<table class="table-auto w-full border-collapse border border-gray-200">
+				<thead class="bg-gray-100">
+					<tr>
+						<th class="px-4 py-2">id</th>
+						<th class="px-4 py-2">Date</th>
+						<th class="px-4 py-2">Brick type</th>
+						<th class="px-4 py-2">Count</th>
+						<th class="px-4 py-2">user</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for details in Dryer_Data %}
+					<tr>
+						<td class="border px-4 py-2">{{ details.id }}</td>
+						<td class="border px-4 py-2">{{ details.date }}</td>
+						<td class="border px-4 py-2">{{ details.Brick_type }}</td>
+						<td class="border px-4 py-2">{{ details.Count }}</td>
+						<td class="border px-4 py-2">{{ details.user }}</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>
-   
+
+</section>
+
+
+<script>
+	var plotJson = JSON.parse('{{ plot1|escapejs }}');
+	Plotly.newPlot('plotly_div1', plotJson.data, plotJson.layout);
+</script>
+
 {% endblock %}

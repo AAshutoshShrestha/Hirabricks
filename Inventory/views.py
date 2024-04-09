@@ -12,35 +12,45 @@ from .forms import *
 from .models import *
 from .utils import generate_product_code
 
+# Importing environment variables
 import os
 from supabase import create_client
 from dotenv import load_dotenv
 
+# Load environment variables from .env file
 load_dotenv()
 
-
-url=os.environ.get('SUPABASE_URL')
-key=os.environ.get('SUPABASE_SERVICE_ROLE_KEY')
+# Initialize Supabase client
+url = os.environ.get('SUPABASE_URL')
+key = os.environ.get('SUPABASE_SERVICE_ROLE_KEY')
 supabase = create_client(url, key)
-
 
 @login_required(login_url='login')
 def inventory(request):
+    """
+    View for managing inventory.
+
+    Args:
+        request: HttpRequest object.
+
+    Returns:
+        Rendered template for inventory management with context data.
+    """
+    # Check if the user is a superuser
     if not request.user.is_superuser:
         return HttpResponseForbidden("You don't have permission to access this page.")
 
+    # Fetch all categories
     categories = BrickCategory.objects.all()
 
-    # Import ProductAttributeFormSet here
+    # Define inline formset for product attributes
     ProductAttributeFormSet = inlineformset_factory(BrickProduct, ProductAttribute, form=ProductAttributeForm, extra=1)
 
     if request.method == 'POST':
         form = BrickProductForm(request.POST, request.FILES)
         if form.is_valid():
-            last_record = BrickProductForm.objects.last()  # Get the last record
-            new_id = last_record.id + 1 if last_record else 1  # Increment the ID
+            # Save the new product
             new_product = form.save(commit=False)
-            new_product.id = new_id
             new_product.product_image = new_product.product_image.name
             new_product.product_code = generate_product_code()
             new_product.save()
@@ -71,6 +81,15 @@ def inventory(request):
 
 @login_required(login_url='login')
 def all_items_list(request):
+    """
+    View for displaying all items in inventory.
+
+    Args:
+        request: HttpRequest object.
+
+    Returns:
+        Rendered template for displaying all items with context data.
+    """
     # Check if the user is a superuser
     if not request.user.is_superuser:
         return HttpResponseForbidden("You don't have permission to access this page.")
@@ -78,6 +97,7 @@ def all_items_list(request):
     # Handle search query
     search_query = request.GET.get('search')
     if search_query:
+        # Filter items based on search query
         all_items_list = BrickProduct.objects.filter(
             Q(name__icontains=search_query) |
             Q(category__name__icontains=search_query) |
@@ -125,9 +145,18 @@ def all_items_list(request):
     }
     return render(request, 'Inventory/All_product_list.html', context)
 
-
 @login_required(login_url='login')
 def product_edit(request, pk):
+    """
+    View for editing a product in inventory.
+
+    Args:
+        request: HttpRequest object.
+        pk: Primary key of the product to be edited.
+
+    Returns:
+        Rendered template for product editing with context data.
+    """
     # Check if the user is a superuser
     if not request.user.is_superuser:
         return HttpResponseForbidden("You don't have permission to access this page.")
@@ -156,6 +185,15 @@ def product_edit(request, pk):
 
 @login_required(login_url='login')
 def sales_list(request):
+    """
+    View for managing sales.
+
+    Args:
+        request: HttpRequest object.
+
+    Returns:
+        Rendered template for managing sales with context data.
+    """
     # Check if the user is a superuser
     if not request.user.is_superuser:
         return HttpResponseForbidden("You don't have permission to access this page.")
@@ -168,6 +206,7 @@ def sales_list(request):
     if request.method == 'POST':
         form = SalesForm(request.POST)
         if form.is_valid():
+            # Get data from form
             f_product_id = request.POST.get('product')
             f_product_attribute_name = request.POST.get('product_attribute')
             f_quantity_sold = request.POST.get('quantity_sold')
@@ -176,6 +215,7 @@ def sales_list(request):
             f_product = BrickProduct.objects.get(id=f_product_id)
             f_product_attribute = get_object_or_404(ProductAttribute, product_id=f_product_id, name=f_product_attribute_name)
 
+            # Create new sales entry
             new_sales = Sale.objects.create(
                 product=f_product,
                 product_attribute=f_product_attribute.id,
@@ -196,6 +236,15 @@ def sales_list(request):
 
 @login_required(login_url='login')
 def add_inventory(request):
+    """
+    View for adding inventory.
+
+    Args:
+        request: HttpRequest object.
+
+    Returns:
+        Rendered template for adding inventory with context data.
+    """
     if not request.user.is_superuser:
         return HttpResponseForbidden("You don't have permission to access this page.")
 

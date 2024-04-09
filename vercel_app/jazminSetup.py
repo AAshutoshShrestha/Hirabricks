@@ -1,64 +1,49 @@
-JAZZMIN_SETTINGS ={
+JAZZMIN_SETTINGS = {
+    # Site settings
     "site_title": "Hirabricks",
     "site_header": "TunnelKiln",
     "site_brand": "Hirabricks",
     "site_logo_classes": "admin-logo",
-    "site_logo":"image/factoryicon-white.png",
-    
-    "site_icon":"image/favicon.png",
-
+    "site_logo": "image/factoryicon-white.png",
+    "site_icon": "image/favicon.png",
     "copyright": "Aashutosh Shrestha © Hirabricks 2024",
 
+    # Navbar settings
     "navbar": "navbar-light",
 
-    #############
-    # Side Menu #
-    #############
-
+    # Sidebar settings
     "sidebar": "sidebar-light-orange",
-    "show_sidebar" : True,
+    "show_sidebar": True,
     "hide_apps": [],
-    "order_with_respect_to": ["auth","Homepage","Inventory","docs","example","conditions","Resources","Machines"],
-
+    "order_with_respect_to": ["auth", "Homepage", "Inventory", "docs", "example", "conditions", "Resources", "Machines"],
     "brand_colour": "navbar-orange",
 
-    "usermenu_links": [
-        {"model": "auth.user"}
-    ],
-    "custom_links": {
-    "books": [{
-        "name": "Make Messages"
-    }]
-    },
+    # User menu settings
+    "usermenu_links": [{"model": "auth.user"}],
+    "custom_links": {"books": [{"name": "Make Messages"}]},
 
+    # Form settings
     "changeform_format": "horizontal_tabs",
 
+    # Top menu settings
     "topmenu_links": [
-
-        # Url that gets reversed (Permissions can be added)
-        {"name": "Open Dashboard",  "url": "/Dashboard", "permissions": ["auth.view_user"]},
-        {"name": "Home page",  "url": "/", "permissions": ["auth.view_user"]},
-
-        # Url that gets reversed (Permissions can be added)
-        {"name": "Register",  "url": "/register", "permissions": ["auth.view_user"]},
-
-        # App with dropdown menu to all its models pages (Permissions checked against models)
+        {"name": "Open Dashboard", "url": "/Dashboard", "permissions": ["auth.view_user"]},
+        {"name": "Home page", "url": "/", "permissions": ["auth.view_user"]},
+        {"name": "Register", "url": "/register", "permissions": ["auth.view_user"]},
         {"app": "example"},
-
-        # model admin to link to (Permissions checked against model)
         {"model": "auth.User"},
     ],
 
-    'MENU_ICONS': True,
-    'MENU_OPEN_FIRST_CHILD': True,
-
+    # UI tweaks
+    "MENU_ICONS": True,
+    "MENU_OPEN_FIRST_CHILD": True,
     "dark_mode_theme": None,
-     "language_chooser": False,
-     
+    "language_chooser": False,
 }
 
 JAZZMIN_UI_TWEAKS = {
-    'MENU_COLLAPSED': True,
+    # Navbar and sidebar settings
+    "MENU_COLLAPSED": True,
     "navbar_small_text": False,
     "footer_small_text": False,
     "body_small_text": True,
@@ -80,6 +65,8 @@ JAZZMIN_UI_TWEAKS = {
     "sidebar_nav_flat_style": False,
     "theme": "default",
     "dark_mode_theme": None,
+
+    # Button classes
     "button_classes": {
         "primary": "btn-primary",
         "secondary": "btn-secondary",

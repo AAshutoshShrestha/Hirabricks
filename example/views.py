@@ -7,36 +7,63 @@ from django.contrib.auth import authenticate, login, logout, update_session_auth
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.db.models import Count,F, Sum
+from django.db.models import Count, F, Sum
 from django.db import connection
 from datetime import timedelta, date
 
 from conditions.models import MultiCondition
-from conditions.views import required_MultiConditions,foranalytics
+from conditions.views import required_MultiConditions, foranalytics
 from Resources.models import *
 
 from .decorators import unauthenticated_user
-from .forms import CarEntryForm,TemperatureRecordForm
+from .forms import CarEntryForm, TemperatureRecordForm
 from .models import *
 from .utils import format_timedelta
+
+import pandas as pd
+import plotly.express as px
 
 # Set the locale to the user's default setting
 locale.setlocale(locale.LC_ALL, '')
 
-
 def convert_to_hours_and_minutes(value):
+    """
+    Convert time duration to hours and minutes format.
+
+    Args:
+        value (int): Time duration in minutes.
+
+    Returns:
+        str: Time duration in hours and minutes format.
+    """
     hours = value // 60
     minutes = value % 60
     return f"{hours} hours, {minutes} minutes"
 
-
-
-
 def page_not_found_view(request, exception):
+    """
+    Display custom 404 page.
+
+    Args:
+        request: HttpRequest object.
+        exception: Exception object.
+
+    Returns:
+        Rendered template for 404 page.
+    """
     return render(request, 'Auth/404.html', status=404)
 
 @unauthenticated_user
 def loginPage(request):
+    """
+    View for handling user login.
+
+    Args:
+        request: HttpRequest object.
+
+    Returns:
+        Rendered template for login page or redirects to index page.
+    """
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -51,11 +78,29 @@ def loginPage(request):
     return render(request, 'Auth/login.html', context)
 
 def logoutUser(request):
+    """
+    Log out the user.
+
+    Args:
+        request: HttpRequest object.
+
+    Returns:
+        Redirect to login page.
+    """
     logout(request)
     return redirect('login')
 
 @login_required(login_url='login')
 def index(request):
+    """
+    View for the index page.
+
+    Args:
+        request: HttpRequest object.
+
+    Returns:
+        Rendered template for the index page with context data.
+    """
     firing = Firing.objects.all()
     cars = Car.objects.select_related('zone', 'Type').exclude(zone_id=None).order_by('zone')
     completed_cars = Car.objects.filter(status='COMPLETED').select_related('zone', 'Type').order_by('zone')
@@ -114,12 +159,21 @@ def index(request):
 
 @login_required(login_url='login')
 def temperature_details(request):
+    """
+    View for temperature records details.
+
+    Args:
+        request: HttpRequest object.
+
+    Returns:
+        Rendered template for temperature records details with context data.
+    """
     request.session['project_name'] = 'example'
     request.session['model_name'] = 'TemperatureRecord'
 
     temp_records = TemperatureRecord.objects.all()
 
-    paginator = Paginator(temp_records, 50)  # 50 products per page
+    paginator = Paginator(temp_records, 50)  # 50 records per page
     page_number = request.GET.get('page')
 
     try:
@@ -131,7 +185,7 @@ def temperature_details(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         temp_data = paginator.page(paginator.num_pages)
 
-    total =temp_records.count()
+    total = temp_records.count()
     context = {
         'temp_data': temp_data,
         'total': total,
@@ -140,6 +194,15 @@ def temperature_details(request):
 
 @login_required(login_url='login')
 def temp_forms(request):
+    """
+    View for temperature records forms.
+
+    Args:
+        request: HttpRequest object.
+
+    Returns:
+        Rendered template for temperature records forms with context data.
+    """
     if request.method == 'POST':
         by = request.user
         form = TemperatureRecordForm(request.POST)
@@ -162,10 +225,17 @@ def temp_forms(request):
     }
     return render(request, 'Temp_Records/Forms.html', context)
 
-
-
 @login_required(login_url='login')
 def analytics(request):
+    """
+    View for analytics page.
+
+    Args:
+        request: HttpRequest object.
+
+    Returns:
+        Rendered template for analytics page with context data.
+    """
     # Query for single and multi-type conditions
     single_MultiConditions = MultiCondition.objects.filter(is_multi_type=False)
     multi_MultiConditions = MultiCondition.objects.filter(is_multi_type=True)
@@ -185,7 +255,7 @@ def analytics(request):
     single_type_total = sum(items['capacity'] * type_counts.get(items['name'], 0) for items in single_data)
     multi_type_total = sum(subitem['capacity'] * type_counts.get(items['name'], 0) for items in multi_data for subitem in items['items'])
 
-    combined_total = single_type_total+multi_type_total
+    combined_total = single_type_total + multi_type_total
 
     formatted_combined_total = locale.format_string("%d", combined_total, grouping=True)
 
@@ -198,9 +268,23 @@ def analytics(request):
     yesterday = date.today() - timedelta(days=1)
     yesterday_total_push = Car.objects.filter(entry_time__date=yesterday).count()
 
-    push_counts=Car.objects.values('entry_time__date').annotate(push_count=Count('id')).order_by('-entry_time__date')
+    push_counts = Car.objects.values('entry_time__date').annotate(push_count=Count('id')).order_by('-entry_time__date')
 
     all_data = Car.objects.all().order_by('id')
+
+    # Convert queryset to DataFrame
+    df = pd.DataFrame(list(push_counts.values('entry_time__date', 'push_count')))
+
+    # Convert 'date' column to datetime
+    df['entry_time__date'] = pd.to_datetime(df['entry_time__date']).dt.date
+
+    # Aggregate counts for the same date
+    df = df.groupby('entry_time__date').sum().reset_index()
+
+    fig = px.line(df, x='entry_time__date', y='push_count', title='Total Car Push ', markers=True)
+
+    # Convert Plotly figure to JSON string
+    line_chart = fig.to_json()
 
     context = {
         **req_MultiConditions_context,
@@ -215,23 +299,39 @@ def analytics(request):
         'push_counts': push_counts,
         'capacities': capacities,
         'combined_total': formatted_combined_total,
-
+        'line_chart': line_chart,
     }
     return render(request, 'analytics.html', context)
 
-
 @login_required(login_url='login')
 def profile(request):
+    """
+    View for user profile page.
+
+    Args:
+        request: HttpRequest object.
+
+    Returns:
+        Rendered template for user profile page with context data.
+    """
     car_count = Car.objects.filter(user=request.user).count()
     context = {'Car_count': car_count}
     return render(request, 'Auth/profile.html', context)
 
-
 @login_required(login_url='login')
 def history(request):
-    completedcars = Car.objects.filter(status='COMPLETED').order_by('-id')
+    """
+    View for history page.
 
-    paginator = Paginator(completedcars, 50)  # 50 products per page
+    Args:
+        request: HttpRequest object.
+
+    Returns:
+        Rendered template for history page with context data.
+    """
+    completedcars = Car.objects.prefetch_related().filter(status='COMPLETED').order_by('-id')
+
+    paginator = Paginator(completedcars, 50)  # 50 records per page
     page_number = request.GET.get('page')
 
     try:
@@ -243,8 +343,7 @@ def history(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         completed_cars = paginator.page(paginator.num_pages)
 
-    total =completedcars.count()
-
+    total = completedcars.count()
 
     for car in completed_cars:
         cycle_time = car.exit_time - car.entry_time
@@ -258,13 +357,21 @@ def history(request):
 
 @login_required(login_url='login')
 def alldatas(request):
+    """
+    View for all data page.
+
+    Args:
+        request: HttpRequest object.
+
+    Returns:
+        Rendered template for all data page with context data.
+    """
     request.session['project_name'] = 'example'
     request.session['model_name'] = 'Car'
 
     alldata = Car.objects.all().select_related('zone', 'Type').order_by('zone')
 
-
-    paginator = Paginator(alldata, 50)  # 50 products per page
+    paginator = Paginator(alldata, 50)  # 50 records per page
     page_number = request.GET.get('page')
 
     try:
@@ -276,7 +383,7 @@ def alldatas(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         all_data = paginator.page(paginator.num_pages)
 
-    total =alldata.count()
+    total = alldata.count()
 
     for car in all_data:
         if car.exit_time is not None:
@@ -288,10 +395,19 @@ def alldatas(request):
     context = {
         'alldatas': all_data,
         'total': total,
-        }
+    }
     return render(request, 'Datas/All_records.html', context)
 
 def change_password(request):
+    """
+    View for changing user password.
+
+    Args:
+        request: HttpRequest object.
+
+    Returns:
+        Rendered template for changing password page with form data.
+    """
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)
         if form.is_valid():
@@ -304,52 +420,3 @@ def change_password(request):
     else:
         form = PasswordChangeForm(request.user)
     return render(request, 'updatepassword.html', {'form': form})
-
-
-
-
-@login_required(login_url='login')
-def test(request):
-    request.session['project_name'] = 'example'
-    request.session['model_name'] = 'TemperatureRecord'
-
-    Today = date.today()
-    
-    # Filter BurnerConsumption records by Today's date
-    burner = BurnerConsumption.objects.filter(date__date=Today).order_by('burner_number')
-    
-    # Check if burner content is empty
-    burner_empty = not burner.exists()
-
-    # Filter JhogaiConsumption records by Today's date
-    jhogai = JhogaiConsumption.objects.filter(date__date=Today).order_by('type')
-
-    # Extract unique jhogai types
-    jhogai_types = set(jhogai.values_list('type', flat=True))
-
-    # Calculate total sum of weight for each type for Today's date
-    jhogai_totals = {}
-    jhogai_empty = {}
-    for type_value in jhogai_types:
-        total_weight = JhogaiConsumption.objects.filter(date__date=Today, type=type_value).aggregate(total_weight=Sum('weight'))['total_weight'] or 0
-        jhogai_empty[type_value] =  not jhogai.exists()
-        jhogai_totals[type_value] = total_weight
-
-    # Create a list of dictionaries containing type and corresponding total weight
-    jhogai_totals_list = [{'type': type_value, 'total_weight': jhogai_totals.get(type_value, 0)} for type_value in jhogai_types]
-
-    # Calculate total sum of coal_weight for Today's date
-    burner_total_weight = BurnerConsumption.objects.filter(date__date=Today).aggregate(total_weight=Sum('coal_weight'))['total_weight'] or 0
-    
-    context = {
-        'METHOD_CHOICES': METHOD_CHOICES,
-        'Burner': burner,
-        'Jhogai': jhogai,
-        'burner_total_weight': burner_total_weight,
-        'jhogai_totals_list': jhogai_totals_list,
-        'burner_empty': burner_empty,
-        'jhogai_empty': jhogai_empty,
-        
-    }
-    return render(request, 'test.html', context)
-
