@@ -2,7 +2,7 @@
 {% block title %} Machine Runtimes | TunnelKiln {% endblock %} 
 
 {% block content %}
-<section class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+<section class="grid grid-cols-1 gap-6 lg:grid-cols-2 p-4">
 
 	<div id="plotly_div" class="m-2"></div>
 
@@ -38,8 +38,8 @@
 					{% for record in work_durations_by_date %}
 					<tr>
 						<td class="border px-4 py-2">{{ forloop.counter }}</td>
-						<td class="border px-4 py-2">{{ record.machine_operator_username }}</td>
-						<td class="border px-4 py-2">{{ record.machine_name }}</td>
+						<td class="border px-4 py-2">{{ record.machine_operator__user__username }}</td>
+						<td class="border px-4 py-2">{{ record.machine_operator__machine__name }}</td>
 						<td class="border px-4 py-2">{{ record.date }}</td>
 						<td class="border px-4 py-2">{{ record.total_duration }}</td>
 					</tr>

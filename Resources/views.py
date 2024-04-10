@@ -7,9 +7,7 @@ from datetime import date
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
-import pandas as pd
 import plotly.express as px
-
 
 # Importing environment variables
 import os
@@ -288,6 +286,7 @@ def Dried_record_Form(request):
     }
     return render(request, 'Dryer/Dryer_form.html', context)
 
+
 @login_required(login_url='login')
 def DriedBricksReport(request):
     """
@@ -299,24 +298,35 @@ def DriedBricksReport(request):
     Returns:
         Rendered template for dried bricks reports with context data.
     """
-    Dryer_Data = Dryer_Efficiency.objects.all()
+    # Fetch all Dryer Efficiency data from the database
+    dryer_data = Dryer_Efficiency.objects.all()
 
-    # Convert queryset to DataFrame
-    df = pd.DataFrame(list(Dryer_Data.values('date', 'Count')))
-
-    # Convert 'date' column to datetime
-    df['date'] = pd.to_datetime(df['date']).dt.date
+    # Initialize dictionary to aggregate counts for the same date
+    date_count_dict = {}
 
     # Aggregate counts for the same date
-    df = df.groupby('date').sum().reset_index()
+    for entry in dryer_data:
+        # Extract date and count from each entry
+        date = entry.date.strftime('%B %d, %Y')
+        count = entry.Count
+        user = entry.user
 
-    fig = px.line(df, x='date', y='Count', title='Dryer Efficiency Count Over Time', markers=True)
+        # Increment count for the corresponding date
+        if date in date_count_dict:
+            date_count_dict[date] += count
+        else:
+            date_count_dict[date] = count
 
-    # Convert Plotly figure to JSON string
-    fig_json1 = fig.to_json()
+    # Convert aggregated data to list of dictionaries for Plotly
+    aggregated_data = [{'date': date, 'count': count,'user':user} for date, count in date_count_dict.items()]
+
+    # Generate Plotly graph JSON
+    lineChart = px.line(aggregated_data, x='date', y='count', title='Dryer Efficiency Count Over Time')
 
     context = {
-        'Dryer_Data': Dryer_Data,
-        'plot1': fig_json1,
+        'Dryer_Data': dryer_data,
+        'lineChart': lineChart,
+        'aggregated_data': aggregated_data  # Pass the aggregated data to the template
     }
+
     return render(request, 'Dryer/records.html', context)

@@ -7,14 +7,12 @@ from django.http import JsonResponse
 from django.contrib import messages
 import requests
 from django.views.decorators.csrf import csrf_exempt
-import json
-import pandas as pd
-import plotly.express as px
 from django.db.models.functions import TruncDate
 
 from .forms import MachineRuntimeForm, MaintenanceTaskForm, MaintenanceUpdateForm
 from .models import *
-from example.utils import format_timedelta
+
+from vercel_app.generategraphs import generate_dryer_efficiency_graph
 
 # Importing environment variables
 import os
@@ -136,43 +134,36 @@ def runtime_records(request):
     # Retrieve runtime records from the database
     runtime_records = MachineRuntime.objects.order_by('id').all()
 
-    # Aggregate work durations for each unique date
-    work_durations_by_date = MachineRuntime.objects.values(
-        date=TruncDate('start_time'),
-        machine_operator_username=F('machine_operator__user__username'),
-        machine_name=F('machine_operator__machine__name')
+    work_durations_by_date = MachineRuntime.objects.annotate(
+    date=TruncDate('start_time')  # Use 'start_time' for date aggregation
+    ).values(
+        'date', 'machine_operator__user__username', 'machine_operator__machine__name'
     ).annotate(
         total_duration=Sum(F('end_time') - F('start_time'))
     ).order_by('date')  # Sort by date in ascending order
 
 
-    # Convert queryset to a DataFrame
-    df = pd.DataFrame(work_durations_by_date)
-
-    # Convert 'date' column to datetime format
-    df['date'] = pd.to_datetime(df['date'])
-
-    # Convert total_duration to timedelta format
-    df['total_duration'] = pd.to_timedelta(df['total_duration'], unit='s')
-
-    # Convert timedelta to hh:mm:ss format
-    df['total_duration'] = df['total_duration'].dt.components.hours.astype(str).str.zfill(2) + \
-                        ':' + df['total_duration'].dt.components.minutes.astype(str).str.zfill(2) + \
-                        ':' + df['total_duration'].dt.components.seconds.astype(str).str.zfill(2)
+    # Format the total duration as hh:mm:ss
+    for record in work_durations_by_date:
+        hours, remainder = divmod(record['total_duration'].total_seconds(), 3600)
+        minutes, seconds = divmod(remainder, 60)
+        record['total_duration'] = '{:02}:{:02}:{:02}'.format(int(hours), int(minutes), int(seconds))
 
     # Create a line chart using Plotly Express
-    fig = px.line(df, x='date', y='total_duration', title='Total Work Duration by Date',markers=True)
-
+    linechart =generate_dryer_efficiency_graph(work_durations_by_date,'Total Work Duration by Date')
     # Convert Plotly figure to JSON string
-    linechart = fig.to_json()
+    
 
+    # Pass aggregated data to the template
     context = {
         'Runtime_details': runtime_records,
         'work_durations_by_date': work_durations_by_date,
         'linechart': linechart,
     }
+
     # Render the template with the context data
     return render(request, 'Machine/Records.html', context)
+
 
 @login_required(login_url='login')
 def maintenance_tasks(request):
