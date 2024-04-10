@@ -1,6 +1,5 @@
 from django.urls import path
-from .views import *
-
+from .views import record_time,runtime_records,maintenance_tasks,update_task_status,delete_task
 urlpatterns = [
     path('machineRunTime', record_time, name='machine_runtime'),
     path('Runtime-records', runtime_records, name='runtime_records'),
