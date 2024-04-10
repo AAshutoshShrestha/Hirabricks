@@ -168,7 +168,7 @@ def temperature_details(request):
     request.session['project_name'] = 'example'
     request.session['model_name'] = 'TemperatureRecord'
 
-    temp_records = TemperatureRecord.objects.all()
+    temp_records = TemperatureRecord.objects.all().order_by('id')
 
     paginator = Paginator(temp_records, 50)  # 50 records per page
     page_number = request.GET.get('page')
@@ -298,6 +298,7 @@ def analytics(request):
         'data': data_json,
     }
     return render(request, 'analytics.html', context)
+
 
 @login_required(login_url='login')
 def profile(request):

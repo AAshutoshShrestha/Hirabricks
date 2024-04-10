@@ -3,16 +3,22 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %} {% endblock %}</title>
-
+    
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="{% static 'css/docs.css' %}" />
+
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/scrollbar.css' %} " />
+
     <!-- RemixIcon CDN -->
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
 
-    <link href="{% static 'image/factoryicon-black.png' %}" rel="shortcut icon" type="image/x-icon" media="(prefers-color-scheme: light)" />
-    <link href="{% static 'image/factoryicon-white.png' %}" rel="shortcut icon" type="image/x-icon" media="(prefers-color-scheme: dark)" />
+    <link href="{% static 'image/favicon.png' %}" rel="shortcut icon" type="image/x-icon" />
+
+    <!-- <link href="{% static 'image/factoryicon-black.png' %}" rel="shortcut icon" type="image/x-icon" media="(prefers-color-scheme: light)">
+    <link href="{% static 'image/factoryicon-white.png' %}" rel="shortcut icon" type="image/x-icon" media="(prefers-color-scheme: dark)"> -->
 
     <!-- ALpine.js CDN -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -33,7 +39,22 @@
 
     <link rel="canonical" href="https://car-records.vercel.app/" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: '#b53721',
+              secondary: '#7d1c0b',
+            }
+          }
+        }
+      }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   </head>
+
 
   <body class="bg-gray-50 dark:bg-slate-900">
     <div class="bg-gray-50 antialiased dark:bg-gray-900">

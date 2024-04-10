@@ -1,11 +1,14 @@
+# Import necessary modules
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
 from django import forms
 
-from .models import Thermocouple, Zone, Car,TemperatureRecord,Firing
+# Import models
+from .models import Thermocouple, Zone, Car, TemperatureRecord, Firing
 
+# Register Thermocouple model with custom admin options
 @admin.register(Thermocouple)
-class ThermocoupleAdmin(ImportExportModelAdmin,admin.ModelAdmin):
+class ThermocoupleAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ['name']
     list_filter = ('name',)
     search_fields = ('name',)
@@ -26,9 +29,9 @@ class TemperatureRecordForm(forms.ModelForm):
             field_name = thermocouple.name.lower().replace(" ", "_")
             self.fields[field_name] = forms.IntegerField(required=False)
 
-
+# Register TemperatureRecord model with custom admin options
 @admin.register(TemperatureRecord)
-class TemperatureRecordAdmin(ImportExportModelAdmin,admin.ModelAdmin):
+class TemperatureRecordAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     form = TemperatureRecordForm
     list_display = ['id', 'date', 'time', 'user']
 
@@ -42,24 +45,26 @@ class TemperatureRecordAdmin(ImportExportModelAdmin,admin.ModelAdmin):
     search_fields = ['id']
     list_per_page = 15
 
+# Register Zone model with custom admin options
 @admin.register(Zone)
-class ZoneAdmin(ImportExportModelAdmin,admin.ModelAdmin):
+class ZoneAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ['id','name', 'thermocouple','area']
     list_filter = ('id',)
     search_fields = ('name',)
     list_per_page = 15
 
+# Register Firing model with custom admin options
 @admin.register(Firing)
-class FiringAdmin(ImportExportModelAdmin,admin.ModelAdmin):
+class FiringAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ['id','zone']
     list_filter = ('id',)
     search_fields = ('zone',)
     list_per_page = 15
 
+# Register Car model with custom admin options
 @admin.register(Car)
-class CarAdmin(ImportExportModelAdmin,admin.ModelAdmin):
+class CarAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ['zone','car_number', 'entry_time','exit_time','Type','status']
     list_filter = ('id','Type',)
     search_fields = ('zone',)
     list_per_page = 15
-
