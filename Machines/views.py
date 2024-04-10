@@ -95,7 +95,12 @@ def runtime_records(request):
 
     for query in work_durations_by_date:
         labels.append(query['start_time__date'].strftime('%Y-%m-%d'))
-        data.append(query['total_duration'].total_seconds() // 3600)
+        total_duration = query['total_duration']
+        if total_duration is not None:
+            data.append(total_duration.total_seconds() // 3600)
+        else:
+            data.append(0) # or any default value you prefer
+
     # Convert lists to JSON format
     labels_json = json.dumps(labels)
     data_json = json.dumps(data)
