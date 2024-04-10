@@ -8,7 +8,7 @@ from django.contrib import messages
 import requests
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models.functions import TruncDate
-
+import json 
 from .forms import MachineRuntimeForm, MaintenanceTaskForm, MaintenanceUpdateForm
 from .models import *
 
@@ -134,31 +134,28 @@ def runtime_records(request):
     # Retrieve runtime records from the database
     runtime_records = MachineRuntime.objects.order_by('id').all()
 
-    work_durations_by_date = MachineRuntime.objects.annotate(
-    date=TruncDate('start_time')  # Use 'start_time' for date aggregation
-    ).values(
-        'date', 'machine_operator__user__username', 'machine_operator__machine__name'
+    labels = []
+    data = []
+
+   # Aggregate work durations for each unique date
+    work_durations_by_date = MachineRuntime.objects.values(
+        'start_time__date', 'machine_operator__user__username', 'machine_operator__machine__name'
     ).annotate(
         total_duration=Sum(F('end_time') - F('start_time'))
-    ).order_by('date')  # Sort by date in ascending order
+    )
 
+    for query in work_durations_by_date:
+        labels.append(query['start_time__date'].strftime('%Y-%m-%d'))
+        data.append(query['total_duration'].total_seconds() // 3600)
+    # Convert lists to JSON format
+    labels_json = json.dumps(labels)
+    data_json = json.dumps(data)
 
-    # Format the total duration as hh:mm:ss
-    for record in work_durations_by_date:
-        hours, remainder = divmod(record['total_duration'].total_seconds(), 3600)
-        minutes, seconds = divmod(remainder, 60)
-        record['total_duration'] = '{:02}:{:02}:{:02}'.format(int(hours), int(minutes), int(seconds))
-
-    # Create a line chart using Plotly Express
-    linechart =generate_dryer_efficiency_graph(work_durations_by_date,'Total Work Duration by Date')
-    # Convert Plotly figure to JSON string
-    
-
-    # Pass aggregated data to the template
     context = {
         'Runtime_details': runtime_records,
         'work_durations_by_date': work_durations_by_date,
-        'linechart': linechart,
+        'labels': labels_json,
+        'data': data_json,
     }
 
     # Render the template with the context data

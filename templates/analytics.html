@@ -148,7 +148,9 @@
 <!-- 2 col section - [line chart & total push count records] -->
 <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:gap-8 px-6">
 
-  <div id="plotly_div" class=""></div>
+  <div class="">
+		<canvas id="myChart"></canvas>
+	</div>
 
   <div class="rounded-md">
     <div class="">
@@ -285,8 +287,57 @@
 </div>
 
 <script>
-	var plotJson = JSON.parse('{{ line_chart|escapejs }}');
-	Plotly.newPlot('plotly_div', plotJson.data, plotJson.layout);
-</script>
-
+  const labels = JSON.parse('{{ labels|escapejs }}');
+  const data = JSON.parse('{{ data|escapejs }}');
+  
+  const ctx = document.getElementById('myChart');
+  
+  new Chart(ctx, {
+    type: 'line',
+  
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Car Count',
+        data: data,
+        fill: 'origin',
+        borderColor: '#b53721',
+        backgroundColor: '#F5F5F5',
+        tension: 0.1
+      }]
+    },
+    
+    options: {
+      plugins: {
+      title: {
+        display: true,
+        text: 'Total Car Push',
+        padding: {
+                    top: 10,
+                    bottom: 30
+                }
+      },
+      },
+      scales: {
+        x: {
+          display: true,
+          title: {
+          display: true,
+          text: 'Date'
+          }
+        },
+        y: {
+          display: true,
+          title: {
+          display: true,
+          text: 'No. of Cars'
+          }
+        }
+        }
+      },
+    
+  });
+  
+  
+  </script>
 {% endblock content %}

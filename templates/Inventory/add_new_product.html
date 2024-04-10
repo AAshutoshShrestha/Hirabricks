@@ -3,91 +3,10 @@
 {% block title %} Inventory | hirabricks {% endblock %} 
 
 {% block content %}
-<div class="rounded-xl border border-gray-300 bg-white p-3 shadow-lg sm:p-7 dark:bg-slate-900">
-  <div class="border-b border-gray-100 px-6 py-4">
-    <h3 class="font-medium text-gray-600 dark:text-gray-400">Add product</h3>
-  </div>
-  {% for message in messages %}
-  <div class="pt-4" x-data="{ isOpen: true }">
-    <div class="border-stroke dark:border-dark-3 dark:bg-dark-2 mb-11 flex items-center rounded-md border border-l-[8px] border-l-[#00B078] bg-white p-5 pl-8" x-show="isOpen">
-      <div class="mr-5 flex h-[36px] w-full max-w-[36px] items-center justify-center rounded-full bg-[#00B078]">
-        <i class="ri-check-fill"></i>
-      </div>
-      <div class="flex w-full items-center justify-between">
-        <div>
-          <h3 class="text-dark mb-1 text-lg font-medium dark:text-white">{{message}}</h3>
-        </div>
-        <div>
-          <button class="hover:text-danger text-[#ACACB0]" @click="isOpen = false">
-            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M6 18L18 6M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-  {% endfor %}
-  <form class="mx-auto px-12 py-12" action="{% url 'inventory' %}" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <div class="mb-5">
-      <div>
-        <label for="id_name" class="mb-2 mt-4 block text-sm font-medium text-gray-900 dark:text-white">Name:</label>
-        <input type="text" name="name" maxlength="100" required="" id="id_name" class="focus:border-primary focus:ring-primary block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500" />
-      </div>
-
-      <div>
-        <label for="id_category" class="mb-2 mt-4 block text-sm font-medium text-gray-900 dark:text-white">Category:</label>
-        <select name="category" required="" id="id_category" class="focus:border-primary focus:ring-primary dark:focus:border-primary dark:focus:ring-primary block w-full cursor-pointer rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400">
-          <option value="" selected="" class="ml-2 text-left text-sm font-medium text-gray-900">---------</option>
-          {% for category in categories %}
-          <option value="{{ category.id }}" class="ml-2 text-left text-sm font-medium text-gray-900">{{ category.name }}</option>
-          {% endfor %}
-        </select>
-      </div>
-      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <div>
-          <label for="id_price" class="mb-2 mt-4 block text-sm font-medium text-gray-900 dark:text-white">Price:</label>
-          <input type="number" name="price" value="0" required="" id="id_price" class="focus:border-primary focus:ring-primary block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500" />
-        </div>
-
-        <div>
-          <label for="id_stock" class="mb-2 mt-4 block text-sm font-medium text-gray-900 dark:text-white">Stock:</label>
-          <input type="number" name="stock" value="0" min="0" required="" id="id_stock" class="focus:border-primary focus:ring-primary block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500" />
-        </div>
-      </div>
-      <div>
-        <label for="id_dimensions" class="mb-2 mt-4 block text-sm font-medium text-gray-900 dark:text-white">Dimensions:</label>
-        <input type="text" name="dimensions" placeholder="Provide dimensions of Brick" id="id_dimensions" class="focus:border-primary focus:ring-primary block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500" />
-      </div>
-      <div>
-        <label for="id_product_image" class="mb-2 mt-4 block text-sm font-medium text-gray-900 dark:text-white">Product image:</label>
-        <input type="file" name="product_image" accept="image/*" required="" id="id_product_image" class="focus:border-primary focus:ring-primary block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500" />
-      </div>
-      <div>
-        <label for="id_description" class="mb-2 mt-4 block text-sm font-medium text-gray-900 dark:text-white">Description:</label>
-        <textarea name="description" cols="40" rows="10" placeholder="Write short description" id="id_description" class="focus:border-primary focus:ring-primary dark:focus:border-primary dark:focus:ring-primary block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"></textarea>
-      </div>
-    </div>
-    <button type="submit" class="bg-primary hover:bg-secondary dark:bg-primary dark:hover:bg-primary dark:focus:ring-secondary mt-4 w-full rounded-lg px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 focus:ring-red-300 sm:w-auto">Submit</button>
-  </form>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
 
 <div class="rounded-xl border border-gray-300 bg-white p-3 shadow-lg sm:p-7 dark:bg-slate-900">
   <div class="border-b border-gray-100 px-6 py-4">
-    <h3 class="font-medium text-gray-600 dark:text-gray-400">Form with product attribute</h3>
+    <h3 class="font-medium text-gray-600 dark:text-gray-400">Product Form</h3>
   </div>
   <form class="mx-auto px-12 py-12" action="{% url 'inventory' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
@@ -124,8 +43,9 @@
             </div>
         {% endfor %}
     </div>
-     
+    
     <button type="button" id="add-attribute-formset" class="bg-primary hover:bg-secondary dark:bg-primary dark:hover:bg-primary dark:focus:ring-secondary mt-4 w-full rounded-lg px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 focus:ring-red-300 sm:w-auto">Add Attribute</button>
+
     <button type="submit" class="bg-primary hover:bg-secondary dark:bg-primary dark:hover:bg-primary dark:focus:ring-secondary mt-4 w-full rounded-lg px-5 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 focus:ring-red-300 sm:w-auto">Submit</button>
     </form>
 
@@ -135,7 +55,6 @@
 <script>
   document.addEventListener('DOMContentLoaded', function() {
       const formsetWrapper = document.getElementById('attribute-formset-wrapper');
-      const addFormsetButton = document.getElementById('add-attribute-formset');
 
       let formsetIndex = 0;
 
@@ -152,9 +71,12 @@
           formset.remove();
       }
 
-      addFormsetButton.addEventListener('click', addFormset);
-
-      // You can add functionality to remove formsets if needed
+      // Using event delegation for dynamically added button
+      document.addEventListener('click', function(event) {
+          if (event.target && event.target.id === 'add-attribute-formset') {
+              addFormset();
+          }
+      });
   });
 </script>
 

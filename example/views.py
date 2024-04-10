@@ -7,8 +7,7 @@ from django.contrib.auth import authenticate, login, logout, update_session_auth
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.db.models import Count, F, Sum
-from django.db import connection
+from django.db.models import Count, F
 from datetime import timedelta, date
 
 from conditions.models import MultiCondition
@@ -19,9 +18,6 @@ from .decorators import unauthenticated_user
 from .forms import CarEntryForm, TemperatureRecordForm
 from .models import *
 from .utils import format_timedelta
-
-import pandas as pd
-import plotly.express as px
 
 # Set the locale to the user's default setting
 locale.setlocale(locale.LC_ALL, '')
@@ -268,23 +264,21 @@ def analytics(request):
     yesterday = date.today() - timedelta(days=1)
     yesterday_total_push = Car.objects.filter(entry_time__date=yesterday).count()
 
-    push_counts = Car.objects.values('entry_time__date').annotate(push_count=Count('id')).order_by('-entry_time__date')
 
     all_data = Car.objects.all().order_by('id')
 
-    # Convert queryset to DataFrame
-    df = pd.DataFrame(list(push_counts.values('entry_time__date', 'push_count')))
+    # Aggregate counts for the same date using Django's ORM
+    push_counts = Car.objects.values('entry_time__date').annotate(push_count=Count('id')).order_by('entry_time__date')
+    labels = []
+    data = []
+    for query in push_counts:
+        labels.append(query['entry_time__date'].strftime('%Y-%m-%d'))
+        data.append(query['push_count'])
 
-    # Convert 'date' column to datetime
-    df['entry_time__date'] = pd.to_datetime(df['entry_time__date']).dt.date
+    # Convert lists to JSON format
+    labels_json = json.dumps(labels)
+    data_json = json.dumps(data)
 
-    # Aggregate counts for the same date
-    df = df.groupby('entry_time__date').sum().reset_index()
-
-    fig = px.line(df, x='entry_time__date', y='push_count', title='Total Car Push ', markers=True)
-
-    # Convert Plotly figure to JSON string
-    line_chart = fig.to_json()
 
     context = {
         **req_MultiConditions_context,
@@ -299,7 +293,8 @@ def analytics(request):
         'push_counts': push_counts,
         'capacities': capacities,
         'combined_total': formatted_combined_total,
-        'line_chart': line_chart,
+        'labels': labels_json,
+        'data': data_json,
     }
     return render(request, 'analytics.html', context)
 

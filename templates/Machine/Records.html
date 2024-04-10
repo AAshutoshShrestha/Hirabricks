@@ -3,9 +3,11 @@
 
 {% block content %}
 <section class="grid grid-cols-1 gap-6 lg:grid-cols-2 p-4">
+	
+	<div class="px-4 py-12">
+		<canvas id="myChart"></canvas>
 
-	<div id="plotly_div" class="m-2"></div>
-
+	</div>
 	<div class="container mx-auto px-4 py-8">
 		<div class="sm:col-span-2 md:grow">
 			<div class="flex justify-end gap-x-2">
@@ -40,7 +42,7 @@
 						<td class="border px-4 py-2">{{ forloop.counter }}</td>
 						<td class="border px-4 py-2">{{ record.machine_operator__user__username }}</td>
 						<td class="border px-4 py-2">{{ record.machine_operator__machine__name }}</td>
-						<td class="border px-4 py-2">{{ record.date }}</td>
+						<td class="border px-4 py-2">{{ record.start_time__date }}</td>
 						<td class="border px-4 py-2">{{ record.total_duration }}</td>
 					</tr>
 					{% endfor %}
@@ -50,14 +52,65 @@
 			
 		</div>
 	</div>
-
 </section>
+
+<script>
+	const labels = JSON.parse('{{ labels|escapejs }}');
+	const data = JSON.parse('{{ data|escapejs }}');
 	
-
-	<script>
-		var plotJson = JSON.parse('{{ linechart|escapejs }}');
-		Plotly.newPlot('plotly_div', plotJson.data, plotJson.layout);
+	const ctx = document.getElementById('myChart');
+	
+	new Chart(ctx, {
+	  type: 'line',
+	
+	  data: {
+		labels: labels,
+		datasets: [{
+		  label: 'Working Hours',
+		  data: data,
+		  fill: 'origin',
+		  borderColor: '#b53721',
+		  backgroundColor: '#F5F5F5',
+		  tension: 0.1
+		}]
+	  },
+	  
+	  options: {
+		plugins: {
+		title: {
+		  display: true,
+		  text: 'Machine Runtimes',
+		  padding: {
+					  top: 10,
+					  bottom: 30
+				  }
+		},
+		},
+		scales: {
+		  x: {
+			display: true,
+			title: {
+			display: true,
+			text: 'Date',
+			padding: {
+					  top: 10,
+					  bottom: 30
+				  }
+			}
+		  },
+		  y: {
+			display: true,
+			title: {
+			display: true,
+			text: 'Hours'
+			}
+		  }
+		  }
+		},
+	  
+	});
+	
+	
 	</script>
-
 
 {% endblock %}

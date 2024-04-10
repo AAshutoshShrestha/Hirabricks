@@ -6,8 +6,7 @@ from .models import *
 from datetime import date
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-
-import plotly.express as px
+import json
 
 # Importing environment variables
 import os
@@ -299,7 +298,7 @@ def DriedBricksReport(request):
         Rendered template for dried bricks reports with context data.
     """
     # Fetch all Dryer Efficiency data from the database
-    dryer_data = Dryer_Efficiency.objects.all()
+    dryer_data = Dryer_Efficiency.objects.all().order_by('id')
 
     # Initialize dictionary to aggregate counts for the same date
     date_count_dict = {}
@@ -320,13 +319,21 @@ def DriedBricksReport(request):
     # Convert aggregated data to list of dictionaries for Plotly
     aggregated_data = [{'date': date, 'count': count,'user':user} for date, count in date_count_dict.items()]
 
-    # Generate Plotly graph JSON
-    lineChart = px.line(aggregated_data, x='date', y='count', title='Dryer Efficiency Count Over Time')
+    labels = []
+    data = []
+    for query in aggregated_data:
+        labels.append(query['date'])
+        data.append(query['count'])
+
+    # Convert lists to JSON format
+    labels_json = json.dumps(labels)
+    data_json = json.dumps(data)
 
     context = {
-        'Dryer_Data': dryer_data,
-        'lineChart': lineChart,
-        'aggregated_data': aggregated_data  # Pass the aggregated data to the template
+        'aggregated_data': aggregated_data,  # Pass the aggregated data to the template
+        'labels': labels_json,
+        'data': data_json,
     }
 
     return render(request, 'Dryer/records.html', context)
+
