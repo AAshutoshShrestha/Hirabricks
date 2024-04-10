@@ -1,12 +1,13 @@
-from django.shortcuts import render, redirect
-from django.utils import timezone
-from django.db.models import Sum
-from .forms import BurnerConsumptionForm, JhogaiConsumptionForm, MixtureForm, Form_Dryer_Efficiency
-from .models import *
+import json
 from datetime import date
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-import json
+from django.shortcuts import render, redirect
+from django.utils import timezone
+from django.db.models import Sum
+
+from .forms import *
+from .models import *
 
 # Importing environment variables
 import os

@@ -7,12 +7,9 @@ from django.http import JsonResponse
 from django.contrib import messages
 import requests
 from django.views.decorators.csrf import csrf_exempt
-from django.db.models.functions import TruncDate
 import json 
 from .forms import MachineRuntimeForm, MaintenanceTaskForm, MaintenanceUpdateForm
 from .models import *
-
-from vercel_app.generategraphs import generate_dryer_efficiency_graph
 
 # Importing environment variables
 import os

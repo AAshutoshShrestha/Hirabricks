@@ -1,5 +1,7 @@
 import locale
 import json
+from datetime import timedelta, date
+
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.contrib import messages
@@ -8,7 +10,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Count, F
-from datetime import timedelta, date
 
 from conditions.models import MultiCondition
 from conditions.views import required_MultiConditions, foranalytics

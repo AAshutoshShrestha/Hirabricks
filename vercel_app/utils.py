@@ -2,8 +2,6 @@ import csv
 from django.http import HttpResponse
 from django.core.exceptions import PermissionDenied
 from django.apps import apps
-from django.core.serializers import serialize
-
 
 def download_csv(request, queryset, model_name):
     if not request.user.is_staff:
