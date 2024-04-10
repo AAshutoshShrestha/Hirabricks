@@ -24,54 +24,6 @@ url = os.environ.get('SUPABASE_URL')
 key = os.environ.get('SUPABASE_SERVICE_ROLE_KEY')
 supabase = create_client(url, key)
 
-# Firebase Realtime Database URL
-FIREBASE_DB_URL = "https://tunnel-kiln-default-rtdb.asia-southeast1.firebasedatabase.app/"
-
-# Function to check machine status
-def check_machine_status():
-    """
-    Check the status of the machine from Firebase Realtime Database.
-    """
-    response = requests.get(FIREBASE_DB_URL + "/Sensor/Machine_status.json")
-    machine_status = response.json()
-    if machine_status == 1:
-        status = "machine started"
-    else:
-        status = "machine stopped"
-    return status
-
-@csrf_exempt
-def machine_status_update(request):
-    """
-    Update machine status based on the data received from Firebase Realtime Database.
-    """
-    operator = MachineOperator.objects.first()
-    runtime_records = MachineRuntime.objects.filter(start_time__date=date.today(), machine_operator__user=request.user)
-    try:
-        machine_runtime = MachineRuntime.objects.filter(machine_operator=operator, end_time__isnull=True).latest('start_time')
-    except MachineRuntime.DoesNotExist:
-        machine_runtime = None
-
-    if request.method == 'GET':
-        state = check_machine_status()
-        
-        if state == "machine started" and (not machine_runtime or machine_runtime.end_time is not None):
-            # Machine started and previous state was stopped or no record exists
-            machine_runtime = MachineRuntime(start_time=timezone.now(), machine_operator=operator)
-            machine_runtime.save()
-            messages.success(request, "The machine has started running.")
-        
-        elif state == "machine stopped" and machine_runtime and machine_runtime.end_time is None:
-            # Machine stopped and previous state was started
-            machine_runtime.end_time = timezone.now()
-            machine_runtime.save()
-            messages.success(request, "The machine has stopped running.")
-    
-    context = {
-        'Runtime_details': runtime_records,
-    }
-
-    return render(request, 'Machine/Runtime.html', context)
 
 @login_required(login_url='login')
 def record_time(request):
