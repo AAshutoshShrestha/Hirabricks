@@ -73,8 +73,7 @@ TEMPLATES = [
                 'Homepage.context_processors.base_context',
             ],
             'builtins':[
-                'example.templatetags.app_filters',
-                'docs.templatetags.markdownprocessing',
+                'example.templatetags.app_filters',  
                 ]
         },
     },
