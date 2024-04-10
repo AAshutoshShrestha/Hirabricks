@@ -75,6 +75,7 @@
                 </div>
               </a>
             </li>
+            {% if user.is_superuser %}
             <li class="col-span-12 md:col-span-4">
               <a href="{% if developers_post %}{% url 'dev' slug=developers_post.slug %}{% endif %}">
                 <div class="hover:border-strong bg-surface-100 group relative h-full cursor-pointer overflow-hidden rounded-lg border text-left transition">
@@ -91,6 +92,7 @@
                 </div>
               </a>
             </li>
+            {% endif %}
           </ul>
 
           <div class="flex grid-cols-12 flex-col gap-6 border-b py-12 lg:grid">

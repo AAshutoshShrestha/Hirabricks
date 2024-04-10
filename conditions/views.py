@@ -30,7 +30,8 @@ def required_MultiConditions(request):
         req_MultiCondition = MultiCondition.objects.get(name=cond_type.name)
         
     except Car.DoesNotExist:
-        req_MultiCondition = None  # Set req_MultiCondition to None if car is not found
+        # Set req_MultiCondition to None if car is not found
+        req_MultiCondition = None  
 
     # Define context data
     context = {
@@ -55,8 +56,22 @@ def foranalytics(request):
     multi_MultiConditions = MultiCondition.objects.filter(is_multi_type=True)
     
     # Prepare data for single and multi type MultiConditions
-    single_data = [{'name': cond.name, 'capacity': cond.capacity} for cond in single_MultiConditions]
-    multi_data = [{'name': cond.name, 'items': [{'name': item.name, 'capacity': item.capacity} for item in cond.items.all()]} for cond in multi_MultiConditions]
+    single_data = [
+        {
+            'name': cond.name, 
+            'capacity': cond.capacity
+         } 
+         for cond in single_MultiConditions
+    ]
+    multi_data = [
+        {'name': cond.name, 
+         'items': [
+             {
+                'name': item.name, 
+                'capacity': item.capacity
+              } for item in cond.items.all()
+            ]} for cond in multi_MultiConditions
+    ]
     
     # Define context data
     context = {
