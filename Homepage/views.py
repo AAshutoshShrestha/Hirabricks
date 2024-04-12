@@ -89,20 +89,24 @@ def By_category(request, slug):
     View for displaying products by category.
 
     Args:
-        request: HttpRequest object.
-        slug: Category slug.
+        request (HttpRequest): The HTTP request object.
+        slug (str): The slug of the category.
 
     Returns:
-        Rendered template for displaying products by category with context data.
+        HttpResponse: Rendered template for displaying products by category with context data.
     """
+    # Get the category object or return 404 if not found
     category = get_object_or_404(BrickCategory, slug=slug)
     category_name = category
 
+    # Query products belonging to the specified category
     product_by_category = BrickProduct.objects.filter(category=category).order_by('id')
+
+    # Pagination
     paginator = Paginator(product_by_category, 12)  # 12 products per page
     category_empty = not product_by_category.exists()
-
     page_number = request.GET.get('page')
+
     try:
         products = paginator.page(page_number)
     except PageNotAnInteger:
@@ -112,18 +116,21 @@ def By_category(request, slug):
         # If page is out of range (e.g. 9999), deliver last page of results.
         products = paginator.page(paginator.num_pages)
     
+    # Fetch public URLs for product images from Supabase Storage
     for bricks in products:
         # Get public URL for product_image
         res = supabase.storage.from_('Products_image').get_public_url(bricks.product_image)
         # Update product_image field with the public URL
         bricks.product_image = res
     
+    # Context data to pass to the template
     context = {
         'products': products,
         'category_empty': category_empty,
         'category': category_name,
     }
 
+    # Render the template with the context data
     return render(request, 'Main/category.html', context)
 
 def product_detail(request, slug):
