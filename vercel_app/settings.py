@@ -1,7 +1,9 @@
 from pathlib import Path
 import os
-from .jazminSetup import JAZZMIN_SETTINGS,JAZZMIN_UI_TWEAKS
 from dotenv import load_dotenv
+# admin panel jazmin theme
+from .jazminSetup import JAZZMIN_SETTINGS,JAZZMIN_UI_TWEAKS
+
 # Load environment variables from .env file
 load_dotenv()
 
@@ -18,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('debug')== 'False'
+DEBUG = os.environ.get('DEBUG')
 
 ALLOWED_HOSTS = ["127.0.0.1", ".vercel.app", ".now.sh","*"]
 
@@ -27,6 +29,7 @@ ALLOWED_HOSTS = ["127.0.0.1", ".vercel.app", ".now.sh","*"]
 
 INSTALLED_APPS = [
     'jazzmin',
+    'graphene_django',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
